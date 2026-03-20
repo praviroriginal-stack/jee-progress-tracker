@@ -4,86 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Word Saver + Gemini AI</title>
-
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #111;
-      color: white;
-      padding: 20px;
-      max-width: 600px;
-      margin: auto;
-    }
-
+    body { font-family: 'Segoe UI', sans-serif; background: #111; color: white; padding: 20px; max-width: 600px; margin: auto; }
     h1 { color: #ff4b2b; text-align: center; }
-    h3 { border-bottom: 1px solid #333; padding-bottom: 5px; margin-top: 25px; }
-
-    input, textarea, button {
-      padding: 12px;
-      margin: 8px 0;
-      width: 100%;
-      box-sizing: border-box;
-      border-radius: 8px;
-      border: 1px solid #333;
-      background: #222;
-      color: white;
-    }
-
-    button {
-      background: linear-gradient(to right, #ff416c, #ff4b2b);
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
+    section { margin-bottom: 30px; border-bottom: 1px solid #222; padding-bottom: 20px; }
+    input, textarea, button { padding: 12px; margin: 8px 0; width: 100%; box-sizing: border-box; border-radius: 8px; border: 1px solid #333; background: #222; color: white; font-size: 16px; }
+    button { background: linear-gradient(to right, #ff416c, #ff4b2b); border: none; cursor: pointer; font-weight: bold; }
     button:hover { opacity: 0.9; }
     button:disabled { background: #555; cursor: not-allowed; }
-
-    .card {
-      background: #1a1a1a;
-      padding: 12px;
-      margin-top: 10px;
-      border-radius: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border: 1px solid #333;
-    }
-
-    .delete-btn { width: auto; background: #444; padding: 5px 10px; font-size: 12px; }
-
-    #aiResponse {
-      background: #0f172a;
-      border-left: 4px solid #38bdf8;
-      padding: 15px;
-      margin-top: 15px;
-      border-radius: 4px;
-      white-space: pre-wrap;
-      font-size: 14px;
-    }
-
+    .card { background: #1a1a1a; padding: 12px; margin-top: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #333; }
+    .delete-btn { width: auto; background: #444; padding: 5px 10px; font-size: 12px; margin: 0; }
+    #aiResponse { background: #0f172a; border-left: 4px solid #38bdf8; padding: 15px; margin-top: 15px; border-radius: 4px; white-space: pre-wrap; font-size: 14px; display: none; }
     .loader { color: #38bdf8; font-size: 14px; display: none; margin-top: 10px; text-align: center; }
   </style>
 </head>
-
 <body>
 
 <h1>🔥 Word Saver + AI</h1>
 
-<button onclick="login()">Login with Google</button>
+<button id="loginBtn">Login with Google</button>
 
 <section>
   <h3>1. Save a Word</h3>
   <input id="wordInput" placeholder="Type a word to save...">
-  <button onclick="addWord()">Save to Cloud</button>
+  <button id="addBtn">Save to Cloud</button>
 </section>
 
 <section>
   <h3>2. Ask Gemini AI</h3>
   <textarea id="aiInput" rows="3" placeholder="Example: Use my saved words in a sentence..."></textarea>
-  <button id="askBtn" onclick="askAI()">Ask Gemini</button>
+  <button id="askBtn">Ask Gemini</button>
   <div id="aiLoader" class="loader">✨ Gemini is thinking...</div>
-  <div id="aiResponse" style="display:none;"></div>
+  <div id="aiResponse"></div>
 </section>
 
 <section>
@@ -92,6 +44,133 @@
 </section>
 
 <script type="module">
+// --- 1. IMPORTS ---
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
+
+// --- 2. CONFIG ---
+const firebaseConfig = {
+  apiKey: "AIzaSyDMG2GapxBu9Tnry0fJx7IaQO1zwgA0sVw",
+  authDomain: "jee-progress-tracker-3d733.firebaseapp.com",
+  projectId: "jee-progress-tracker-3d733",
+  storageBucket: "jee-progress-tracker-3d733.firebasestorage.app",
+  messagingSenderId: "644810316053",
+  appId: "1:644810316053:web:aa531fc435469e3e2c311c"
+};
+
+const GEMINI_KEY = "AIzaSyAuUwdGWhb_fDahaL7_BhYZOiTXqvM0BZg";
+
+// --- 3. INITIALIZE ---
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const genAI = new GoogleGenerativeAI(GEMINI_KEY);
+
+let currentUser = null;
+let savedWords = [];
+
+// --- 4. CORE FUNCTIONS ---
+
+// LOGIN
+async function login() {
+  const provider = new GoogleAuthProvider();
+  try {
+    const result = await signInWithPopup(auth, provider);
+    currentUser = result.user;
+    console.log("Logged in as:", currentUser.displayName);
+  } catch (e) { 
+    console.error(e);
+    alert("Login Error: " + e.message); 
+  }
+}
+
+// SAVE TO FIRESTORE
+async function syncToCloud() {
+  if (!currentUser) return;
+  await setDoc(doc(db, "users", currentUser.uid), { words: savedWords });
+}
+
+// ADD WORD
+async function addWord() {
+  const input = document.getElementById("wordInput");
+  const val = input.value.trim();
+  if (!val) return alert("Enter a word!");
+  if (!currentUser) return alert("Please Login First!");
+
+  savedWords.push(val);
+  input.value = "";
+  render();
+  await syncToCloud();
+}
+
+// DELETE WORD
+window.deleteWord = async function(index) {
+  savedWords.splice(index, 1);
+  render();
+  await syncToCloud();
+};
+
+// ASK AI
+async function askAI() {
+  const input = document.getElementById("aiInput");
+  const respDiv = document.getElementById("aiResponse");
+  const loader = document.getElementById("aiLoader");
+  const btn = document.getElementById("askBtn");
+
+  if (!input.value.trim()) return alert("Ask something!");
+  
+  try {
+    btn.disabled = true;
+    loader.style.display = "block";
+    respDiv.style.display = "none";
+
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const context = savedWords.length > 0 ? `My words: ${savedWords.join(", ")}. ` : "";
+    
+    const result = await model.generateContent(context + input.value);
+    const text = result.response.text();
+    
+    respDiv.innerText = text;
+    respDiv.style.display = "block";
+  } catch (e) {
+    console.error(e);
+    alert("AI Error: " + e.message);
+  } finally {
+    btn.disabled = false;
+    loader.style.display = "none";
+  }
+}
+
+// RENDER UI
+function render() {
+  const list = document.getElementById("list");
+  list.innerHTML = savedWords.map((word, i) => `
+    <div class="card">
+      <span>${word}</span>
+      <button class="delete-btn" onclick="deleteWord(${i})">Delete</button>
+    </div>
+  `).join("");
+}
+
+// --- 5. EVENT LISTENERS & AUTH STATE ---
+document.getElementById("loginBtn").addEventListener("click", login);
+document.getElementById("addBtn").addEventListener("click", addWord);
+document.getElementById("askBtn").addEventListener("click", askAI);
+
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    currentUser = user;
+    document.getElementById("loginBtn").innerText = "Logged in as " + user.displayName;
+    const snap = await getDoc(doc(db, "users", user.uid));
+    if (snap.exists()) {
+      savedWords = snap.data().words || [];
+      render();
+    }
+  }
+});
+</script>
+
+</body>
+</html>

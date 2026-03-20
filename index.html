@@ -886,13 +886,17 @@
         }
         .spin { display: inline-block; animation: spin 1s linear infinite; font-size: 1.4rem; }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Auth widget */
+        #login-btn:hover { box-shadow: 0 6px 20px rgba(59,130,246,0.45); transform: translateY(-1px); }
+        #user-chip:hover { border-color: rgba(59,130,246,0.35); }
     </style>
 </head>
 <body>
 
 <script type="module" id="firebase-script">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc,
     collection, addDoc, onSnapshot, query, orderBy,
     updateDoc, deleteDoc, serverTimestamp, getCountFromServer
@@ -917,11 +921,17 @@ window.login = async function () {
   const provider = new GoogleAuthProvider();
   const result = await signInWithPopup(auth, provider);
   window.currentUser = result.user;
+  if (window.updateAuthUI) window.updateAuthUI(result.user);
+};
+
+window._signOut = async function () {
+  await signOut(auth);
 };
 
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     window.currentUser = user;
+    if (window.updateAuthUI) window.updateAuthUI(user);
     const ref = doc(db, "users", user.uid);
     const snap = await getDoc(ref);
     if (snap.exists()) {
@@ -1000,10 +1010,50 @@ window.saveToFirebase = async function () {
                 <button class="toggle-btn" id="btn12" onclick="setClass('12')">CLASS 12</button>
             </div>
         </div>
-        <div style="text-align: right;">
-            <button onclick="login()" style="padding:10px 15px;border-radius:10px;background:#3b82f6;color:white;border:none;font-weight:700;margin-bottom:8px;">Login</button>
-            <div style="font-size: 0.65rem; color: var(--text-secondary); text-transform: uppercase;">Subject Mastery</div>
-            <div id="sub-percent" style="font-size: 2.2rem; font-weight: 800; color: var(--accent);">0%</div>
+        <div style="display:flex;align-items:center;gap:16px;">
+            <!-- Subject mastery -->
+            <div style="text-align:right;">
+                <div style="font-size:0.65rem;color:var(--text-secondary);text-transform:uppercase;">Subject Mastery</div>
+                <div id="sub-percent" style="font-size:2.2rem;font-weight:800;color:var(--accent);">0%</div>
+            </div>
+            <!-- Auth widget -->
+            <div id="auth-widget">
+                <!-- Logged-out state -->
+                <button id="login-btn" onclick="login()" style="
+                    display:flex;align-items:center;gap:8px;
+                    padding:9px 18px;border-radius:12px;background:var(--accent);
+                    color:white;border:none;font-weight:700;font-size:0.85rem;cursor:pointer;
+                    box-shadow:0 4px 14px rgba(59,130,246,0.3);transition:all 0.2s;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+                    Sign In
+                </button>
+                <!-- Logged-in state (hidden by default) -->
+                <div id="user-chip" style="display:none;align-items:center;gap:10px;
+                    background:var(--surface-2);border:1px solid var(--border);
+                    border-radius:40px;padding:6px 14px 6px 6px;cursor:default;position:relative;"
+                    onmouseenter="document.getElementById('user-dropdown').style.display='block'"
+                    onmouseleave="document.getElementById('user-dropdown').style.display='none'">
+                    <img id="user-pfp" src="" alt="" style="width:30px;height:30px;border-radius:50%;object-fit:cover;border:2px solid var(--accent);">
+                    <span id="user-name" style="font-size:0.82rem;font-weight:700;color:var(--text-primary);max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="var(--text-secondary)"><path d="M1 3l4 4 4-4"/></svg>
+                    <!-- Dropdown -->
+                    <div id="user-dropdown" style="display:none;position:absolute;top:calc(100% + 6px);right:0;
+                        background:var(--surface-1);border:1px solid var(--border);border-radius:14px;
+                        padding:8px;min-width:180px;z-index:300;box-shadow:0 8px 28px rgba(0,0,0,0.4);">
+                        <div id="user-email" style="font-size:0.7rem;color:var(--text-secondary);padding:6px 10px 10px;border-bottom:1px solid var(--border);"></div>
+                        <button onclick="signOutUser()" style="
+                            width:100%;text-align:left;padding:9px 10px;border-radius:8px;
+                            background:transparent;border:none;color:var(--text-secondary);
+                            font-size:0.8rem;font-weight:700;cursor:pointer;font-family:inherit;
+                            display:flex;align-items:center;gap:8px;margin-top:4px;transition:background 0.15s;"
+                            onmouseenter="this.style.background='rgba(239,68,68,0.1)';this.style.color='#ef4444'"
+                            onmouseleave="this.style.background='transparent';this.style.color='var(--text-secondary)'">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5-5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+                            Sign Out
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -2889,6 +2939,58 @@ window.saveToFirebase = async function () {
             .replace(/\n/g,'<br>');
     }
 
+
+    /* =========================================
+       AUTH UI
+       ========================================= */
+    function updateAuthUI(user) {
+        const loginBtn  = document.getElementById('login-btn');
+        const userChip  = document.getElementById('user-chip');
+        const userPfp   = document.getElementById('user-pfp');
+        const userName  = document.getElementById('user-name');
+        const userEmail = document.getElementById('user-email');
+
+        if (!loginBtn || !userChip) return;
+
+        if (user) {
+            loginBtn.style.display = 'none';
+            userChip.style.display = 'flex';
+            if (userPfp) {
+                if (user.photoURL) {
+                    userPfp.src = user.photoURL;
+                    userPfp.style.display = 'block';
+                } else {
+                    // Show initial as fallback
+                    userPfp.style.display = 'none';
+                    // Insert initial circle if not present
+                    let init = document.getElementById('user-pfp-init');
+                    if (!init) {
+                        init = document.createElement('div');
+                        init.id = 'user-pfp-init';
+                        init.style.cssText = 'width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:800;color:white;border:2px solid var(--accent);flex-shrink:0;';
+                        init.textContent = (user.displayName||'U')[0].toUpperCase();
+                        userPfp.parentNode.insertBefore(init, userPfp);
+                    }
+                }
+            }
+            if (userName)  userName.textContent  = user.displayName || 'User';
+            if (userEmail) userEmail.textContent  = user.email || '';
+        } else {
+            loginBtn.style.display = 'flex';
+            userChip.style.display = 'none';
+        }
+    }
+
+    async function signOutUser() {
+        try {
+            // Firebase signOut via module scope — call through window
+            if (window._signOut) await window._signOut();
+            window.currentUser = null;
+            updateAuthUI(null);
+            document.getElementById('user-dropdown').style.display = 'none';
+        } catch(e) { console.error(e); }
+    }
+
     // Expose every function referenced in inline HTML attributes to window
     window.render = render;
     window.updateStats = updateStats;
@@ -2937,6 +3039,8 @@ window.saveToFirebase = async function () {
     window.commSetFilter    = commSetFilter;
     window.commToggleReplies= commToggleReplies;
     window.commRender       = commRender;
+    window.updateAuthUI     = updateAuthUI;
+    window.signOutUser      = signOutUser;
 
     init();
 </script>

@@ -3,61 +3,119 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Word Saver</title>
+  <title>Word Saver + Gemini AI</title>
 
   <style>
     body {
-      font-family: Arial;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #111;
       color: white;
-      padding: 30px;
-      max-width: 500px;
+      padding: 20px;
+      max-width: 600px;
       margin: auto;
+      line-height: 1.6;
     }
 
-    input, button {
-      padding: 8px;
-      margin: 5px;
+    h1 { color: #ff4b2b; text-align: center; }
+    h3 { border-bottom: 1px solid #333; padding-bottom: 5px; margin-top: 30px; }
+
+    input, textarea, button {
+      padding: 12px;
+      margin: 8px 0;
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #333;
+      background: #222;
+      color: white;
     }
+
+    button {
+      background: linear-gradient(to right, #ff416c, #ff4b2b);
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    button:hover { opacity: 0.8; transform: translateY(-1px); }
+    button:disabled { background: #555; cursor: not-allowed; }
 
     .card {
-      background: #222;
-      padding: 10px;
+      background: #1a1a1a;
+      padding: 15px;
       margin-top: 10px;
       border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid #333;
     }
+
+    .delete-btn {
+      width: auto;
+      background: #444;
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+
+    #aiResponse {
+      background: #0f172a;
+      border-left: 4px solid #38bdf8;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 4px;
+      white-space: pre-wrap; /* Maintains formatting/line breaks */
+    }
+
+    .loader { color: #38bdf8; font-size: 14px; display: none; margin-top: 10px; }
   </style>
 </head>
 
 <body>
 
-<h1>🔥 Word Saver</h1>
+<h1>🔥 Word Saver + AI</h1>
 
 <button onclick="login()">Login with Google</button>
 
-<br><br>
+<section>
+  <h3>1. Save a Word</h3>
+  <input id="wordInput" placeholder="Type a word or phrase...">
+  <button onclick="addWord()">Save to Cloud</button>
+</section>
 
-<input id="wordInput" placeholder="Enter word">
-<button onclick="addWord()">Save</button>
+<section>
+  <h3>2. Ask Gemini AI</h3>
+  <textarea id="aiInput" rows="3" placeholder="Example: Write a short story using my saved words..."></textarea>
+  <button id="askBtn" onclick="askAI()">Ask AI</button>
+  <div id="aiLoader" class="loader">✨ Gemini is thinking...</div>
+  <div id="aiResponse" style="display:none;"></div>
+</section>
 
-<h2>Saved Words</h2>
-<div id="list"></div>
+<section>
+  <h3>Your Saved Collection</h3>
+  <div id="list"></div>
+</section>
 
 <script type="module">
+// IMPORT LIBRARIES
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
 
-// 🔥 YOUR FIREBASE CONFIG
+// CONFIGURATION
 const firebaseConfig = {
   apiKey: "AIzaSyDMG2GapxBu9Tnry0fJx7IaQO1zwgA0sVw",
   authDomain: "jee-progress-tracker-3d733.firebaseapp.com",
   projectId: "jee-progress-tracker-3d733",
   storageBucket: "jee-progress-tracker-3d733.firebasestorage.app",
   messagingSenderId: "644810316053",
-  appId: "1:644810316053:web:aa531fc435469e3e2c311c",
-  measurementId: "G-KV8VY2VBST"
+  appId: "1:644810316053:web:aa531fc435469e3e2c311c"
 };
+
+const API_KEY = "AIzaSyC6TpmqY1qNIqdxK7NyJ9oE-SUe-3pybEU";
+const genAI = new GoogleGenerativeAI(API_KEY);
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -66,21 +124,54 @@ const db = getFirestore(app);
 let currentUser = null;
 let data = [];
 
-// LOGIN
-window.login = async function () {
-  const provider = new GoogleAuthProvider();
-  const result = await signInWithPopup(auth, provider);
-  currentUser = result.user;
+// --- AI FUNCTION ---
+window.askAI = async function() {
+  const promptInput = document.getElementById("aiInput");
+  const responseDiv = document.getElementById("aiResponse");
+  const loader = document.getElementById("aiLoader");
+  const btn = document.getElementById("askBtn");
+  
+  if (!promptInput.value.trim()) return alert("Please type a question!");
+
+  try {
+    btn.disabled = true;
+    loader.style.display = "block";
+    responseDiv.style.display = "none";
+
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    
+    // This feeds your saved words into the AI's "memory" for the request
+    const context = data.length > 0 ? `My saved words are: ${data.join(", ")}. ` : "";
+    const fullPrompt = `${context} User Question: ${promptInput.value}`;
+
+    const result = await model.generateContent(fullPrompt);
+    const response = await result.response;
+    
+    responseDiv.innerText = response.text();
+    responseDiv.style.display = "block";
+  } catch (error) {
+    console.error(error);
+    alert("AI Error: Check if your API key is restricted or valid.");
+  } finally {
+    btn.disabled = false;
+    loader.style.display = "none";
+  }
 };
 
-// AUTO LOAD DATA
+// --- AUTH & DATA FUNCTIONS ---
+window.login = async function () {
+  const provider = new GoogleAuthProvider();
+  try {
+    const result = await signInWithPopup(auth, provider);
+    currentUser = result.user;
+  } catch (e) { alert("Login failed: " + e.message); }
+};
+
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     currentUser = user;
-
     const ref = doc(db, "users", user.uid);
     const snap = await getDoc(ref);
-
     if (snap.exists()) {
       data = snap.data().words || [];
       render();
@@ -88,46 +179,35 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-// SAVE DATA
 async function saveData() {
-  if (!currentUser) return alert("Login first!");
-
-  await setDoc(doc(db, "users", currentUser.uid), {
-    words: data
-  });
+  if (!currentUser) return alert("Please login first!");
+  await setDoc(doc(db, "users", currentUser.uid), { words: data });
 }
 
-// ADD WORD
 window.addWord = function () {
   const input = document.getElementById("wordInput");
   const word = input.value.trim();
-
-  if (!word) return alert("Enter a word!");
-
+  if (!word) return alert("Enter something to save!");
   data.push(word);
   saveData();
   render();
-
   input.value = "";
 };
 
-// DELETE WORD
 window.deleteWord = function (index) {
   data.splice(index, 1);
   saveData();
   render();
 };
 
-// RENDER
 function render() {
   const list = document.getElementById("list");
   list.innerHTML = "";
-
   data.forEach((word, index) => {
     list.innerHTML += `
       <div class="card">
-        ${word}<br>
-        <button onclick="deleteWord(${index})">Delete</button>
+        <span>${word}</span>
+        <button class="delete-btn" onclick="deleteWord(${index})">Delete</button>
       </div>
     `;
   });

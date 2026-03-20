@@ -1,176 +1,523 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Word Saver + Gemini AI</title>
-  <style>
-    body { font-family: 'Segoe UI', sans-serif; background: #111; color: white; padding: 20px; max-width: 600px; margin: auto; }
-    h1 { color: #ff4b2b; text-align: center; }
-    section { margin-bottom: 30px; border-bottom: 1px solid #222; padding-bottom: 20px; }
-    input, textarea, button { padding: 12px; margin: 8px 0; width: 100%; box-sizing: border-box; border-radius: 8px; border: 1px solid #333; background: #222; color: white; font-size: 16px; }
-    button { background: linear-gradient(to right, #ff416c, #ff4b2b); border: none; cursor: pointer; font-weight: bold; }
-    button:hover { opacity: 0.9; }
-    button:disabled { background: #555; cursor: not-allowed; }
-    .card { background: #1a1a1a; padding: 12px; margin-top: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #333; }
-    .delete-btn { width: auto; background: #444; padding: 5px 10px; font-size: 12px; margin: 0; }
-    #aiResponse { background: #0f172a; border-left: 4px solid #38bdf8; padding: 15px; margin-top: 15px; border-radius: 4px; white-space: pre-wrap; font-size: 14px; display: none; }
-    .loader { color: #38bdf8; font-size: 14px; display: none; margin-top: 10px; text-align: center; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEE Ultimate Tracker | 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --surface-1: #0f172a;
+            --surface-2: #1e293b;
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.4);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+            --success: #10b981;
+            --mains: #6366f1;
+            --adv: #f59e0b;
+            --sidebar-width: 300px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        body { background-color: var(--bg); color: var(--text-primary); display: flex; height: 100vh; overflow: hidden; }
+
+        /* --- SIDEBAR --- */
+        aside {
+            width: var(--sidebar-width); background: var(--surface-1); border-right: 1px solid var(--border);
+            padding: 2.5rem 1.5rem; display: flex; flex-direction: column; z-index: 20;
+        }
+        .logo-text { font-size: 1.4rem; font-weight: 800; letter-spacing: -1.5px; color: var(--accent); margin-bottom: 2.5rem; display: flex; align-items: center; gap: 10px; }
+        .logo-dot { width: 12px; height: 12px; background: var(--success); border-radius: 50%; box-shadow: 0 0 10px var(--success); }
+        
+        .nav-label { font-size: 0.65rem; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 1rem; padding-left: 10px; margin-top: 20px; }
+        .nav-link {
+            padding: 14px 18px; border-radius: 14px; color: var(--text-secondary);
+            font-weight: 700; margin-bottom: 8px; cursor: pointer; display: flex;
+            justify-content: space-between; align-items: center; border: 1px solid transparent;
+        }
+        .nav-link:hover { background: rgba(255, 255, 255, 0.03); color: white; border-color: var(--border); }
+        .nav-link.active { background: var(--accent); color: white; box-shadow: 0 8px 20px -5px var(--accent-glow); }
+
+        /* --- TRACKERS --- */
+        .overall-stats { margin-top: auto; background: var(--surface-2); padding: 20px; border-radius: 20px; border: 1px solid var(--border); }
+        .stat-row { margin-bottom: 15px; }
+        .stat-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; display: flex; justify-content: space-between; margin-bottom: 6px; }
+        .progress-container { height: 7px; background: rgba(0,0,0,0.3); border-radius: 10px; overflow: hidden; }
+        .progress-fill { height: 100%; width: 0%; border-radius: 10px; }
+
+        /* --- MAIN VIEW --- */
+        main { flex: 1; overflow-y: auto; position: relative; scroll-behavior: smooth; }
+        .header-sticky {
+            position: sticky; top: 0; z-index: 100; background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(20px); padding: 1.5rem 3.5rem; border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        
+        .class-toggle { display: flex; background: var(--surface-2); padding: 4px; border-radius: 10px; margin-top: 12px; width: fit-content; }
+        .toggle-btn { padding: 6px 20px; border-radius: 8px; border: none; background: transparent; color: var(--text-secondary); font-weight: 700; cursor: pointer; font-size: 0.8rem; }
+        .toggle-btn.active { background: #475569; color: white; }
+
+        /* --- CONTENT BODIES --- */
+        .content-body { padding: 2.5rem 3.5rem 10rem 3.5rem; display: none; }
+        .content-body.active { display: block; }
+
+        /* --- UNIT ACCORDIONS --- */
+        .unit-card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 24px; margin-bottom: 1.2rem; overflow: hidden; }
+        .unit-trigger {
+            width: 100%; padding: 22px 30px; background: transparent; border: none; color: white;
+            display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+            font-size: 1.05rem; font-weight: 800; text-transform: uppercase;
+        }
+        .unit-content { display: none; padding: 0 30px 25px 30px; border-top: 1px solid var(--border); }
+        .unit-card.open .unit-content { display: block; }
+
+        /* --- CHAPTER ITEMS --- */
+        .chapter-item { display: grid; grid-template-columns: 1fr 1.5fr auto; align-items: center; gap: 2rem; padding: 22px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .chapter-item:last-child { border: none; }
+        .ch-info-container { display: flex; flex-direction: column; gap: 8px; }
+        .ch-title { font-weight: 700; font-size: 1rem; color: var(--text-primary); }
+        
+        .note-preview { 
+            font-size: 0.75rem; color: var(--text-secondary); background: rgba(0,0,0,0.2); 
+            padding: 8px 12px; border-radius: 8px; border-left: 3px solid var(--accent);
+            cursor: pointer; max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        .stage-box { display: flex; gap: 8px; justify-content: center; }
+        .stage-btn { padding: 8px 14px; border-radius: 10px; border: 1px solid var(--border); background: #0f172a; color: var(--text-secondary); font-size: 0.75rem; font-weight: 700; cursor: pointer; }
+        .stage-btn.active[data-s="Theory"] { background: var(--accent); color: white; border-color: var(--accent); }
+        .stage-btn.active[data-s="Mains"] { background: var(--mains); color: white; }
+        .stage-btn.active[data-s="Mastery"] { background: var(--success); color: white; box-shadow: 0 0 15px rgba(16, 185, 129, 0.2); }
+
+        .action-row { display: flex; gap: 10px; justify-content: flex-end; }
+        .action-btn { background: var(--surface-2); color: white; text-decoration: none; padding: 10px 16px; border-radius: 10px; font-size: 0.75rem; font-weight: 800; border: 1px solid var(--border); cursor: pointer; }
+        .action-btn:hover { background: white; color: black; }
+
+        /* --- THE VAULT STYLES --- */
+        .vault-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .vault-card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 24px; padding: 2rem; }
+        .vault-header { font-size: 1.2rem; font-weight: 800; margin-bottom: 1.5rem; color: var(--adv); display: flex; align-items: center; gap: 10px; }
+        .vault-textarea { 
+            width: 100%; height: 400px; background: rgba(0,0,0,0.2); border: 1px solid var(--border); 
+            border-radius: 15px; padding: 20px; color: var(--text-primary); font-size: 0.95rem; line-height: 1.6;
+            resize: none; outline: none;
+        }
+        .vault-textarea:focus { border-color: var(--accent); }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-thumb { background: var(--surface-2); border-radius: 10px; }
+    </style>
 </head>
 <body>
 
-<h1>🔥 Word Saver + AI</h1>
-
-<button id="loginBtn">Login with Google</button>
-
-<section>
-  <h3>1. Save a Word</h3>
-  <input id="wordInput" placeholder="Type a word to save...">
-  <button id="addBtn">Save to Cloud</button>
-</section>
-
-<section>
-  <h3>2. Ask Gemini AI</h3>
-  <textarea id="aiInput" rows="3" placeholder="Example: Use my saved words in a sentence..."></textarea>
-  <button id="askBtn">Ask Gemini</button>
-  <div id="aiLoader" class="loader">✨ Gemini is thinking...</div>
-  <div id="aiResponse"></div>
-</section>
-
-<section>
-  <h3>Your Saved Collection</h3>
-  <div id="list"></div>
-</section>
-
-<script type="module">
-// --- 1. IMPORTS ---
+<script type="module" id="firebase-script">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { GoogleGenerativeAI } from "https://esm.run/@google/generative-ai";
 
-// --- 2. CONFIG ---
+// 🔥 YOUR CONFIG
 const firebaseConfig = {
-  apiKey: "AIzaSyB2yXaER_BSH9dw9-mxhh4oz5HqffsmWE8",
+  apiKey: "AIzaSyDMG2GapxBu9Tnry0fJx7IaQO1zwgA0sVw",
   authDomain: "jee-progress-tracker-3d733.firebaseapp.com",
   projectId: "jee-progress-tracker-3d733",
   storageBucket: "jee-progress-tracker-3d733.firebasestorage.app",
   messagingSenderId: "644810316053",
-  appId: "1:644810316053:web:aa531fc435469e3e2c311c"
+  appId: "1:644810316053:web:aa531fc435469e3e2c311c",
 };
 
-const GEMINI_KEY = "AIzaSyAuUwdGWhb_fDahaL7_BhYZOiTXqvM0BZg";
-
-// --- 3. INITIALIZE ---
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const genAI = new GoogleGenerativeAI(GEMINI_KEY);
 
-let currentUser = null;
-let savedWords = [];
+window.currentUser = null;
 
-// --- 4. CORE FUNCTIONS ---
-
-// LOGIN
-async function login() {
+// LOGIN FUNCTION
+window.login = async function () {
   const provider = new GoogleAuthProvider();
-  try {
-    const result = await signInWithPopup(auth, provider);
-    currentUser = result.user;
-    console.log("Logged in as:", currentUser.displayName);
-  } catch (e) { 
-    console.error(e);
-    alert("Login Error: " + e.message); 
-  }
-}
-
-// SAVE TO FIRESTORE
-async function syncToCloud() {
-  if (!currentUser) return;
-  await setDoc(doc(db, "users", currentUser.uid), { words: savedWords });
-}
-
-// ADD WORD
-async function addWord() {
-  const input = document.getElementById("wordInput");
-  const val = input.value.trim();
-  if (!val) return alert("Enter a word!");
-  if (!currentUser) return alert("Please Login First!");
-
-  savedWords.push(val);
-  input.value = "";
-  render();
-  await syncToCloud();
-}
-
-// DELETE WORD
-window.deleteWord = async function(index) {
-  savedWords.splice(index, 1);
-  render();
-  await syncToCloud();
+  const result = await signInWithPopup(auth, provider);
+  window.currentUser = result.user;
 };
 
-// ASK AI
-async function askAI() {
-  const input = document.getElementById("aiInput");
-  const respDiv = document.getElementById("aiResponse");
-  const loader = document.getElementById("aiLoader");
-  const btn = document.getElementById("askBtn");
-
-  if (!input.value.trim()) return alert("Ask something!");
-  
-  try {
-    btn.disabled = true;
-    loader.style.display = "block";
-    respDiv.style.display = "none";
-
-    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
-    const context = savedWords.length > 0 ? `My words: ${savedWords.join(", ")}. ` : "";
-    
-    const result = await model.generateContent(context + input.value);
-    const text = result.response.text();
-    
-    respDiv.innerText = text;
-    respDiv.style.display = "block";
-  } catch (e) {
-    console.error(e);
-    alert("AI Error: " + e.message);
-  } finally {
-    btn.disabled = false;
-    loader.style.display = "none";
-  }
-}
-
-// RENDER UI
-function render() {
-  const list = document.getElementById("list");
-  list.innerHTML = savedWords.map((word, i) => `
-    <div class="card">
-      <span>${word}</span>
-      <button class="delete-btn" onclick="deleteWord(${i})">Delete</button>
-    </div>
-  `).join("");
-}
-
-// --- 5. EVENT LISTENERS & AUTH STATE ---
-document.getElementById("loginBtn").addEventListener("click", login);
-document.getElementById("addBtn").addEventListener("click", addWord);
-document.getElementById("askBtn").addEventListener("click", askAI);
-
+// LOAD DATA WHEN LOGIN
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    currentUser = user;
-    document.getElementById("loginBtn").innerText = "Logged in as " + user.displayName;
-    const snap = await getDoc(doc(db, "users", user.uid));
+    window.currentUser = user;
+
+    const ref = doc(db, "users", user.uid);
+    const snap = await getDoc(ref);
+
     if (snap.exists()) {
-      savedWords = snap.data().words || [];
-      render();
+      window.store = snap.data().store || {};
+      store = window.store;
+      localStorage.setItem('jee_command_v10', JSON.stringify(window.store));
+      window.render();
+      window.updateStats();
     }
   }
 });
+
+// SAVE TO FIREBASE
+window.saveToFirebase = async function () {
+  if (!window.currentUser) return;
+
+  await setDoc(doc(db, "users", window.currentUser.uid), {
+    store: store
+  });
+};
 </script>
 
+<aside>
+    <div class="logo-text"><div class="logo-dot"></div> JEE.COMMAND</div>
+    
+    <div class="nav-label">Core Syllabus</div>
+    <div id="sidebar-nav">
+        <div class="nav-link active" onclick="switchTab('physics', this)"><span>PHYSICS</span></div>
+        <div class="nav-link" onclick="switchTab('chemistry', this)"><span>CHEMISTRY</span></div>
+        <div class="nav-link" onclick="switchTab('mathematics', this)"><span>MATHEMATICS</span></div>
+    </div>
+
+    <div class="nav-label">Study Vault</div>
+    <div class="nav-link" onclick="switchTab('vault', this)"><span>NOTES & QUESTIONS</span><span style="font-size:0.6rem; color:var(--adv)">PRO</span></div>
+
+    <div class="overall-stats">
+        <div class="stat-row">
+            <div class="stat-label"><span>Mains Readiness</span><span id="mains-pct">0%</span></div>
+            <div class="progress-container"><div class="progress-fill" id="mains-bar" style="background:var(--mains)"></div></div>
+        </div>
+        <div class="stat-row">
+            <div class="stat-label"><span>Advanced Mastery</span><span id="adv-pct">0%</span></div>
+            <div class="progress-container"><div class="progress-fill" id="adv-bar" style="background:var(--adv)"></div></div>
+        </div>
+        <div style="font-size: 0.65rem; color: var(--text-secondary); text-align: center; margin-top: 10px;">
+            Total Points: <span id="global-score" style="color:var(--gold); font-weight:800;">0</span>
+        </div>
+    </div>
+</aside>
+
+<main>
+    <header class="header-sticky">
+        <div>
+            <h1 id="view-title" style="text-transform:capitalize">Physics</h1>
+            <div class="class-toggle" id="cls-toggle-box">
+                <button class="toggle-btn active" id="btn11" onclick="setClass('11')">CLASS 11</button>
+                <button class="toggle-btn" id="btn12" onclick="setClass('12')">CLASS 12</button>
+            </div>
+        </div>
+        <div style="text-align: right;">
+            <button onclick="login()" style="padding:10px 15px;border-radius:10px;background:#3b82f6;color:white;border:none;font-weight:700;">
+Login
+</button>
+            <div style="font-size: 0.65rem; color: var(--text-secondary); text-transform: uppercase;">Subject Mastery</div>
+            <div id="sub-percent" style="font-size: 2.2rem; font-weight: 800; color: var(--accent);">0%</div>
+        </div>
+    </header>
+
+    <div id="syllabus-view" class="content-body active"></div>
+
+    <div id="vault-view" class="content-body">
+        <div class="vault-grid">
+            <div class="vault-card">
+                <div class="vault-header">📌 Important Questions</div>
+                <textarea class="vault-textarea" id="vault-qs" placeholder="Paste links to tough questions or write down question IDs from PYQs here..." oninput="saveVault()"></textarea>
+            </div>
+            <div class="vault-card">
+                <div class="vault-header">📖 Master Revision Notes</div>
+                <textarea class="vault-textarea" id="vault-notes" placeholder="Write down global strategies, exam-day tips, or recurring mistakes to avoid..." oninput="saveVault()"></textarea>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    /* =========================================
+       EXTENDED SYLLABUS DATA (95+ CHAPTERS)
+       ========================================= */
+    const DATA = {
+        physics: {
+            '11': {
+                'Mechanics I': [
+                    { n: 'Units & Measurements', s: 'units-and-measurements' },
+                    { n: 'Motion in a Straight Line', s: 'motion-in-a-straight-line' },
+                    { n: 'Motion in a Plane', s: 'motion-in-a-plane' },
+                    { n: 'Laws of Motion', s: 'laws-of-motion' }
+                ],
+                'Mechanics II': [
+                    { n: 'Work, Power & Energy', s: 'work-power-and-energy' },
+                    { n: 'System of Particles', s: 'rotational-motion' },
+                    { n: 'Gravitation', s: 'gravitation' }
+                ],
+                'Properties of Matter': [
+                    { n: 'Mechanical Prop of Solids', s: 'properties-of-solids' },
+                    { n: 'Mechanical Prop of Fluids', s: 'properties-of-matter' },
+                    { n: 'Thermal Properties', s: 'thermal-properties-of-matter' }
+                ],
+                'Thermodynamics': [
+                    { n: 'Thermodynamics', s: 'thermodynamics' },
+                    { n: 'Kinetic Theory', s: 'kinetic-theory-of-gases' }
+                ],
+                'Oscillations & Waves': [
+                    { n: 'Oscillations', s: 'oscillations' },
+                    { n: 'Waves', s: 'waves' }
+                ]
+            },
+            '12': {
+                'Electrodynamics': [
+                    { n: 'Electric Charges & Fields', s: 'electrostatics' },
+                    { n: 'Electrostatic Potential', s: 'electrostatic-potential-and-capacitance' },
+                    { n: 'Current Electricity', s: 'current-electricity' },
+                    { n: 'Moving Charges & Mag', s: 'magnetic-effect-of-current' },
+                    { n: 'Magnetism & Matter', s: 'magnetism-and-matter' },
+                    { n: 'EMI', s: 'electromagnetic-induction' },
+                    { n: 'Alternating Current', s: 'alternating-current' }
+                ],
+                'Optics': [
+                    { n: 'EM Waves', s: 'electromagnetic-waves' },
+                    { n: 'Ray Optics', s: 'ray-optics' },
+                    { n: 'Wave Optics', s: 'wave-optics' }
+                ],
+                'Modern Physics': [
+                    { n: 'Dual Nature of Matter', s: 'dual-nature-of-radiation-and-matter' },
+                    { n: 'Atoms', s: 'atoms' },
+                    { n: 'Nuclei', s: 'nuclei' },
+                    { n: 'Semiconductors', s: 'semiconductor' }
+                ]
+            }
+        },
+        chemistry: {
+            '11': {
+                'Physical': [
+                    { n: 'Basic Concepts', s: 'some-basic-concepts-of-chemistry' },
+                    { n: 'Structure of Atom', s: 'structure-of-atom' },
+                    { n: 'Thermodynamics', s: 'chemical-thermodynamics' },
+                    { n: 'Equilibrium', s: 'chemical-equilibrium' },
+                    { n: 'Redox Reactions', s: 'redox-reactions' }
+                ],
+                'Inorganic': [
+                    { n: 'Classification of Elements', s: 'classification-of-elements-and-periodicity-in-properties' },
+                    { n: 'Chemical Bonding', s: 'chemical-bonding-and-molecular-structure' },
+                    { n: 'p-Block (11)', s: 'p-block-elements' }
+                ],
+                'Organic': [
+                    { n: 'GOC Basics', s: 'basics-of-organic-chemistry' },
+                    { n: 'Hydrocarbons', s: 'hydrocarbons' }
+                ]
+            },
+            '12': {
+                'Physical': [
+                    { n: 'Solutions', s: 'solutions' },
+                    { n: 'Electrochemistry', s: 'electrochemistry' },
+                    { n: 'Chemical Kinetics', s: 'chemical-kinetics' }
+                ],
+                'Inorganic': [
+                    { n: 'd & f Block', s: 'd-and-f-block-elements' },
+                    { n: 'Coordination Compounds', s: 'coordination-compounds' }
+                ],
+                'Organic': [
+                    { n: 'Haloalkanes', s: 'haloalkanes-and-haloarenes' },
+                    { n: 'Alcohols & Phenols', s: 'alcohols-phenols-and-ethers' },
+                    { n: 'Aldehydes & Ketones', s: 'aldehydes-ketones-and-carboxylic-acids' },
+                    { n: 'Amines', s: 'amines' },
+                    { n: 'Biomolecules', s: 'biomolecules' }
+                ]
+            }
+        },
+        mathematics: {
+            '11': {
+                'Algebra': [
+                    { n: 'Sets & Relations', s: 'sets-and-relations' },
+                    { n: 'Complex Numbers', s: 'complex-numbers' },
+                    { n: 'Quadratic Equations', s: 'quadratic-equation-and-inequalities' },
+                    { n: 'P & C', s: 'permutations-and-combinations' },
+                    { n: 'Binomial Theorem', s: 'binomial-theorem' },
+                    { n: 'Sequence & Series', s: 'sequences-and-series' }
+                ],
+                'Coordinate': [
+                    { n: 'Straight Lines', s: 'straight-lines-and-pair-of-straight-lines' },
+                    { n: 'Circles', s: 'circle' },
+                    { n: 'Conic Sections', s: 'conic-sections' }
+                ],
+                'Trig': [ { n: 'Trigonometric Func', s: 'trigonometric-functions' } ]
+            },
+            '12': {
+                'Calculus': [
+                    { n: 'Limits & Continuity', s: 'limits-continuity-and-differentiability' },
+                    { n: 'Application of Derivatives', s: 'applications-of-derivatives' },
+                    { n: 'Indefinite Integrals', s: 'indefinite-integration' },
+                    { n: 'Definite Integrals', s: 'definite-integration' },
+                    { n: 'Differential Equations', s: 'differential-equations' }
+                ],
+                'Vectors/3D': [
+                    { n: 'Vector Algebra', s: 'vector-algebra' },
+                    { n: '3D Geometry', s: '3d-geometry' }
+                ],
+                'Algebra/Prob': [
+                    { n: 'Matrices', s: 'matrices' },
+                    { n: 'Determinants', s: 'determinants' },
+                    { n: 'Probability', s: 'probability' }
+                ]
+            }
+        }
+    };
+
+    /* =========================================
+       APPLICATION LOGIC
+       ========================================= */
+    let curTab = 'physics';
+    let curCls = '11';
+    let openUnits = new Set();
+    let store = JSON.parse(localStorage.getItem('jee_command_v10')) || {};
+
+    function init() {
+        render();
+        updateStats();
+        loadVault();
+    }
+
+    function switchTab(tab, el) {
+        curTab = tab;
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        el.classList.add('active');
+
+        if (tab === 'vault') {
+            document.getElementById('view-title').innerText = "Study Vault";
+            document.getElementById('cls-toggle-box').style.display = 'none';
+            document.getElementById('syllabus-view').classList.remove('active');
+            document.getElementById('vault-view').classList.add('active');
+        } else {
+            document.getElementById('view-title').innerText = tab;
+            document.getElementById('cls-toggle-box').style.display = 'flex';
+            document.getElementById('syllabus-view').classList.add('active');
+            document.getElementById('vault-view').classList.remove('active');
+            render();
+        }
+    }
+
+    function setClass(c) {
+        curCls = c;
+        document.getElementById('btn11').classList.toggle('active', c === '11');
+        document.getElementById('btn12').classList.toggle('active', c === '12');
+        render();
+    }
+
+    function render() {
+        const container = document.getElementById('syllabus-view');
+        const units = DATA[curTab][curCls];
+        container.innerHTML = '';
+
+        for (const [uName, chapters] of Object.entries(units)) {
+            const uId = `${curTab}-${curCls}-${uName}`;
+            const isOpen = openUnits.has(uId);
+            const card = document.createElement('div');
+            card.className = `unit-card ${isOpen ? 'open' : ''}`;
+            
+            card.innerHTML = `
+                <button class="unit-trigger" onclick="toggleUnit('${uId}')">
+                    <span>${uName}</span>
+                    <span style="color:var(--accent)">${isOpen ? '▲' : '▼'}</span>
+                </button>
+                <div class="unit-content">
+                    ${chapters.map(ch => {
+                        const id = `${curTab}-${ch.s}`;
+                        const stage = store[id]?.stage || 'Pending';
+                        const note = store[id]?.note || "Add formula or note...";
+                        return `
+                            <div class="chapter-item">
+                                <div class="ch-info-container">
+                                    <div class="ch-title">${ch.n}</div>
+                                    <div class="note-preview" onclick="editNote('${id}')">${note}</div>
+                                </div>
+                                <div class="stage-box">
+                                    ${['Theory', 'Mains', 'Mastery'].map(s => `
+                                        <button class="stage-btn ${stage === s ? 'active' : ''}" 
+                                                data-s="${s}" onclick="setStage('${id}','${s}')">${s}</button>
+                                    `).join('')}
+                                </div>
+                                <div class="action-row">
+                                    <a href="https://questions.examside.com/past-years/jee/jee-main/${curTab==='mathematics'?'maths':curTab}/${ch.s}" 
+                                       target="_blank" class="action-btn">PYQs</a>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+            container.appendChild(card);
+        }
+    }
+
+    function toggleUnit(id) {
+        if (openUnits.has(id)) openUnits.delete(id);
+        else openUnits.add(id);
+        render();
+    }
+
+    function setStage(id, s) {
+        if (store[id]?.stage === s) store[id].stage = 'Pending';
+        else store[id] = { ...store[id], stage: s };
+        save();
+        render();
+        updateStats();
+    }
+
+    function editNote(id) {
+        const val = prompt("Chapter Note/Formula:", store[id]?.note || "");
+        if (val !== null) {
+            store[id] = { ...store[id], note: val };
+            save();
+            render();
+        }
+    }
+
+    function save() { 
+  localStorage.setItem('jee_command_v10', JSON.stringify(store)); 
+  if (window.saveToFirebase) window.saveToFirebase();
+}
+
+    /* --- VAULT LOGIC --- */
+    function saveVault() {
+        const qs = document.getElementById('vault-qs').value;
+        const nt = document.getElementById('vault-notes').value;
+        localStorage.setItem('jee_vault_data', JSON.stringify({ qs, nt }));
+    }
+
+    function loadVault() {
+        const v = JSON.parse(localStorage.getItem('jee_vault_data')) || { qs: "", nt: "" };
+        document.getElementById('vault-qs').value = v.qs;
+        document.getElementById('vault-notes').value = v.nt;
+    }
+
+    /* --- STATS ENGINE --- */
+    function updateStats() {
+        let mDone = 0, aDone = 0, total = 0, gScore = 0, sScore = 0, sPossible = 0;
+
+        Object.keys(DATA).forEach(sub => {
+            ['11', '12'].forEach(cls => {
+                Object.values(DATA[sub][cls]).forEach(chs => {
+                    chs.forEach(ch => {
+                        total++;
+                        const st = store[`${sub}-${ch.s}`]?.stage || 'Pending';
+                        const pts = { Theory: 20, Mains: 80, Mastery: 200 }[st] || 0;
+                        gScore += pts;
+                        if (st !== 'Pending') mDone++;
+                        if (st === 'Mastery') aDone++;
+                        if (sub === curTab) { sScore += pts; sPossible += 200; }
+                    });
+                });
+            });
+        });
+
+        document.getElementById('mains-pct').innerText = Math.round((mDone/total)*100) + '%';
+        document.getElementById('mains-bar').style.width = (mDone/total)*100 + '%';
+        document.getElementById('adv-pct').innerText = Math.round((aDone/total)*100) + '%';
+        document.getElementById('adv-bar').style.width = (aDone/total)*100 + '%';
+        document.getElementById('global-score').innerText = gScore.toLocaleString();
+        document.getElementById('sub-percent').innerText = Math.round((sScore/sPossible)*100) + '%';
+    }
+
+    init();
+</script>
 </body>
 </html>

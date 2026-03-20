@@ -558,7 +558,7 @@ window.saveToFirebase = async function () {
     </div>
 
     <div class="nav-label">Study Vault</div>
-    <div class="nav-link" onclick="switchTab('vault', this)"><span>NOTES & QUESTIONS</span><span style="font-size:0.6rem; color:var(--adv)">PRO</span></div>
+    <div class="nav-link" onclick="switchTab('vault', this)"><span>NOTES & QUESTIONS</span></div>
     <div class="nav-link" onclick="switchTab('backlog', this)"><span>BACKLOG</span></div>
 
     <div class="nav-label">Focus</div>
@@ -1610,7 +1610,7 @@ window.saveToFirebase = async function () {
     </div>
 
     <div class="nav-label">Study Vault</div>
-    <div class="nav-link" onclick="switchTab('vault', this)"><span>NOTES & QUESTIONS</span><span style="font-size:0.6rem; color:var(--adv)">PRO</span></div>
+    <div class="nav-link" onclick="switchTab('vault', this)"><span>NOTES & QUESTIONS</span></div>
     <div class="nav-link" onclick="switchTab('backlog', this)"><span>BACKLOG</span></div>
 
     <div class="nav-label">Focus</div>
@@ -2193,6 +2193,10 @@ window.saveToFirebase = async function () {
                                 <div class="action-row">
                                     <a href="https://questions.examside.com/past-years/jee/jee-main/${curTab==='mathematics'?'maths':curTab}/${ch.s}" 
                                        target="_blank" class="action-btn">PYQs</a>
+                                    <a href="${'https://chatgpt.com/?q=' + encodeURIComponent('JEE 2027 formula sheet for ' + ch.n + ' in ' + curTab.charAt(0).toUpperCase()+curTab.slice(1) + '. List every important formula with variable definitions, units, and note which ones appear most in JEE Mains & Advanced.')}"
+                                       target="_blank" class="action-btn" style="background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.35);color:#f59e0b;">&#128221; Formulae</a>
+                                    <a href="${'https://chatgpt.com/?q=' + encodeURIComponent('Give me the 10 most important JEE-level questions from ' + ch.n + ' in ' + curTab.charAt(0).toUpperCase()+curTab.slice(1) + ', covering all major subtopics. Include the concept being tested and approach for each question.')}"
+                                       target="_blank" class="action-btn" style="background:rgba(99,102,241,0.12);border-color:rgba(99,102,241,0.35);color:#818cf8;">&#10067; Questions</a>
                                 </div>
                             </div>
                         `;

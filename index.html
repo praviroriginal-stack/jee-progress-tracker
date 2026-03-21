@@ -39,6 +39,7 @@
         .unit-trigger { width: 100%; padding: 20px 30px 12px 30px; background: transparent; border: none; color: white; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 1.05rem; font-weight: 800; text-transform: uppercase; }
         .unit-content { display: none; padding: 0 30px 25px 30px; border-top: 1px solid var(--border); }
         .unit-card.open .unit-content { display: block; }
+        /* UNIT PROGRESS BAR */
         .unit-progress-wrap { padding: 0 30px 16px 30px; }
         .unit-progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
         .unit-progress-label { font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: var(--text-secondary); }
@@ -50,6 +51,7 @@
         .unit-progress-bar { height: 7px; background: rgba(255,255,255,0.05); border-radius: 10px; overflow: hidden; display: flex; }
         .unit-progress-seg { height: 100%; transition: width 0.6s cubic-bezier(0.4,0,0.2,1); }
         .unit-ch-count { font-size: 0.6rem; color: var(--text-secondary); font-weight: 600; margin-top: 5px; text-align: right; }
+        /* END UNIT PROGRESS BAR */
         .chapter-item { display: grid; grid-template-columns: 1fr 1.5fr auto; align-items: center; gap: 2rem; padding: 22px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .chapter-item:last-child { border: none; }
         .ch-info-container { display: flex; flex-direction: column; gap: 8px; }
@@ -264,7 +266,7 @@
         .pom-tl-time  { font-size: 0.65rem; color: var(--text-secondary); }
         .pom-tl-dur   { font-family: monospace; font-size: 0.75rem; font-weight: 700; }
         .pom-log-empty { text-align: center; padding: 30px; color: var(--text-secondary); font-size: 0.82rem; }
-        /* Community & Groups shared styles */
+        #community-view { padding: 2.5rem 3.5rem 6rem; }
         .comm-layout { display: grid; grid-template-columns: 1fr 340px; gap: 2rem; align-items: start; }
         .comm-auth-wall { background: var(--surface-1); border: 1px solid var(--border); border-radius: 20px; padding: 3rem; text-align: center; margin-bottom: 2rem; }
         .comm-auth-wall h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 8px; }
@@ -282,17 +284,6 @@
         .comm-post-btn { padding: 10px 24px; border-radius: 11px; background: var(--accent); color: white; border: none; font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: all 0.2s; float: right; }
         .comm-post-btn:hover { box-shadow: 0 4px 16px rgba(59,130,246,0.4); transform: translateY(-1px); }
         .comm-post-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-        .img-upload-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
-        .img-upload-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 9px; border: 1px dashed rgba(99,130,200,0.5); background: rgba(59,130,246,0.06); color: var(--text-secondary); font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.15s; font-family: inherit; }
-        .img-upload-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(59,130,246,0.1); }
-        .img-preview-wrap { position: relative; display: inline-flex; }
-        .img-preview-thumb { max-height: 64px; max-width: 120px; border-radius: 8px; object-fit: cover; border: 1px solid var(--border); }
-        .img-preview-remove { position: absolute; top: -6px; right: -6px; width: 18px; height: 18px; border-radius: 50%; background: #ef4444; color: white; border: none; font-size: 0.65rem; cursor: pointer; display: flex; align-items: center; justify-content: center; font-weight: 900; line-height: 1; }
-        .doubt-image { max-width: 100%; max-height: 340px; border-radius: 10px; border: 1px solid var(--border); margin-top: 8px; cursor: pointer; transition: opacity 0.15s; display: block; }
-        .doubt-image:hover { opacity: 0.9; }
-        .reply-image { max-width: 100%; max-height: 260px; border-radius: 8px; border: 1px solid var(--border); margin-top: 6px; cursor: pointer; display: block; }
-        .img-lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 9999; display: flex; align-items: center; justify-content: center; cursor: zoom-out; }
-        .img-lightbox img { max-width: 92vw; max-height: 92vh; border-radius: 12px; object-fit: contain; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
         .comm-filter-bar { display: flex; gap: 8px; margin-bottom: 1.4rem; flex-wrap: wrap; align-items: center; }
         .comm-filter-btn { padding: 6px 16px; border-radius: 8px; border: 1px solid var(--border); background: transparent; color: var(--text-secondary); font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: all 0.15s; font-family: inherit; }
         .comm-filter-btn:hover { color: white; border-color: rgba(255,255,255,0.2); }
@@ -335,8 +326,7 @@
         .reply-text   { font-size: 0.82rem; line-height: 1.55; color: var(--text-primary); margin-top: 3px; white-space: pre-wrap; word-break: break-word; }
         .reply-solve-btn { padding: 3px 10px; border-radius: 6px; border: 1px solid rgba(16,185,129,0.3); background: transparent; color: #10b981; font-size: 0.68rem; font-weight: 700; cursor: pointer; transition: all 0.15s; font-family: inherit; flex-shrink: 0; align-self: flex-start; margin-top: 4px; }
         .reply-solve-btn:hover { background: rgba(16,185,129,0.12); }
-        .reply-input-wrap { display: flex; flex-direction: column; gap: 8px; padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.05); }
-        .reply-input-bottom { display: flex; gap: 8px; align-items: center; }
+        .reply-input-wrap { display: flex; gap: 8px; padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.05); align-items: flex-end; }
         .reply-textarea { flex: 1; background: var(--surface-2); border: 1px solid var(--border); color: var(--text-primary); padding: 9px 13px; border-radius: 10px; font-family: inherit; font-size: 0.82rem; resize: none; min-height: 56px; outline: none; transition: border-color 0.15s; line-height: 1.45; }
         .reply-textarea:focus { border-color: var(--accent); }
         .reply-textarea::placeholder { color: var(--text-secondary); }
@@ -354,6 +344,13 @@
         .comm-top-name { flex: 1; font-size: 0.78rem; font-weight: 700; color: var(--text-primary); }
         .comm-top-count { font-size: 0.72rem; font-weight: 700; color: var(--accent); font-family: monospace; }
         .comm-loading { text-align: center; padding: 40px; color: var(--text-secondary); font-size: 0.85rem; }
+        /* COMMUNITY SUB-TABS */
+        .comm-subtabs { display: flex; gap: 4px; background: var(--surface-2); padding: 4px; border-radius: 14px; margin-bottom: 1.8rem; width: fit-content; }
+        .comm-subtab { padding: 9px 22px; border-radius: 10px; border: none; background: transparent; color: var(--text-secondary); font-weight: 700; font-size: 0.82rem; cursor: pointer; font-family: inherit; transition: all 0.2s; display: flex; align-items: center; gap: 7px; }
+        .comm-subtab:hover { color: white; }
+        .comm-subtab.active { background: var(--surface-1); color: var(--text-primary); box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+        .comm-panel { display: none; }
+        .comm-panel.active { display: block; }
         /* STUDY GROUPS */
         .groups-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.6rem; flex-wrap: wrap; gap: 12px; }
         .groups-top h2 { font-size: 1.3rem; font-weight: 800; }
@@ -434,6 +431,80 @@
         .cgm-submit { width: 100%; padding: 13px; border-radius: 12px; background: linear-gradient(135deg, #10b981, #3b82f6); color: white; border: none; font-weight: 800; font-size: 1rem; cursor: pointer; margin-top: 8px; transition: all 0.2s; }
         .cgm-submit:hover { box-shadow: 0 6px 20px rgba(16,185,129,0.35); transform: translateY(-1px); }
         .cgm-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        /* ── FRIENDS TAB ── */
+        #friends-view { padding: 2.5rem 3.5rem 6rem; }
+        .friends-layout { display: grid; grid-template-columns: 1fr 340px; gap: 2rem; align-items: start; }
+        .friends-search-card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 20px; padding: 1.6rem; margin-bottom: 1.4rem; }
+        .friends-search-title { font-size: 0.9rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+        .friends-search-row { display: flex; gap: 10px; }
+        .friends-search-input { flex: 1; background: var(--surface-2); border: 1px solid var(--border); color: var(--text-primary); padding: 11px 16px; border-radius: 12px; font-family: inherit; font-size: 0.88rem; outline: none; transition: border-color 0.15s; }
+        .friends-search-input:focus { border-color: var(--accent); }
+        .friends-search-input::placeholder { color: var(--text-secondary); }
+        .friends-search-results { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; min-height: 0; }
+        .friend-search-item { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-radius: 12px; background: var(--surface-2); border: 1px solid var(--border); transition: border-color 0.15s; }
+        .friend-search-item:hover { border-color: rgba(59,130,246,0.3); }
+        .friend-avatar { width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0; border: 2px solid var(--border); object-fit: cover; }
+        .friend-avatar-placeholder { width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0; background: linear-gradient(135deg, var(--accent), #8b5cf6); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 800; color: white; border: 2px solid var(--border); }
+        .friend-info { flex: 1; min-width: 0; }
+        .friend-name { font-size: 0.88rem; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .friend-email { font-size: 0.68rem; color: var(--text-secondary); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .friend-action-btn { padding: 7px 16px; border-radius: 9px; border: none; font-weight: 700; font-size: 0.78rem; cursor: pointer; font-family: inherit; transition: all 0.15s; white-space: nowrap; flex-shrink: 0; }
+        .fab-add { background: rgba(59,130,246,0.15); color: var(--accent); border: 1px solid rgba(59,130,246,0.3); }
+        .fab-add:hover { background: rgba(59,130,246,0.25); box-shadow: 0 3px 10px rgba(59,130,246,0.2); }
+        .fab-pending { background: rgba(245,158,11,0.12); color: #f59e0b; border: 1px solid rgba(245,158,11,0.25); cursor: not-allowed; }
+        .fab-friends { background: rgba(16,185,129,0.12); color: #10b981; border: 1px solid rgba(16,185,129,0.25); cursor: default; }
+        .requests-section { margin-bottom: 1.6rem; }
+        .requests-header { font-size: 0.82rem; font-weight: 800; color: var(--text-primary); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .req-badge { background: var(--accent); color: white; font-size: 0.62rem; font-weight: 800; padding: 1px 7px; border-radius: 20px; }
+        .request-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 14px; background: var(--surface-1); border: 1px solid var(--border); margin-bottom: 8px; transition: border-color 0.15s; }
+        .request-item:hover { border-color: rgba(59,130,246,0.25); }
+        .request-meta { flex: 1; min-width: 0; }
+        .request-actions { display: flex; gap: 6px; flex-shrink: 0; }
+        .req-accept-btn { padding: 6px 14px; border-radius: 8px; background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); font-weight: 700; font-size: 0.75rem; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+        .req-accept-btn:hover { background: rgba(16,185,129,0.25); }
+        .req-decline-btn { padding: 6px 14px; border-radius: 8px; background: transparent; color: var(--text-secondary); border: 1px solid var(--border); font-weight: 700; font-size: 0.75rem; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+        .req-decline-btn:hover { border-color: #ef4444; color: #ef4444; background: rgba(239,68,68,0.08); }
+        .friends-list-section { background: var(--surface-1); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; }
+        .friends-list-header { padding: 16px 20px; border-bottom: 1px solid var(--border); font-size: 0.88rem; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.02); }
+        .friend-list-item { display: flex; align-items: center; gap: 12px; padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.15s; }
+        .friend-list-item:last-child { border-bottom: none; }
+        .friend-list-item:hover { background: rgba(255,255,255,0.03); }
+        .friend-list-stats { margin-left: auto; text-align: right; flex-shrink: 0; }
+        .fls-row { font-size: 0.65rem; color: var(--text-secondary); font-weight: 600; }
+        .fls-val { font-size: 0.8rem; font-weight: 800; }
+        .friends-empty { text-align: center; padding: 40px 20px; color: var(--text-secondary); font-size: 0.82rem; }
+        .friends-sidebar { display: flex; flex-direction: column; gap: 1.2rem; }
+        .friends-side-card { background: var(--surface-1); border: 1px solid var(--border); border-radius: 18px; padding: 1.4rem; }
+        .friends-side-title { font-size: 0.82rem; font-weight: 800; margin-bottom: 1rem; color: var(--text-primary); }
+        #friend-profile-modal { position: fixed; z-index: 1500; inset: 0; background: rgba(0,0,0,0.75); display: none; backdrop-filter: blur(6px); align-items: center; justify-content: center; }
+        #friend-profile-modal.open { display: flex; }
+        .fpm-box { background: var(--surface-1); border: 1px solid var(--border); border-radius: 24px; width: 90%; max-width: 520px; overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,0.6); max-height: 90vh; overflow-y: auto; }
+        .fpm-header { padding: 24px 24px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.02); }
+        .fpm-avatar { width: 54px; height: 54px; border-radius: 50%; flex-shrink: 0; border: 3px solid var(--accent); object-fit: cover; }
+        .fpm-avatar-placeholder { width: 54px; height: 54px; border-radius: 50%; flex-shrink: 0; background: linear-gradient(135deg, var(--accent), #8b5cf6); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: 800; color: white; border: 3px solid var(--accent); }
+        .fpm-name { font-size: 1.1rem; font-weight: 800; color: var(--text-primary); }
+        .fpm-email { font-size: 0.72rem; color: var(--text-secondary); margin-top: 3px; }
+        .fpm-close { margin-left: auto; background: transparent; border: 1px solid var(--border); color: var(--text-secondary); width: 32px; height: 32px; border-radius: 9px; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: all 0.15s; flex-shrink: 0; }
+        .fpm-close:hover { border-color: #ef4444; color: #ef4444; }
+        .fpm-body { padding: 20px 24px 24px; }
+        .fpm-stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .fpm-stat-chip { background: var(--surface-2); border: 1px solid var(--border); border-radius: 14px; padding: 14px; text-align: center; }
+        .fpm-stat-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); font-weight: 800; margin-bottom: 5px; }
+        .fpm-stat-val { font-size: 1.6rem; font-weight: 800; }
+        .fpm-section-title { font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); margin-bottom: 10px; }
+        .fpm-subject-row { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+        .fpm-subject-label { font-size: 0.78rem; font-weight: 700; color: var(--text-primary); width: 90px; flex-shrink: 0; }
+        .fpm-subject-bar { flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 10px; overflow: hidden; }
+        .fpm-subject-bar-fill { height: 100%; border-radius: 10px; transition: width 0.5s ease; }
+        .fpm-subject-pct { font-size: 0.72rem; font-weight: 800; width: 36px; text-align: right; flex-shrink: 0; }
+        .fpm-unfriend-btn { width: 100%; margin-top: 16px; padding: 10px; border-radius: 11px; background: transparent; border: 1px solid rgba(239,68,68,0.3); color: #ef4444; font-weight: 700; font-size: 0.82rem; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+        .fpm-unfriend-btn:hover { background: rgba(239,68,68,0.1); }
+        @media (max-width: 768px) {
+            #friends-view { padding: 1.2rem 1rem 6rem !important; }
+            .friends-layout { grid-template-columns: 1fr !important; }
+            .friends-sidebar { order: -1; }
+        }
         .spin { display: inline-block; animation: spin 1s linear infinite; font-size: 1.4rem; }
         @keyframes spin { to { transform: rotate(360deg); } }
         #login-btn:hover { box-shadow: 0 6px 20px rgba(59,130,246,0.45); transform: translateY(-1px); }
@@ -513,7 +584,6 @@
             #login-btn { padding: 7px 12px !important; font-size: 0.78rem !important; }
             .content-body { padding: 1.2rem 1rem 6rem 1rem !important; }
             #community-view { padding: 1.2rem 1rem 6rem !important; }
-            #groups-view { padding: 1.2rem 1rem 6rem !important; }
             .chapter-item { grid-template-columns: 1fr !important; gap: 10px !important; padding: 14px 0 !important; }
             .stage-box { flex-wrap: wrap; justify-content: flex-start; gap: 5px; }
             .stage-btn { padding: 6px 9px !important; font-size: 0.68rem !important; }
@@ -544,7 +614,6 @@
             .doubt-body { padding: 0 14px 12px 50px !important; }
             .doubt-actions { padding: 8px 14px 10px 50px !important; flex-wrap: wrap; gap: 6px; }
             #targets-panel { width: calc(100vw - 32px) !important; right: 16px !important; bottom: 16px !important; }
-            .groups-grid { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 420px) {
             .stage-btn { padding: 5px 7px !important; font-size: 0.62rem !important; }
@@ -557,22 +626,23 @@
 <script type="module" id="firebase-script">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, doc, setDoc, getDoc, collection, addDoc, onSnapshot, query, orderBy, updateDoc, deleteDoc, serverTimestamp, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc, collection, addDoc, onSnapshot, query, orderBy, where, getDocs, updateDoc, deleteDoc, serverTimestamp, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 const firebaseConfig = { apiKey: "AIzaSyDMG2GapxBu9Tnry0fJx7IaQO1zwgA0sVw", authDomain: "jee-progress-tracker-3d733.firebaseapp.com", projectId: "jee-progress-tracker-3d733", storageBucket: "jee-progress-tracker-3d733.firebasestorage.app", messagingSenderId: "644810316053", appId: "1:644810316053:web:aa531fc435469e3e2c311c" };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 window.currentUser = null;
-window.login = async function () { const provider = new GoogleAuthProvider(); const result = await signInWithPopup(auth, provider); window.currentUser = result.user; if (window.updateAuthUI) window.updateAuthUI(result.user); };
+window.login = async function () { const provider = new GoogleAuthProvider(); const result = await signInWithPopup(auth, provider); window.currentUser = result.user; if (window.updateAuthUI) window.updateAuthUI(result.user); if (window.writeUserProfile) window.writeUserProfile(result.user); };
 window._signOut = async function () { await signOut(auth); };
 onAuthStateChanged(auth, async (user) => { if (user) { window.currentUser = user; if (window.updateAuthUI) window.updateAuthUI(user); const ref = doc(db, "users", user.uid); const snap = await getDoc(ref); if (snap.exists()) { const data = snap.data(); window.store = data.store || {}; store = window.store; if (data.tests) { tests = data.tests; localStorage.setItem('jee_tests', JSON.stringify(tests)); } localStorage.setItem('jee_command_v10', JSON.stringify(window.store)); window.render(); window.updateStats(); window.renderTests(); } } });
 window._db = db;
-window._fsOps = { collection, addDoc, onSnapshot, query, orderBy, updateDoc, deleteDoc, serverTimestamp, doc, getCountFromServer };
+window._fsOps = { collection, addDoc, onSnapshot, query, orderBy, where, getDocs, updateDoc, deleteDoc, serverTimestamp, doc, setDoc: setDoc, getDoc, getCountFromServer };
 window.saveToFirebase = async function () { if (!window.currentUser) return; await setDoc(doc(db, "users", window.currentUser.uid), { store: store, tests: tests }); };
 </script>
 
 <button id="mob-menu-btn" onclick="mobToggle()" aria-label="Toggle sidebar" title="Toggle sidebar">&#9776;</button>
 <div id="mob-overlay" onclick="mobClose()"></div>
+    <div class="nav-link" onclick="switchTab('friends', this)"><span>&#128101; FRIENDS</span></div>
 
 <aside>
     <div class="logo-text"><div class="logo-dot"></div> JEE.COMMAND</div>
@@ -589,7 +659,6 @@ window.saveToFirebase = async function () { if (!window.currentUser) return; awa
     <div class="nav-link" onclick="switchTab('pomodoro', this)"><span>&#9201; POMODORO</span></div>
     <div class="nav-label">Community</div>
     <div class="nav-link" onclick="switchTab('community', this)"><span>&#128101; DOUBTS FORUM</span></div>
-    <div class="nav-link" onclick="switchTab('groups', this)"><span>&#128101; STUDY GROUPS</span></div>
     <div class="nav-label">Tests</div>
     <div class="nav-link" onclick="switchTab('mains', this)"><span>JEE MAINS</span></div>
     <div class="nav-link" onclick="switchTab('advanced', this)"><span>JEE ADVANCED</span></div>
@@ -745,57 +814,54 @@ window.saveToFirebase = async function () { if (!window.currentUser) return; awa
             </div>
         </div>
     </div>
-
-    <!-- ── DOUBTS FORUM (standalone) ── -->
     <div id="community-view" class="content-body">
-        <div id="comm-auth-wall" class="comm-auth-wall" style="display:none"><h3>&#128101; Join the Community</h3><p>Sign in with Google to post doubts and collaborate with fellow JEE aspirants.</p><button class="comm-login-btn" onclick="login().then(()=>commInit())">&#128275; Sign in with Google</button></div>
-        <div id="comm-post-section" style="display:none">
-            <div class="comm-post-card">
-                <div class="comm-post-title">&#10067; Post a Doubt</div>
-                <div class="comm-input-row"><select class="comm-subject-sel" id="comm-subject"><option value="Physics">Physics</option><option value="Chemistry">Chemistry</option><option value="Mathematics">Mathematics</option><option value="General">General</option></select><select class="comm-subject-sel" id="comm-chapter"><option value="">Chapter (optional)</option></select></div>
-                <textarea class="comm-doubt-input" id="comm-doubt-text" placeholder="Describe your doubt clearly..."></textarea>
-                <div class="img-upload-row">
-                  <label class="img-upload-btn" for="comm-doubt-img">&#128247; Attach Image</label>
-                  <input type="file" id="comm-doubt-img" accept="image/*" style="display:none" onchange="commHandleDoubtImg(this)">
-                  <span id="comm-doubt-img-preview"></span>
-                </div>
-                <button class="comm-post-btn" id="comm-post-btn" onclick="commPostDoubt()">&#128161; Post Doubt</button>
-                <div style="clear:both"></div>
-            </div>
-        </div>
-        <div class="comm-layout">
-            <div>
-                <div class="comm-filter-bar">
-                    <button class="comm-filter-btn active" onclick="commSetFilter('all',this)">All</button>
-                    <button class="comm-filter-btn" onclick="commSetFilter('unsolved',this)">&#128308; Unsolved</button>
-                    <button class="comm-filter-btn" onclick="commSetFilter('solved',this)">&#9989; Solved</button>
-                    <button class="comm-filter-btn" onclick="commSetFilter('mine',this)">&#128100; My Doubts</button>
-                    <input class="comm-search-input" type="text" id="comm-search" placeholder="Search doubts..." oninput="commRender()">
-                </div>
-                <div class="comm-doubts-list" id="comm-doubts-list"><div class="comm-loading"><span class="spin">&#9654;</span><br>Loading doubts...</div></div>
-            </div>
-            <div class="comm-sidebar">
-                <div class="comm-side-card">
-                    <div class="comm-side-title">&#128202; Forum Stats</div>
-                    <div class="comm-stat-row"><span class="comm-stat-lbl">Total Doubts</span><span class="comm-stat-val" id="cs-total" style="color:var(--accent)">&#8212;</span></div>
-                    <div class="comm-stat-row"><span class="comm-stat-lbl">Solved</span><span class="comm-stat-val" id="cs-solved" style="color:#10b981">&#8212;</span></div>
-                    <div class="comm-stat-row"><span class="comm-stat-lbl">Unsolved</span><span class="comm-stat-val" id="cs-unsolved" style="color:#f59e0b">&#8212;</span></div>
-                    <div class="comm-stat-row"><span class="comm-stat-lbl">Total Replies</span><span class="comm-stat-val" id="cs-replies" style="color:#8b5cf6">&#8212;</span></div>
-                </div>
-                <div class="comm-side-card"><div class="comm-side-title">&#127942; Top Helpers</div><div id="cs-top-helpers"><span style="color:var(--text-secondary);font-size:0.78rem">Loading...</span></div></div>
-                <div class="comm-side-card" style="background:rgba(59,130,246,0.06);border-color:rgba(59,130,246,0.2)"><div class="comm-side-title" style="color:var(--accent)">&#128161; Tips</div><ul style="font-size:0.75rem;color:var(--text-secondary);line-height:1.8;padding-left:1rem"><li>Be specific &#8212; mention chapter + concept</li><li>Mark a reply as &#9989; solved to help others</li><li>Search before posting to avoid duplicates</li><li>Help others &#8212; it reinforces your own concepts!</li></ul></div>
-            </div>
-        </div>
-    </div>
+        <!-- Auth wall -->
+        <div id="comm-auth-wall" class="comm-auth-wall" style="display:none"><h3>&#128101; Join the Community</h3><p>Sign in with Google to post doubts, join study groups, and collaborate with fellow JEE aspirants.</p><button class="comm-login-btn" onclick="login().then(()=>commInit())">&#128275; Sign in with Google</button></div>
 
-    <!-- ── STUDY GROUPS (standalone tab) ── -->
-    <div id="groups-view" class="content-body">
-        <div id="groups-auth-wall" class="comm-auth-wall" style="display:none">
-            <h3>&#128101; Study Groups</h3>
-            <p>Sign in with Google to create and join study groups with fellow JEE aspirants.</p>
-            <button class="comm-login-btn" onclick="login().then(()=>groupsInit())">&#128275; Sign in with Google</button>
+        <!-- Sub-tabs -->
+        <div class="comm-subtabs" id="comm-subtabs-bar">
+            <button class="comm-subtab active" id="cst-forum" onclick="switchCommTab('forum',this)">&#128101; Doubts Forum</button>
+            <button class="comm-subtab" id="cst-groups" onclick="switchCommTab('groups',this)">&#128101; Study Groups</button>
         </div>
-        <div id="groups-main-content">
+
+        <!-- ── DOUBTS FORUM PANEL ── -->
+        <div class="comm-panel active" id="comm-forum-panel">
+            <div id="comm-post-section" style="display:none">
+                <div class="comm-post-card">
+                    <div class="comm-post-title">&#10067; Post a Doubt</div>
+                    <div class="comm-input-row"><select class="comm-subject-sel" id="comm-subject"><option value="Physics">Physics</option><option value="Chemistry">Chemistry</option><option value="Mathematics">Mathematics</option><option value="General">General</option></select><select class="comm-subject-sel" id="comm-chapter"><option value="">Chapter (optional)</option></select></div>
+                    <textarea class="comm-doubt-input" id="comm-doubt-text" placeholder="Describe your doubt clearly..."></textarea>
+                    <button class="comm-post-btn" id="comm-post-btn" onclick="commPostDoubt()">&#128161; Post Doubt</button>
+                    <div style="clear:both"></div>
+                </div>
+            </div>
+            <div class="comm-layout">
+                <div>
+                    <div class="comm-filter-bar">
+                        <button class="comm-filter-btn active" onclick="commSetFilter('all',this)">All</button>
+                        <button class="comm-filter-btn" onclick="commSetFilter('unsolved',this)">&#128308; Unsolved</button>
+                        <button class="comm-filter-btn" onclick="commSetFilter('solved',this)">&#9989; Solved</button>
+                        <button class="comm-filter-btn" onclick="commSetFilter('mine',this)">&#128100; My Doubts</button>
+                        <input class="comm-search-input" type="text" id="comm-search" placeholder="Search doubts..." oninput="commRender()">
+                    </div>
+                    <div class="comm-doubts-list" id="comm-doubts-list"><div class="comm-loading"><span class="spin">&#9654;</span><br>Loading doubts...</div></div>
+                </div>
+                <div class="comm-sidebar">
+                    <div class="comm-side-card">
+                        <div class="comm-side-title">&#128202; Forum Stats</div>
+                        <div class="comm-stat-row"><span class="comm-stat-lbl">Total Doubts</span><span class="comm-stat-val" id="cs-total" style="color:var(--accent)">&#8212;</span></div>
+                        <div class="comm-stat-row"><span class="comm-stat-lbl">Solved</span><span class="comm-stat-val" id="cs-solved" style="color:#10b981">&#8212;</span></div>
+                        <div class="comm-stat-row"><span class="comm-stat-lbl">Unsolved</span><span class="comm-stat-val" id="cs-unsolved" style="color:#f59e0b">&#8212;</span></div>
+                        <div class="comm-stat-row"><span class="comm-stat-lbl">Total Replies</span><span class="comm-stat-val" id="cs-replies" style="color:#8b5cf6">&#8212;</span></div>
+                    </div>
+                    <div class="comm-side-card"><div class="comm-side-title">&#127942; Top Helpers</div><div id="cs-top-helpers"><span style="color:var(--text-secondary);font-size:0.78rem">Loading...</span></div></div>
+                    <div class="comm-side-card" style="background:rgba(59,130,246,0.06);border-color:rgba(59,130,246,0.2)"><div class="comm-side-title" style="color:var(--accent)">&#128161; Tips</div><ul style="font-size:0.75rem;color:var(--text-secondary);line-height:1.8;padding-left:1rem"><li>Be specific &#8212; mention chapter + concept</li><li>Mark a reply as &#9989; solved to help others</li><li>Search before posting to avoid duplicates</li><li>Help others &#8212; it reinforces your own concepts!</li></ul></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── STUDY GROUPS PANEL ── -->
+        <div class="comm-panel" id="comm-groups-panel">
             <div class="groups-top">
                 <div>
                     <h2>&#128101; Study Groups</h2>
@@ -869,6 +935,110 @@ window.saveToFirebase = async function () { if (!window.currentUser) return; awa
                 </div>
             </div>
             <button class="cgm-submit" id="cgm-submit-btn" onclick="createGroup()">&#10003; Create Group</button>
+        </div>
+    </div>
+
+    <!-- ── FRIENDS TAB ── -->
+    <div id="friends-view" class="content-body">
+        <div id="friends-auth-wall" class="comm-auth-wall" style="display:none">
+            <h3>&#128101; Friends</h3>
+            <p>Sign in to search for friends, send requests, and see each other's JEE progress.</p>
+            <button class="comm-login-btn" onclick="login().then(()=>friendsInit())">&#128275; Sign in with Google</button>
+        </div>
+        <div id="friends-main" style="display:none">
+            <div class="friends-layout">
+                <div>
+                    <!-- Incoming requests -->
+                    <div class="requests-section" id="incoming-requests-section" style="display:none">
+                        <div class="requests-header">&#128235; Friend Requests <span class="req-badge" id="req-count">0</span></div>
+                        <div id="incoming-requests-list"></div>
+                    </div>
+                    <!-- Search -->
+                    <div class="friends-search-card">
+                        <div class="friends-search-title">&#128269; Find Friends</div>
+                        <div class="friends-search-row">
+                            <input class="friends-search-input" id="friends-search-input" type="text" placeholder="Search by name or email..." oninput="friendsSearch(this.value)">
+                        </div>
+                        <div class="friends-search-results" id="friends-search-results"></div>
+                    </div>
+                    <!-- Friends list -->
+                    <div class="friends-list-section">
+                        <div class="friends-list-header">&#128101; My Friends <span id="friends-count" style="font-size:0.72rem;color:var(--text-secondary);font-weight:600;margin-left:auto">0 friends</span></div>
+                        <div id="friends-list-body"><div class="friends-empty">You have no friends yet.<br>Search above to find and add people!</div></div>
+                    </div>
+                </div>
+                <!-- Sidebar -->
+                <div class="friends-sidebar">
+                    <div class="friends-side-card">
+                        <div class="friends-side-title">&#128202; Your Stats</div>
+                        <div style="margin-bottom:10px;">
+                            <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-secondary);font-weight:800;margin-bottom:4px;">Mains Readiness</div>
+                            <div style="display:flex;align-items:center;gap:10px;">
+                                <div style="flex:1;height:7px;background:rgba(255,255,255,0.06);border-radius:10px;overflow:hidden;"><div id="fsd-mains-bar" style="height:100%;background:var(--mains);border-radius:10px;width:0%;transition:width 0.5s;"></div></div>
+                                <span id="fsd-mains-pct" style="font-size:0.8rem;font-weight:800;color:var(--mains);min-width:36px;text-align:right;">0%</span>
+                            </div>
+                        </div>
+                        <div style="margin-bottom:10px;">
+                            <div style="font-size:0.65rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-secondary);font-weight:800;margin-bottom:4px;">Advanced Mastery</div>
+                            <div style="display:flex;align-items:center;gap:10px;">
+                                <div style="flex:1;height:7px;background:rgba(255,255,255,0.06);border-radius:10px;overflow:hidden;"><div id="fsd-adv-bar" style="height:100%;background:var(--adv);border-radius:10px;width:0%;transition:width 0.5s;"></div></div>
+                                <span id="fsd-adv-pct" style="font-size:0.8rem;font-weight:800;color:var(--adv);min-width:36px;text-align:right;">0%</span>
+                            </div>
+                        </div>
+                        <div style="font-size:0.68rem;color:var(--text-secondary);margin-top:8px;font-weight:600;">Your friends can see these stats when they view your profile.</div>
+                    </div>
+                    <div class="friends-side-card" style="background:rgba(59,130,246,0.06);border-color:rgba(59,130,246,0.2)">
+                        <div class="friends-side-title" style="color:var(--accent)">&#128161; Tips</div>
+                        <ul style="font-size:0.75rem;color:var(--text-secondary);line-height:1.8;padding-left:1rem">
+                            <li>Search by exact name or email</li>
+                            <li>Click a friend to see their progress</li>
+                            <li>Friends can only see your stage counts, not specific notes</li>
+                            <li>Keep updating your stages — motivate each other!</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Friend profile modal -->
+    <div id="friend-profile-modal">
+        <div class="fpm-box">
+            <div class="fpm-header">
+                <div id="fpm-avatar-wrap"></div>
+                <div style="flex:1;min-width:0;">
+                    <div class="fpm-name" id="fpm-name">—</div>
+                    <div class="fpm-email" id="fpm-email">—</div>
+                </div>
+                <button class="fpm-close" onclick="closeFriendProfile()">&#10005;</button>
+            </div>
+            <div class="fpm-body">
+                <div class="fpm-stats-grid">
+                    <div class="fpm-stat-chip"><div class="fpm-stat-label">Mains Readiness</div><div class="fpm-stat-val" id="fpm-mains" style="color:var(--mains)">—</div></div>
+                    <div class="fpm-stat-chip"><div class="fpm-stat-label">Advanced Mastery</div><div class="fpm-stat-val" id="fpm-adv" style="color:var(--adv)">—</div></div>
+                </div>
+                <div class="fpm-section-title">Subject Progress</div>
+                <div class="fpm-subject-row">
+                    <div class="fpm-subject-label">&#9889; Physics</div>
+                    <div class="fpm-subject-bar"><div class="fpm-subject-bar-fill" id="fpm-phy-bar" style="background:#60a5fa;width:0%"></div></div>
+                    <div class="fpm-subject-pct" id="fpm-phy-pct" style="color:#60a5fa">0%</div>
+                </div>
+                <div class="fpm-subject-row">
+                    <div class="fpm-subject-label">&#129514; Chemistry</div>
+                    <div class="fpm-subject-bar"><div class="fpm-subject-bar-fill" id="fpm-chem-bar" style="background:#34d399;width:0%"></div></div>
+                    <div class="fpm-subject-pct" id="fpm-chem-pct" style="color:#34d399">0%</div>
+                </div>
+                <div class="fpm-subject-row">
+                    <div class="fpm-subject-label">&#128208; Maths</div>
+                    <div class="fpm-subject-bar"><div class="fpm-subject-bar-fill" id="fpm-math-bar" style="background:#f59e0b;width:0%"></div></div>
+                    <div class="fpm-subject-pct" id="fpm-math-pct" style="color:#f59e0b">0%</div>
+                </div>
+                <div style="margin-top:16px;padding:12px 16px;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid var(--border);">
+                    <div class="fpm-section-title" style="margin-bottom:8px;">Total Points</div>
+                    <div id="fpm-score" style="font-size:1.8rem;font-weight:800;color:var(--adv);">—</div>
+                </div>
+                <button class="fpm-unfriend-btn" id="fpm-unfriend-btn" onclick="fpmUnfriend()">&#128536; Remove Friend</button>
+            </div>
         </div>
     </div>
 </main>
@@ -1020,49 +1190,22 @@ window.saveToFirebase = async function () { if (!window.currentUser) return; awa
 
     function init() { render(); updateStats(); loadVault(); renderTests(); renderTargets(); document.getElementById('targets-panel').classList.toggle('collapsed',panelCollapsed); updateTabTitle(); if (typeof Notification!=='undefined'&&Notification.permission==='granted') startNotificationReminders(); setTimeout(renderNotifBanner,500); }
 
-    // All views that can be shown
-    const ALL_VIEWS = ['syllabus-view','vault-view','backlog-view','mains-view','advanced-view','pomodoro-view','community-view','groups-view'];
-
-    function switchTab(tab, el) {
-        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    function switchTab(tab,el) {
+        document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
         el.classList.add('active');
-        ALL_VIEWS.forEach(id => { document.getElementById(id).classList.remove('active'); });
-        document.getElementById('cls-toggle-box').style.display = 'none';
-
-        if (tab === 'vault') {
-            document.getElementById('view-title').innerText = "Study Vault";
-            document.getElementById('vault-view').classList.add('active');
-        } else if (tab === 'backlog') {
-            document.getElementById('view-title').innerText = "Study Backlog";
-            document.getElementById('backlog-view').classList.add('active');
-            renderBacklog();
-        } else if (tab === 'community') {
-            document.getElementById('view-title').innerText = 'Doubts Forum';
-            document.getElementById('community-view').classList.add('active');
-            commInit();
-        } else if (tab === 'groups') {
-            document.getElementById('view-title').innerText = 'Study Groups';
-            document.getElementById('groups-view').classList.add('active');
-            groupsInit();
-        } else if (tab === 'pomodoro') {
-            document.getElementById('view-title').innerText = 'Pomodoro Timer';
-            document.getElementById('pomodoro-view').classList.add('active');
-            seqRender(); pomSyncToSeq(); pomRenderLog();
-        } else if (tab === 'mains') {
-            document.getElementById('view-title').innerText = "JEE Mains";
-            document.getElementById('mains-view').classList.add('active');
-            renderTests();
-        } else if (tab === 'advanced') {
-            document.getElementById('view-title').innerText = "JEE Advanced";
-            document.getElementById('advanced-view').classList.add('active');
-            renderTests();
-        } else {
-            curTab = tab;
-            document.getElementById('view-title').innerText = tab;
-            document.getElementById('cls-toggle-box').style.display = 'flex';
-            document.getElementById('syllabus-view').classList.add('active');
-            render(); updateStats();
+        ['syllabus-view','vault-view','backlog-view','mains-view','advanced-view','pomodoro-view','community-view','friends-view'].forEach(id=>{document.getElementById(id).classList.remove('active');});
+        document.getElementById('cls-toggle-box').style.display='none';
+        if (tab==='vault'){document.getElementById('view-title').innerText="Study Vault";document.getElementById('vault-view').classList.add('active');}
+        else if (tab==='backlog'){document.getElementById('view-title').innerText="Study Backlog";document.getElementById('backlog-view').classList.add('active');renderBacklog();}
+        else if (tab==='community'){document.getElementById('view-title').innerText='Doubts Forum';document.getElementById('community-view').classList.add('active');commInit();} else if (tab === 'friends') {
+            document.getElementById('view-title').innerText = 'Friends';
+            document.getElementById('friends-view').classList.add('active');
+            friendsInit();
         }
+        else if (tab==='pomodoro'){document.getElementById('view-title').innerText='Pomodoro Timer';document.getElementById('pomodoro-view').classList.add('active');seqRender();pomSyncToSeq();pomRenderLog();}
+        else if (tab==='mains'){document.getElementById('view-title').innerText="JEE Mains";document.getElementById('mains-view').classList.add('active');renderTests();}
+        else if (tab==='advanced'){document.getElementById('view-title').innerText="JEE Advanced";document.getElementById('advanced-view').classList.add('active');renderTests();}
+        else{curTab=tab;document.getElementById('view-title').innerText=tab;document.getElementById('cls-toggle-box').style.display='flex';document.getElementById('syllabus-view').classList.add('active');render();updateStats();}
     }
 
     function setClass(c){curCls=c;document.getElementById('btn11').classList.toggle('active',c==='11');document.getElementById('btn12').classList.toggle('active',c==='12');render();}
@@ -1115,7 +1258,7 @@ window.saveToFirebase = async function () { if (!window.currentUser) return; awa
     function toggleUnit(id){if(openUnits.has(id))openUnits.delete(id);else openUnits.add(id);render();}
     function setStage(id,s){if(store[id]?.stage===s)store[id].stage='Pending';else store[id]={...store[id],stage:s};save();render();updateStats();}
     function editNote(id){const val=prompt("Chapter Note/Formula:",store[id]?.note||"");if(val!==null){store[id]={...store[id],note:val};save();render();}}
-    function save(){localStorage.setItem('jee_command_v10',JSON.stringify(store));if(window.saveToFirebase)window.saveToFirebase();}
+    function save(){localStorage.setItem('jee_command_v10',JSON.stringify(store));if(window.saveToFirebase)window.saveToFirebase();if(window.currentUser&&window.writeUserProfile)window.writeUserProfile(window.currentUser);}
 
     let vaultData=null,vaultActiveTab='notes',vaultImgTargetSection=null;
     function loadVault(){try{const raw=localStorage.getItem('jee_vault_data_v2');vaultData=raw?JSON.parse(raw):null;}catch(e){vaultData=null;}if(!vaultData){const old=localStorage.getItem('jee_vault_data');const oldP=old?JSON.parse(old):{qs:'',nt:''};vaultData={activeTab:'notes',notes:[{id:'n1',name:'Important Notes',text:oldP.nt||'',images:[]},{id:'n2',name:'Revision Summary',text:'',images:[]}],questions:[{id:'q1',name:'Important Questions',text:oldP.qs||'',images:[]},{id:'q2',name:'PYQ Observations',text:'',images:[]}]};}if(!vaultData.notes)vaultData.notes=[{id:'n1',name:'Important Notes',text:'',images:[]}];if(!vaultData.questions)vaultData.questions=[{id:'q1',name:'Important Questions',text:'',images:[]}];vaultActiveTab=vaultData.activeTab||'notes';renderVault();}
@@ -1193,106 +1336,20 @@ window.saveToFirebase = async function () { if (!window.currentUser) return; awa
     function pomClearLog(){if(!confirm("Clear today's session log?"))return;pomLog=[];savePomLog();pomRenderLog();}
     function savePomLog(){localStorage.setItem('pom_log',JSON.stringify(pomLog.filter(e=>e.day===todayStr())));}
 
-    // ── COMMUNITY (Doubts Forum) ──
     let commDoubts=[],commFilter='all',commUnsubscribe=null;
+    // ── COMMUNITY SUB-TAB SWITCHER ──
+    function switchCommTab(tab, btn) {
+        document.querySelectorAll('.comm-subtab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.comm-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById(tab === 'forum' ? 'comm-forum-panel' : 'comm-groups-panel').classList.add('active');
+        if (tab === 'groups') renderGroups();
+    }
+    window.switchCommTab = switchCommTab;
 
-    async function commInit(){
-        const user=window.currentUser;
-        const authWall=document.getElementById('comm-auth-wall');
-        const postSection=document.getElementById('comm-post-section');
-        if(authWall)authWall.style.display=user?'none':'block';
-        if(postSection)postSection.style.display=user?'block':'none';
-        if(!user){document.getElementById('comm-doubts-list').innerHTML='<div class="comm-loading">Sign in to see and post doubts.</div>';return;}
-        commPopulateChapters();
-        if(commUnsubscribe)commUnsubscribe();
-        const{collection,query,orderBy,onSnapshot}=window._fsOps;
-        const q=query(collection(window._db,'doubts'),orderBy('createdAt','desc'));
-        commUnsubscribe=onSnapshot(q,(snapshot)=>{commDoubts=snapshot.docs.map(d=>({id:d.id,...d.data()}));commRender();commUpdateStats();},(err)=>{console.error(err);document.getElementById('comm-doubts-list').innerHTML='<div class="comm-loading">Could not load doubts.</div>';});
-    }
-    function commPopulateChapters(){const subSel=document.getElementById('comm-subject'),chSel=document.getElementById('comm-chapter');if(!subSel||!chSel)return;function refreshChapters(){const sub=subSel.value.toLowerCase(),subData=DATA[sub==='mathematics'?'mathematics':sub];chSel.innerHTML='<option value="">Chapter (optional)</option>';if(!subData)return;Object.entries(subData).forEach(([cls,units])=>{Object.entries(units).forEach(([unit,chapters])=>{const grp=document.createElement('optgroup');grp.label='Class '+cls+' — '+unit;chapters.forEach(ch=>{const opt=document.createElement('option');opt.value=ch.n;opt.textContent=ch.n;grp.appendChild(opt);});chSel.appendChild(grp);});});}subSel.addEventListener('change',refreshChapters);refreshChapters();}
-    // ── Image helpers ──
-    let _doubtImgData=null;
-    function commHandleDoubtImg(input){
-      const file=input.files[0];if(!file)return;
-      if(file.size>4*1024*1024){alert('Image too large (max 4MB). Please compress it first.');input.value='';return;}
-      const reader=new FileReader();
-      reader.onload=e=>{
-        _doubtImgData=e.target.result;
-        const prev=document.getElementById('comm-doubt-img-preview');
-        if(prev)prev.innerHTML=`<span class="img-preview-wrap"><img class="img-preview-thumb" src="${_doubtImgData}"><button class="img-preview-remove" onclick="commClearDoubtImg()" title="Remove">✕</button></span>`;
-      };
-      reader.readAsDataURL(file);
-    }
-    function commClearDoubtImg(){_doubtImgData=null;const prev=document.getElementById('comm-doubt-img-preview');if(prev)prev.innerHTML='';const inp=document.getElementById('comm-doubt-img');if(inp)inp.value='';}
-    function commImgFromFile(inputId,previewId,cb){
-      const input=document.getElementById(inputId);if(!input||!input.files[0])return cb(null);
-      const file=input.files[0];
-      if(file.size>4*1024*1024){alert('Image too large (max 4MB).');input.value='';return cb(null);}
-      const reader=new FileReader();reader.onload=e=>cb(e.target.result);reader.readAsDataURL(file);
-    }
-    function commOpenLightbox(src){const lb=document.createElement('div');lb.className='img-lightbox';lb.innerHTML=`<img src="${src}">`;lb.onclick=()=>lb.remove();document.body.appendChild(lb);}
-    async function commPostDoubt(){
-      const user=window.currentUser;if(!user){alert('Please sign in first.');return;}
-      const text=document.getElementById('comm-doubt-text').value.trim(),subject=document.getElementById('comm-subject').value,chapter=document.getElementById('comm-chapter').value;
-      if(!text&&!_doubtImgData){alert('Please describe your doubt or attach an image.');return;}
-      const btn=document.getElementById('comm-post-btn');btn.disabled=true;btn.textContent='Posting...';
-      try{
-        const{collection,addDoc,serverTimestamp}=window._fsOps;
-        const payload={text,subject,chapter,authorId:user.uid,authorName:user.displayName||'Anonymous',authorPhoto:user.photoURL||null,authorInitial:(user.displayName||'A')[0].toUpperCase(),solved:false,replies:[],createdAt:serverTimestamp()};
-        if(_doubtImgData)payload.image=_doubtImgData;
-        await addDoc(collection(window._db,'doubts'),payload);
-        document.getElementById('comm-doubt-text').value='';
-        commClearDoubtImg();
-      }catch(e){console.error(e);alert('Failed to post. If you attached a large image, try a smaller one.');}
-      btn.disabled=false;btn.textContent='💡 Post Doubt';
-    }
-    async function commPostReply(doubtId){
-      const user=window.currentUser;if(!user){alert('Please sign in to reply.');return;}
-      const ta=document.getElementById('reply-ta-'+doubtId),btn=document.getElementById('reply-btn-'+doubtId);if(!ta)return;
-      const text=ta.value.trim();
-      const imgInput=document.getElementById('reply-img-'+doubtId);
-      const imgPrev=document.getElementById('reply-img-prev-'+doubtId);
-      // get image if attached
-      let imgData=null;
-      if(imgInput&&imgInput.files[0]){
-        imgData=await new Promise(res=>{const r=new FileReader();r.onload=e=>res(e.target.result);r.readAsDataURL(imgInput.files[0]);});
-      }
-      if(!text&&!imgData)return;
-      btn.disabled=true;
-      const reply={text,authorId:user.uid,authorName:user.displayName||'Anonymous',authorInitial:(user.displayName||'A')[0].toUpperCase(),authorPhoto:user.photoURL||null,createdAt:new Date().toISOString()};
-      if(imgData)reply.image=imgData;
-      try{
-        const{doc,updateDoc}=window._fsOps;
-        const doubt=commDoubts.find(d=>d.id===doubtId);
-        const replies=[...(doubt.replies||[]),reply];
-        await updateDoc(doc(window._db,'doubts',doubtId),{replies});
-        ta.value='';
-        if(imgInput)imgInput.value='';
-        if(imgPrev)imgPrev.innerHTML='';
-      }catch(e){console.error(e);alert('Failed to post reply.');}
-      btn.disabled=false;
-    }
-    async function commMarkSolved(doubtId,replyIdx){const user=window.currentUser;if(!user)return;const doubt=commDoubts.find(d=>d.id===doubtId);if(!doubt||doubt.authorId!==user.uid){alert('Only the person who posted the doubt can mark it as solved.');return;}try{const{doc,updateDoc}=window._fsOps;await updateDoc(doc(window._db,'doubts',doubtId),{solved:true,solvedByReply:replyIdx});}catch(e){console.error(e);}}
-    async function commDeleteDoubt(doubtId){const user=window.currentUser;if(!user)return;const doubt=commDoubts.find(d=>d.id===doubtId);if(!doubt||doubt.authorId!==user.uid){alert('You can only delete your own doubts.');return;}if(!confirm('Delete this doubt and all its replies?'))return;try{const{doc,deleteDoc}=window._fsOps;await deleteDoc(doc(window._db,'doubts',doubtId));}catch(e){console.error(e);alert('Failed to delete.');}}
-    function commSetFilter(f,btn){commFilter=f;document.querySelectorAll('.comm-filter-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');commRender();}
-    function commFmtTime(ts){if(!ts)return'';const d=ts.toDate?ts.toDate():new Date(ts);const now=Date.now(),diff=Math.floor((now-d.getTime())/1000);if(diff<60)return'just now';if(diff<3600)return Math.floor(diff/60)+'m ago';if(diff<86400)return Math.floor(diff/3600)+'h ago';return d.toLocaleDateString('en-IN',{day:'numeric',month:'short'});}
-    function commRender(){const list=document.getElementById('comm-doubts-list');if(!list)return;const user=window.currentUser,search=(document.getElementById('comm-search')?.value||'').toLowerCase();let filtered=commDoubts.filter(d=>{if(commFilter==='solved'&&!d.solved)return false;if(commFilter==='unsolved'&&d.solved)return false;if(commFilter==='mine'&&(!user||d.authorId!==user.uid))return false;if(search&&!d.text.toLowerCase().includes(search)&&!d.subject.toLowerCase().includes(search)&&!(d.chapter||'').toLowerCase().includes(search))return false;return true;});if(!filtered.length){list.innerHTML='<div class="comm-loading" style="padding:40px">No doubts found.</div>';return;}list.innerHTML=filtered.map(d=>{const isOwn=user&&d.authorId===user.uid,replies=d.replies||[];const subClass=d.subject==='Chemistry'?'chem':d.subject==='Mathematics'?'math':'';const avatar=d.authorPhoto?`<img class="doubt-avatar" src="${d.authorPhoto}" alt="${d.authorName}">`:`<div class="doubt-avatar-placeholder">${d.authorInitial||'?'}</div>`;const doubtImg=d.image?`<img class="doubt-image" src="${d.image}" alt="doubt image" onclick="commOpenLightbox(this.src)">`: '';const repliesHtml=replies.map((r,ri)=>{const rav=r.authorPhoto?`<img class="doubt-avatar" src="${r.authorPhoto}" alt="${r.authorName}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;">`:`<div class="reply-avatar-placeholder">${r.authorInitial||'?'}</div>`;const isSolvedReply=d.solved&&d.solvedByReply===ri;const replyImg=r.image?`<img class="reply-image" src="${r.image}" alt="solution image" onclick="commOpenLightbox(this.src)">`: '';return`<div class="reply-item" ${isSolvedReply?'style="background:rgba(16,185,129,0.06)"':''}>${rav}<div class="reply-meta"><div style="display:flex;align-items:center;gap:8px"><span class="reply-author">${r.authorName}</span>${isSolvedReply?'<span style="background:rgba(16,185,129,0.15);color:#10b981;font-size:0.62rem;font-weight:800;padding:2px 8px;border-radius:10px">✅ Accepted Solution</span>':''}<span class="reply-ts">${commFmtTime(r.createdAt)}</span></div><div class="reply-text">${escHtml(r.text)}${replyImg}</div></div>${isOwn&&!d.solved?`<button class="reply-solve-btn" onclick="commMarkSolved('${d.id}',${ri})">✅ Mark Solved</button>`:''}</div>`;}).join('');const replyInput=user?`<div class="reply-input-wrap"><textarea class="reply-textarea" id="reply-ta-${d.id}" placeholder="Write your solution or hint..." rows="2"></textarea><div class="reply-input-bottom"><label class="img-upload-btn" for="reply-img-${d.id}" style="font-size:0.72rem;padding:5px 10px">📎 Image</label><input type="file" id="reply-img-${d.id}" accept="image/*" style="display:none" onchange="(function(el){if(!el.files[0])return;const r=new FileReader();r.onload=e=>{const p=document.getElementById('reply-img-prev-${d.id}');if(p)p.innerHTML='<span class=\\'img-preview-wrap\\'><img class=\\'img-preview-thumb\\' src=\\''+e.target.result+'\\'><button class=\\'img-preview-remove\\' onclick=\\'document.getElementById(\\'reply-img-${d.id}\\').value=\\'\\';this.closest(\\'.img-preview-wrap\\').remove()\\'>✕</button></span>';};r.readAsDataURL(el.files[0]);})(this)"><span id="reply-img-prev-${d.id}"></span><div style="flex:1"></div><button class="reply-send-btn" id="reply-btn-${d.id}" onclick="commPostReply('${d.id}')">Send</button></div></div>`:`<div style="padding:10px 16px;font-size:0.75rem;color:var(--text-secondary)">Sign in to reply.</div>`;return`<div class="doubt-card ${d.solved?'solved':'unsolved'}" id="dc-${d.id}"><div class="doubt-card-head">${avatar}<div class="doubt-meta"><div class="doubt-author">${d.authorName}</div><div class="doubt-timestamp">${commFmtTime(d.createdAt)}</div></div><span class="doubt-subject-tag ${subClass}">${d.subject}${d.chapter?' · '+d.chapter:''}</span></div><div class="doubt-body"><div class="doubt-text">${escHtml(d.text)}${doubtImg}</div></div><div class="doubt-actions"><span class="doubt-solved-badge ${d.solved?'solved-badge':'unsolved-badge'}">${d.solved?'✅ Solved':'⚠️ Unsolved'}</span><span class="doubt-reply-count">${replies.length} repl${replies.length===1?'y':'ies'}</span><button class="doubt-toggle-reply" onclick="commToggleReplies('${d.id}')">${replies.length?'💬 View Replies':'💬 Reply'}</button>${isOwn?`<button class="doubt-del-btn" onclick="commDeleteDoubt('${d.id}')">🗑</button>`:''}</div><div class="doubt-replies" id="dr-${d.id}" style="display:none">${repliesHtml}${replyInput}</div></div>`;}).join('');}
-    function commToggleReplies(doubtId){const el=document.getElementById('dr-'+doubtId);if(!el)return;const open=el.style.display==='none';el.style.display=open?'block':'none';if(open){const ta=document.getElementById('reply-ta-'+doubtId);if(ta)setTimeout(()=>ta.focus(),50);}}
-    function commUpdateStats(){const total=commDoubts.length,solved=commDoubts.filter(d=>d.solved).length,replies=commDoubts.reduce((a,d)=>a+(d.replies||[]).length,0);const el=id=>document.getElementById(id);if(el('cs-total'))el('cs-total').textContent=total;if(el('cs-solved'))el('cs-solved').textContent=solved;if(el('cs-unsolved'))el('cs-unsolved').textContent=total-solved;if(el('cs-replies'))el('cs-replies').textContent=replies;const helperMap={};commDoubts.forEach(d=>{(d.replies||[]).forEach(r=>{if(!helperMap[r.authorName])helperMap[r.authorName]=0;helperMap[r.authorName]++;});});const top=Object.entries(helperMap).sort((a,b)=>b[1]-a[1]).slice(0,5);const topEl=document.getElementById('cs-top-helpers');if(topEl){if(!top.length){topEl.innerHTML='<span style="color:var(--text-secondary);font-size:0.78rem">No replies yet.</span>';return;}topEl.innerHTML=top.map(([name,count],i)=>`<div class="comm-top-item"><span class="comm-top-rank">${['🥇','🥈','🥉','4.','5.'][i]}</span><span class="comm-top-name">${name}</span><span class="comm-top-count">${count} rep${count===1?'ly':'lies'}</span></div>`).join('');}}
-
-    // ── STUDY GROUPS (standalone) ──
-    let groupsList=[], groupFilter='all', groupsUnsubscribe=null, activeGroupId=null, groupMsgUnsubscribe=null;
-    let selectedGroupEmoji='👥', selectedGroupType='public';
-
-    function groupsInit() {
-        const user = window.currentUser;
-        const authWall = document.getElementById('groups-auth-wall');
-        const mainContent = document.getElementById('groups-main-content');
-        if (authWall) authWall.style.display = user ? 'none' : 'block';
-        if (mainContent) mainContent.style.display = user ? 'block' : 'none';
-        if (!user) { document.getElementById('groups-list').innerHTML = ''; return; }
-        listenGroups();
-    }
+    // ── STUDY GROUPS ──
+    let groupsList = [], groupFilter = 'all', groupsUnsubscribe = null, activeGroupId = null, groupMsgUnsubscribe = null;
+    let selectedGroupEmoji = '👥', selectedGroupType = 'public';
 
     function selectGroupEmoji(btn, emoji) {
         document.querySelectorAll('.cgm-emoji-btn').forEach(b => b.classList.remove('selected'));
@@ -1304,6 +1361,7 @@ window.saveToFirebase = async function () { if (!window.currentUser) return; awa
         document.getElementById('cgm-public-btn').classList.toggle('selected', type === 'public');
         document.getElementById('cgm-private-btn').classList.toggle('selected', type === 'private');
     }
+
     function openCreateGroup() {
         if (!window.currentUser) { alert('Please sign in to create a group.'); return; }
         document.getElementById('create-group-modal').classList.add('open');
@@ -1313,6 +1371,7 @@ window.saveToFirebase = async function () { if (!window.currentUser) return; awa
         document.getElementById('cgm-name').value = '';
         document.getElementById('cgm-desc').value = '';
     }
+
     async function createGroup() {
         const user = window.currentUser;
         if (!user) return;
@@ -1327,19 +1386,23 @@ window.saveToFirebase = async function () { if (!window.currentUser) return; awa
                 name, desc, emoji: selectedGroupEmoji, type: selectedGroupType,
                 creatorId: user.uid, creatorName: user.displayName || 'Anonymous',
                 members: [{ uid: user.uid, name: user.displayName || 'Anonymous', initial: (user.displayName || 'A')[0].toUpperCase() }],
-                memberIds: [user.uid], createdAt: serverTimestamp()
+                memberIds: [user.uid],
+                createdAt: serverTimestamp()
             });
             closeCreateGroup();
+            // Auto-open the newly created group
             setTimeout(() => openGroupChat(ref.id, name, selectedGroupEmoji, [user.uid]), 600);
         } catch(e) { console.error(e); alert('Failed to create group.'); }
         btn.disabled = false; btn.textContent = '✓ Create Group';
     }
+
     function groupSetFilter(f, btn) {
         groupFilter = f;
-        document.querySelectorAll('#groups-view .comm-filter-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('#comm-groups-panel .comm-filter-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         renderGroups();
     }
+
     function listenGroups() {
         if (groupsUnsubscribe) groupsUnsubscribe();
         const { collection, query, orderBy, onSnapshot } = window._fsOps;
@@ -1347,8 +1410,9 @@ window.saveToFirebase = async function () { if (!window.currentUser) return; awa
         groupsUnsubscribe = onSnapshot(q, snap => {
             groupsList = snap.docs.map(d => ({ id: d.id, ...d.data() }));
             renderGroups();
-        }, err => console.error('Groups error:', err));
+        }, err => { console.error('Groups error:', err); });
     }
+
     function renderGroups() {
         const container = document.getElementById('groups-list');
         if (!container) return;
@@ -1396,6 +1460,7 @@ window.saveToFirebase = async function () { if (!window.currentUser) return; awa
             </div>`;
         }).join('') + '</div>';
     }
+
     async function joinGroup(groupId) {
         const user = window.currentUser;
         if (!user) { alert('Please sign in to join a group.'); return; }
@@ -1408,6 +1473,7 @@ window.saveToFirebase = async function () { if (!window.currentUser) return; awa
             await updateDoc(doc(window._db, 'studyGroups', groupId), { members, memberIds });
         } catch(e) { console.error(e); alert('Failed to join group.'); }
     }
+
     async function leaveGroup(groupId) {
         const user = window.currentUser;
         if (!user || !confirm('Leave this group?')) return;
@@ -1421,6 +1487,7 @@ window.saveToFirebase = async function () { if (!window.currentUser) return; awa
             if (activeGroupId === groupId) closeGroupModal();
         } catch(e) { console.error(e); alert('Failed to leave group.'); }
     }
+
     function openGroupChat(groupId, groupName, emoji, memberIds) {
         activeGroupId = groupId;
         document.getElementById('gm-avatar-el').textContent = emoji || '👥';
@@ -1428,14 +1495,17 @@ window.saveToFirebase = async function () { if (!window.currentUser) return; awa
         document.getElementById('gm-sub-el').textContent = `${memberIds.length} member${memberIds.length !== 1 ? 's' : ''}`;
         document.getElementById('group-modal').classList.add('open');
         document.getElementById('gm-messages-el').innerHTML = '<div class="gm-empty"><span class="spin">▶</span><br>Loading messages...</div>';
+        // Listen to messages
         if (groupMsgUnsubscribe) groupMsgUnsubscribe();
         const { collection, query, orderBy, onSnapshot } = window._fsOps;
         const q = query(collection(window._db, `studyGroups/${groupId}/messages`), orderBy('createdAt', 'asc'));
         groupMsgUnsubscribe = onSnapshot(q, snap => {
-            renderGroupMessages(snap.docs.map(d => ({ id: d.id, ...d.data() })));
-        }, err => console.error('Group messages error:', err));
+            const msgs = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            renderGroupMessages(msgs);
+        }, err => { console.error('Group messages error:', err); });
         setTimeout(() => document.getElementById('gm-input').focus(), 200);
     }
+
     function renderGroupMessages(msgs) {
         const container = document.getElementById('gm-messages-el');
         if (!container) return;
@@ -1456,6 +1526,7 @@ window.saveToFirebase = async function () { if (!window.currentUser) return; awa
         }).join('');
         if (wasAtBottom) container.scrollTop = container.scrollHeight;
     }
+
     async function sendGroupMessage() {
         const user = window.currentUser;
         if (!user || !activeGroupId) return;
@@ -1473,14 +1544,38 @@ window.saveToFirebase = async function () { if (!window.currentUser) return; awa
             });
         } catch(e) { console.error(e); input.value = text; }
     }
+
     function closeGroupModal() {
         document.getElementById('group-modal').classList.remove('open');
         if (groupMsgUnsubscribe) { groupMsgUnsubscribe(); groupMsgUnsubscribe = null; }
         activeGroupId = null;
     }
 
-    function escHtml(str){return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/\n/g,'<br>');}
+    window.openCreateGroup = openCreateGroup;
+    window.closeCreateGroup = closeCreateGroup;
+    window.createGroup = createGroup;
+    window.selectGroupEmoji = selectGroupEmoji;
+    window.selectGroupType = selectGroupType;
+    window.groupSetFilter = groupSetFilter;
+    window.renderGroups = renderGroups;
+    window.joinGroup = joinGroup;
+    window.leaveGroup = leaveGroup;
+    window.openGroupChat = openGroupChat;
+    window.sendGroupMessage = sendGroupMessage;
+    window.closeGroupModal = closeGroupModal;
 
+    async function commInit(){const user=window.currentUser;const authWall=document.getElementById('comm-auth-wall'),postSection=document.getElementById('comm-post-section');if(authWall)authWall.style.display=user?'none':'block';if(postSection)postSection.style.display=user?'block':'none';if(!user){document.getElementById('comm-doubts-list').innerHTML='<div class="comm-loading">Sign in to see and post doubts.</div>';renderGroups();return;}commPopulateChapters();listenGroups();if(commUnsubscribe)commUnsubscribe();const{collection,query,orderBy,onSnapshot}=window._fsOps;const db=window._db;const q=query(collection(db,'doubts'),orderBy('createdAt','desc'));commUnsubscribe=onSnapshot(q,(snapshot)=>{commDoubts=snapshot.docs.map(d=>({id:d.id,...d.data()}));commRender();commUpdateStats();},(err)=>{console.error('Doubts listener error:',err);document.getElementById('comm-doubts-list').innerHTML='<div class="comm-loading">Could not load doubts. Check your connection.</div>';});}
+    function commPopulateChapters(){const subSel=document.getElementById('comm-subject'),chSel=document.getElementById('comm-chapter');if(!subSel||!chSel)return;function refreshChapters(){const sub=subSel.value.toLowerCase(),subData=DATA[sub==='mathematics'?'mathematics':sub];chSel.innerHTML='<option value="">Chapter (optional)</option>';if(!subData)return;Object.entries(subData).forEach(([cls,units])=>{Object.entries(units).forEach(([unit,chapters])=>{const grp=document.createElement('optgroup');grp.label='Class '+cls+' — '+unit;chapters.forEach(ch=>{const opt=document.createElement('option');opt.value=ch.n;opt.textContent=ch.n;grp.appendChild(opt);});chSel.appendChild(grp);});});}subSel.addEventListener('change',refreshChapters);refreshChapters();}
+    async function commPostDoubt(){const user=window.currentUser;if(!user){alert('Please sign in first.');return;}const text=document.getElementById('comm-doubt-text').value.trim(),subject=document.getElementById('comm-subject').value,chapter=document.getElementById('comm-chapter').value;if(!text){alert('Please describe your doubt.');return;}const btn=document.getElementById('comm-post-btn');btn.disabled=true;btn.textContent='Posting...';try{const{collection,addDoc,serverTimestamp}=window._fsOps;await addDoc(collection(window._db,'doubts'),{text,subject,chapter,authorId:user.uid,authorName:user.displayName||'Anonymous',authorPhoto:user.photoURL||null,authorInitial:(user.displayName||'A')[0].toUpperCase(),solved:false,replies:[],createdAt:serverTimestamp()});document.getElementById('comm-doubt-text').value='';}catch(e){console.error(e);alert('Failed to post. Make sure Firestore rules allow writes.');}btn.disabled=false;btn.textContent='💡 Post Doubt';}
+    async function commPostReply(doubtId){const user=window.currentUser;if(!user){alert('Please sign in to reply.');return;}const ta=document.getElementById('reply-ta-'+doubtId),btn=document.getElementById('reply-btn-'+doubtId);if(!ta)return;const text=ta.value.trim();if(!text)return;btn.disabled=true;const reply={text,authorId:user.uid,authorName:user.displayName||'Anonymous',authorInitial:(user.displayName||'A')[0].toUpperCase(),authorPhoto:user.photoURL||null,createdAt:new Date().toISOString()};try{const{doc,updateDoc}=window._fsOps;const doubt=commDoubts.find(d=>d.id===doubtId);const replies=[...(doubt.replies||[]),reply];await updateDoc(doc(window._db,'doubts',doubtId),{replies});ta.value='';}catch(e){console.error(e);alert('Failed to post reply.');}btn.disabled=false;}
+    async function commMarkSolved(doubtId,replyIdx){const user=window.currentUser;if(!user)return;const doubt=commDoubts.find(d=>d.id===doubtId);if(!doubt||doubt.authorId!==user.uid){alert('Only the person who posted the doubt can mark it as solved.');return;}try{const{doc,updateDoc}=window._fsOps;await updateDoc(doc(window._db,'doubts',doubtId),{solved:true,solvedByReply:replyIdx});}catch(e){console.error(e);}}
+    async function commDeleteDoubt(doubtId){const user=window.currentUser;if(!user)return;const doubt=commDoubts.find(d=>d.id===doubtId);if(!doubt||doubt.authorId!==user.uid){alert('You can only delete your own doubts.');return;}if(!confirm('Delete this doubt and all its replies?'))return;try{const{doc,deleteDoc}=window._fsOps;await deleteDoc(doc(window._db,'doubts',doubtId));}catch(e){console.error(e);alert('Failed to delete.');}}
+    function commSetFilter(f,btn){commFilter=f;document.querySelectorAll('.comm-filter-btn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');commRender();}
+    function commFmtTime(ts){if(!ts)return'';const d=ts.toDate?ts.toDate():new Date(ts);const now=Date.now(),diff=Math.floor((now-d.getTime())/1000);if(diff<60)return'just now';if(diff<3600)return Math.floor(diff/60)+'m ago';if(diff<86400)return Math.floor(diff/3600)+'h ago';return d.toLocaleDateString('en-IN',{day:'numeric',month:'short'});}
+    function commRender(){const list=document.getElementById('comm-doubts-list');if(!list)return;const user=window.currentUser,search=(document.getElementById('comm-search')?.value||'').toLowerCase();let filtered=commDoubts.filter(d=>{if(commFilter==='solved'&&!d.solved)return false;if(commFilter==='unsolved'&&d.solved)return false;if(commFilter==='mine'&&(!user||d.authorId!==user.uid))return false;if(search&&!d.text.toLowerCase().includes(search)&&!d.subject.toLowerCase().includes(search)&&!(d.chapter||'').toLowerCase().includes(search))return false;return true;});if(!filtered.length){list.innerHTML='<div class="comm-loading" style="padding:40px">No doubts found.</div>';return;}list.innerHTML=filtered.map(d=>{const isOwn=user&&d.authorId===user.uid,replies=d.replies||[];const subClass=d.subject==='Chemistry'?'chem':d.subject==='Mathematics'?'math':'';const avatar=d.authorPhoto?`<img class="doubt-avatar" src="${d.authorPhoto}" alt="${d.authorName}">`:`<div class="doubt-avatar-placeholder">${d.authorInitial||'?'}</div>`;const repliesHtml=replies.map((r,ri)=>{const rav=r.authorPhoto?`<img class="doubt-avatar" src="${r.authorPhoto}" alt="${r.authorName}" style="width:28px;height:28px;border-radius:50%;object-fit:cover;">`:`<div class="reply-avatar-placeholder">${r.authorInitial||'?'}</div>`;const isSolvedReply=d.solved&&d.solvedByReply===ri;return`<div class="reply-item" ${isSolvedReply?'style="background:rgba(16,185,129,0.06)"':''}>${rav}<div class="reply-meta"><div style="display:flex;align-items:center;gap:8px"><span class="reply-author">${r.authorName}</span>${isSolvedReply?'<span style="background:rgba(16,185,129,0.15);color:#10b981;font-size:0.62rem;font-weight:800;padding:2px 8px;border-radius:10px">✅ Accepted Solution</span>':''}<span class="reply-ts">${commFmtTime(r.createdAt)}</span></div><div class="reply-text">${escHtml(r.text)}</div></div>${isOwn&&!d.solved?`<button class="reply-solve-btn" onclick="commMarkSolved('${d.id}',${ri})">✅ Mark Solved</button>`:''}</div>`;}).join('');const replyInput=user?`<div class="reply-input-wrap"><textarea class="reply-textarea" id="reply-ta-${d.id}" placeholder="Write your solution or hint..." rows="2"></textarea><button class="reply-send-btn" id="reply-btn-${d.id}" onclick="commPostReply('${d.id}')">Send</button></div>`:`<div style="padding:10px 16px;font-size:0.75rem;color:var(--text-secondary)">Sign in to reply.</div>`;return`<div class="doubt-card ${d.solved?'solved':'unsolved'}" id="dc-${d.id}"><div class="doubt-card-head">${avatar}<div class="doubt-meta"><div class="doubt-author">${d.authorName}</div><div class="doubt-timestamp">${commFmtTime(d.createdAt)}</div></div><span class="doubt-subject-tag ${subClass}">${d.subject}${d.chapter?' · '+d.chapter:''}</span></div><div class="doubt-body"><div class="doubt-text">${escHtml(d.text)}</div></div><div class="doubt-actions"><span class="doubt-solved-badge ${d.solved?'solved-badge':'unsolved-badge'}">${d.solved?'✅ Solved':'⚠️ Unsolved'}</span><span class="doubt-reply-count">${replies.length} repl${replies.length===1?'y':'ies'}</span><button class="doubt-toggle-reply" onclick="commToggleReplies('${d.id}')">${replies.length?'💬 View Replies':'💬 Reply'}</button>${isOwn?`<button class="doubt-del-btn" onclick="commDeleteDoubt('${d.id}')">🗑</button>`:''}</div><div class="doubt-replies" id="dr-${d.id}" style="display:none">${repliesHtml}${replyInput}</div></div>`;}).join('');}
+    function commToggleReplies(doubtId){const el=document.getElementById('dr-'+doubtId);if(!el)return;const open=el.style.display==='none';el.style.display=open?'block':'none';if(open){const ta=document.getElementById('reply-ta-'+doubtId);if(ta)setTimeout(()=>ta.focus(),50);}}
+    function commUpdateStats(){const total=commDoubts.length,solved=commDoubts.filter(d=>d.solved).length,replies=commDoubts.reduce((a,d)=>a+(d.replies||[]).length,0);const el=id=>document.getElementById(id);if(el('cs-total'))el('cs-total').textContent=total;if(el('cs-solved'))el('cs-solved').textContent=solved;if(el('cs-unsolved'))el('cs-unsolved').textContent=total-solved;if(el('cs-replies'))el('cs-replies').textContent=replies;const helperMap={};commDoubts.forEach(d=>{(d.replies||[]).forEach(r=>{if(!helperMap[r.authorName])helperMap[r.authorName]=0;helperMap[r.authorName]++;});});const top=Object.entries(helperMap).sort((a,b)=>b[1]-a[1]).slice(0,5);const topEl=document.getElementById('cs-top-helpers');if(topEl){if(!top.length){topEl.innerHTML='<span style="color:var(--text-secondary);font-size:0.78rem">No replies yet.</span>';return;}topEl.innerHTML=top.map(([name,count],i)=>`<div class="comm-top-item"><span class="comm-top-rank">${['🥇','🥈','🥉','4.','5.'][i]}</span><span class="comm-top-name">${name}</span><span class="comm-top-count">${count} rep${count===1?'ly':'lies'}</span></div>`).join('');}}
+    function escHtml(str){return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/\n/g,'<br>');}
     function updateAuthUI(user){const loginBtn=document.getElementById('login-btn'),userChip=document.getElementById('user-chip'),userPfp=document.getElementById('user-pfp'),userName=document.getElementById('user-name'),userEmail=document.getElementById('user-email');if(!loginBtn||!userChip)return;if(user){loginBtn.style.display='none';userChip.style.display='flex';if(userPfp){if(user.photoURL){userPfp.src=user.photoURL;userPfp.style.display='block';}else{userPfp.style.display='none';let init=document.getElementById('user-pfp-init');if(!init){init=document.createElement('div');init.id='user-pfp-init';init.style.cssText='width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:800;color:white;border:2px solid var(--accent);flex-shrink:0;';init.textContent=(user.displayName||'U')[0].toUpperCase();userPfp.parentNode.insertBefore(init,userPfp);}}}if(userName)userName.textContent=user.displayName||'User';if(userEmail)userEmail.textContent=user.email||'';}else{loginBtn.style.display='flex';userChip.style.display='none';}}
     async function signOutUser(){try{if(window._signOut)await window._signOut();window.currentUser=null;updateAuthUI(null);document.getElementById('user-dropdown').style.display='none';}catch(e){console.error(e);}}
 
@@ -1488,9 +1583,317 @@ window.saveToFirebase = async function () { if (!window.currentUser) return; awa
 
     async function generateAIPlan(){const hoursInput=document.getElementById('ai-hours-input');const priority=document.getElementById('ai-priority-select').value;const stageGoal=document.getElementById('ai-stage-select').value;const btn=document.getElementById('ai-gen-btn');const output=document.getElementById('ai-plan-output');const hours=parseFloat(hoursInput.value);if(!hours||hours<=0||hours>16){hoursInput.style.borderColor='#ef4444';setTimeout(()=>hoursInput.style.borderColor='',1200);return;}const stageOrder=['Pending','Theory','Examples','Exercise','Mains PYQ','Advance PYQ'];const allChapters=[];Object.keys(DATA).forEach(sub=>{['11','12'].forEach(cls=>{Object.entries(DATA[sub][cls]).forEach(([unit,chapters])=>{chapters.forEach(ch=>{const id=`${sub}-${ch.s}`;const stage=store[id]?.stage||'Pending';const stageIdx=stageOrder.indexOf(stage);allChapters.push({subject:sub,cls,unit,name:ch.n,currentStage:stage,stageIndex:stageIdx,nextStage:stageOrder[stageIdx+1]||null,isComplete:stage==='Advance PYQ'});});});});});const incomplete=allChapters.filter(c=>!c.isComplete);const totalBehind=incomplete.length;const chapterSummary=incomplete.slice(0,60).map(c=>`- ${c.subject.toUpperCase()} Cl.${c.cls} | ${c.unit} | ${c.name} | Currently at: ${c.currentStage}`).join('\n');const priorityDesc={balanced:'balance all three subjects evenly',physics:'prioritise Physics chapters',chemistry:'prioritise Chemistry chapters',mathematics:'prioritise Mathematics chapters',weakest:'prioritise chapters that are at the earliest stage (most behind)',mains:'focus on getting chapters to Mains PYQ coverage',advanced:'focus on getting chapters to Advance PYQ coverage'}[priority];const stageDesc=stageGoal==='next'?'move each chapter to its NEXT stage (e.g. Theory → Examples)':`cover the "${stageGoal}" stage for selected chapters`;const prompt=`You are an expert JEE 2026 study planner AI.\n\nThe student has ${hours} free hours today. Their backlog has ${totalBehind} incomplete chapters.\n\nSTUDENT'S BACKLOG (up to 60 chapters shown):\n${chapterSummary}\n\nINSTRUCTIONS:\n- Priority: ${priorityDesc}\n- Target: ${stageDesc}\n- Total time: ${hours} hours (${hours*60} minutes)\n- Create a realistic plan fitting within ${hours} hours\n- Assign specific time blocks in minutes per task\n- Choose 4-8 tasks maximum\n- Time estimates: Theory=45-60min, Examples=30-45min, Exercise=60-90min, Mains PYQ=60-90min, Advance PYQ=90-120min\n- Include a short motivational tip for each task\n\nRespond ONLY with valid JSON array (no markdown, no explanation):\n[\n  {\n    "taskNumber": 1,\n    "chapterName": "chapter name",\n    "subject": "Physics/Chemistry/Mathematics",\n    "unit": "unit name",\n    "class": "11 or 12",\n    "currentStage": "current stage",\n    "targetStage": "stage to complete",\n    "timeMinutes": 60,\n    "tip": "short tip",\n    "priority": "high/medium/low"\n  }\n]`;btn.disabled=true;btn.innerHTML=`<div style="width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.8s linear infinite"></div> Generating...`;output.classList.add('visible');output.innerHTML=`<div class="ai-loading-state"><div class="ai-loading-ring"></div><div class="ai-loading-text">🤖 AI is analysing your backlog…</div><div class="ai-loading-sub">Scanning ${totalBehind} chapters · Building optimal ${hours}h plan</div></div>`;try{const response=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,messages:[{role:'user',content:prompt}]})});const data=await response.json();const rawText=data.content?.[0]?.text||'';let tasks;try{const cleaned=rawText.replace(/```json|```/g,'').trim();tasks=JSON.parse(cleaned);}catch(e){throw new Error('AI returned unexpected format. Please try again.');}if(!Array.isArray(tasks)||tasks.length===0){throw new Error('No tasks returned. Try adjusting your hours or priority.');}const totalMins=tasks.reduce((a,t)=>a+(t.timeMinutes||0),0);const stageColors={'Theory':{bg:'rgba(59,130,246,0.15)',border:'rgba(59,130,246,0.3)',text:'#60a5fa'},'Examples':{bg:'rgba(99,102,241,0.15)',border:'rgba(99,102,241,0.3)',text:'#818cf8'},'Exercise':{bg:'rgba(16,185,129,0.15)',border:'rgba(16,185,129,0.3)',text:'#34d399'},'Mains PYQ':{bg:'rgba(245,158,11,0.15)',border:'rgba(245,158,11,0.3)',text:'#fbbf24'},'Advance PYQ':{bg:'rgba(239,68,68,0.15)',border:'rgba(239,68,68,0.3)',text:'#f87171'}};const subjectColors={Physics:'#60a5fa',Chemistry:'#34d399',Mathematics:'#f59e0b'};const priorityColors={high:'#ef4444',medium:'#f59e0b',low:'#94a3b8'};let html=`<div class="ai-plan-header"><div class="ai-plan-title">✅ Your ${hours}h Study Plan<span class="ai-badge-large">AI</span></div><div class="ai-plan-meta">${tasks.length} tasks · ${totalMins} min total · Generated by Claude</div></div><div class="ai-total-bar"><div><div style="font-size:0.68rem;color:var(--text-secondary);font-weight:800;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:2px">Time Allocation</div><div style="display:flex;height:8px;border-radius:6px;overflow:hidden;width:300px;background:rgba(255,255,255,0.06);margin-top:6px;">${tasks.map(t=>{const c=stageColors[t.targetStage]||stageColors['Theory'];const pct=((t.timeMinutes/totalMins)*100).toFixed(1);return`<div style="width:${pct}%;background:${c.text};opacity:0.8;" title="${t.chapterName}: ${t.timeMinutes}min"></div>`;}).join('')}</div></div><div style="text-align:right"><div class="ai-total-label">Total study time</div><div class="ai-total-val">${Math.floor(totalMins/60)}h ${totalMins%60}m</div></div></div>`;tasks.forEach((t,i)=>{const sc=stageColors[t.targetStage]||stageColors['Theory'];const subColor=subjectColors[t.subject]||'#94a3b8';const pColor=priorityColors[t.priority]||'#94a3b8';html+=`<div class="ai-task-card" style="animation-delay:${i*0.07}s"><div class="ai-task-header"><div class="ai-task-num">${t.taskNumber||i+1}</div><div class="ai-task-info"><div class="ai-task-name">${t.chapterName}</div><div class="ai-task-sub"><span style="color:${subColor};font-weight:700">${t.subject}</span> &nbsp;·&nbsp; Class ${t.class} &nbsp;·&nbsp; ${t.unit}</div></div><div class="ai-task-time">⏱ ${t.timeMinutes} min</div></div><div class="ai-task-body"><div class="ai-task-desc">${t.tip||''}</div><div class="ai-task-stages"><span class="ai-stage-chip" style="background:rgba(100,116,139,0.15);color:#94a3b8;border:1px solid rgba(100,116,139,0.25)">From: ${t.currentStage}</span><span style="color:var(--text-secondary);font-size:0.7rem;align-self:center">→</span><span class="ai-stage-chip" style="background:${sc.bg};color:${sc.text};border:1px solid ${sc.border}">Target: ${t.targetStage}</span><span class="ai-stage-chip" style="background:${pColor}18;color:${pColor};border:1px solid ${pColor}33;margin-left:auto">${(t.priority||'MEDIUM').toUpperCase()} PRIORITY</span></div></div></div>`;});html+=`<div style="text-align:center;padding:16px;font-size:0.72rem;color:var(--text-secondary)">🤖 Plan generated by Claude AI based on your actual progress data</div>`;output.innerHTML=html;}catch(err){console.error(err);output.innerHTML=`<div class="ai-error-box">⚠️ <strong>Couldn't generate plan:</strong> ${err.message||'Unknown error. Check your connection and try again.'}</div>`;}finally{btn.disabled=false;btn.innerHTML=`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Generate Plan`;}}
 
-    // Expose globals
-    window.render=render;window.updateStats=updateStats;window.renderTests=renderTests;window.switchTab=switchTab;window.setClass=setClass;window.toggleUnit=toggleUnit;window.setStage=setStage;window.editNote=editNote;window.openTestModal=openTestModal;window.closeTestModal=closeTestModal;window.submitTest=submitTest;window.removeTest=removeTest;window.addTarget=addTarget;window.toggleTarget=toggleTarget;window.toggleTargetsPanel=toggleTargetsPanel;window.removeTarget=removeTarget;window.startNotificationReminders=startNotificationReminders;window.saveVault=saveVault;window.vaultSwitchTab=vaultSwitchTab;window.vaultAddSection=vaultAddSection;window.vaultDeleteSection=vaultDeleteSection;window.vaultRenameSection=vaultRenameSection;window.vaultUpdateText=vaultUpdateText;window.vaultTriggerImageUpload=vaultTriggerImageUpload;window.vaultHandleImageUpload=vaultHandleImageUpload;window.vaultDeleteImage=vaultDeleteImage;window.vaultOpenLightbox=vaultOpenLightbox;window.vaultCloseLightbox=vaultCloseLightbox;window.markRevised=markRevised;window.pomToggle=pomToggle;window.pomReset=pomReset;window.pomSkipStep=pomSkipStep;window.pomClearLog=pomClearLog;window.seqAddStep=seqAddStep;window.seqDeleteStep=seqDeleteStep;window.seqUpdateMinutes=seqUpdateMinutes;window.seqUpdateLabel=seqUpdateLabel;window.seqSave=seqSave;window.seqClear=seqClear;window.commHandleDoubtImg=commHandleDoubtImg;window.commClearDoubtImg=commClearDoubtImg;window.commOpenLightbox=commOpenLightbox;window.commInit=commInit;window.commPostDoubt=commPostDoubt;window.commPostReply=commPostReply;window.commMarkSolved=commMarkSolved;window.commDeleteDoubt=commDeleteDoubt;window.commSetFilter=commSetFilter;window.commToggleReplies=commToggleReplies;window.commRender=commRender;window.updateAuthUI=updateAuthUI;window.signOutUser=signOutUser;window.switchBacklogTab=switchBacklogTab;window.generateAIPlan=generateAIPlan;
-    window.groupsInit=groupsInit;window.openCreateGroup=openCreateGroup;window.closeCreateGroup=closeCreateGroup;window.createGroup=createGroup;window.selectGroupEmoji=selectGroupEmoji;window.selectGroupType=selectGroupType;window.groupSetFilter=groupSetFilter;window.renderGroups=renderGroups;window.joinGroup=joinGroup;window.leaveGroup=leaveGroup;window.openGroupChat=openGroupChat;window.sendGroupMessage=sendGroupMessage;window.closeGroupModal=closeGroupModal;
+    window.render=render;window.updateStats=updateStats;window.renderTests=renderTests;window.switchTab=switchTab;window.setClass=setClass;window.toggleUnit=toggleUnit;window.setStage=setStage;window.editNote=editNote;window.openTestModal=openTestModal;window.closeTestModal=closeTestModal;window.submitTest=submitTest;window.removeTest=removeTest;window.addTarget=addTarget;window.toggleTarget=toggleTarget;window.toggleTargetsPanel=toggleTargetsPanel;window.removeTarget=removeTarget;window.startNotificationReminders=startNotificationReminders;window.saveVault=saveVault;window.vaultSwitchTab=vaultSwitchTab;window.vaultAddSection=vaultAddSection;window.vaultDeleteSection=vaultDeleteSection;window.vaultRenameSection=vaultRenameSection;window.vaultUpdateText=vaultUpdateText;window.vaultTriggerImageUpload=vaultTriggerImageUpload;window.vaultHandleImageUpload=vaultHandleImageUpload;window.vaultDeleteImage=vaultDeleteImage;window.vaultOpenLightbox=vaultOpenLightbox;window.vaultCloseLightbox=vaultCloseLightbox;window.markRevised=markRevised;window.pomToggle=pomToggle;window.pomReset=pomReset;window.pomSkipStep=pomSkipStep;window.pomClearLog=pomClearLog;window.seqAddStep=seqAddStep;window.seqDeleteStep=seqDeleteStep;window.seqUpdateMinutes=seqUpdateMinutes;window.seqUpdateLabel=seqUpdateLabel;window.seqSave=seqSave;window.seqClear=seqClear;window.commInit=commInit;window.commPostDoubt=commPostDoubt;window.commPostReply=commPostReply;window.commMarkSolved=commMarkSolved;window.commDeleteDoubt=commDeleteDoubt;window.commSetFilter=commSetFilter;window.commToggleReplies=commToggleReplies;window.commRender=commRender;window.updateAuthUI=updateAuthUI;window.signOutUser=signOutUser;window.switchBacklogTab=switchBacklogTab;window.generateAIPlan=generateAIPlan;
+
+
+    // ── FRIENDS ──
+    let friendsList = [], incomingRequests = [], outgoingRequests = [];
+    let friendsUnsubscribers = [], currentProfileUid = null;
+    let searchDebounce = null;
+
+    // Write user profile to Firestore on login so they're searchable
+    async function writeUserProfile(user) {
+        if (!user || !window._fsOps) return;
+        try {
+            const { doc, setDoc } = window._fsOps;
+            // compute progress stats to store
+            let mDone = 0, aDone = 0, total = 0, gScore = 0;
+            const subScores = { physics: 0, chemistry: 0, mathematics: 0 };
+            const subPossible = { physics: 0, chemistry: 0, mathematics: 0 };
+            Object.keys(DATA).forEach(sub => {
+                ['11','12'].forEach(cls => {
+                    Object.values(DATA[sub][cls]).forEach(chs => {
+                        chs.forEach(ch => {
+                            total++;
+                            const st = store[`${sub}-${ch.s}`]?.stage || 'Pending';
+                            const pts = {Theory:10,Examples:20,Exercise:40,'Mains PYQ':80,'Advance PYQ':200}[st]||0;
+                            gScore += pts; subScores[sub] += pts; subPossible[sub] += 200;
+                            if (st==='Mains PYQ'||st==='Advance PYQ') mDone++;
+                            if (st==='Advance PYQ') aDone++;
+                        });
+                    });
+                });
+            });
+            const profile = {
+                uid: user.uid,
+                displayName: user.displayName || 'Anonymous',
+                email: user.email || '',
+                photoURL: user.photoURL || null,
+                initial: (user.displayName || 'A')[0].toUpperCase(),
+                updatedAt: new Date().toISOString(),
+                stats: {
+                    mains: total > 0 ? Math.round((mDone/total)*100) : 0,
+                    adv:   total > 0 ? Math.round((aDone/total)*100) : 0,
+                    score: gScore,
+                    physics:   subPossible.physics   > 0 ? Math.round((subScores.physics/subPossible.physics)*100)     : 0,
+                    chemistry: subPossible.chemistry > 0 ? Math.round((subScores.chemistry/subPossible.chemistry)*100) : 0,
+                    mathematics: subPossible.mathematics > 0 ? Math.round((subScores.mathematics/subPossible.mathematics)*100) : 0
+                }
+            };
+            await setDoc(doc(window._db, 'users', user.uid), profile, { merge: true });
+        } catch(e) { console.error('writeUserProfile error:', e); }
+    }
+
+    async function friendsInit() {
+        const user = window.currentUser;
+        const authWall = document.getElementById('friends-auth-wall');
+        const main = document.getElementById('friends-main');
+        if (authWall) authWall.style.display = user ? 'none' : 'block';
+        if (main) main.style.display = user ? 'block' : 'none';
+        if (!user) return;
+
+        // Update user profile with latest stats
+        await writeUserProfile(user);
+        updateFriendsSidebar();
+
+        // Unsubscribe old listeners
+        friendsUnsubscribers.forEach(u => u());
+        friendsUnsubscribers = [];
+
+        const { collection, query, where, onSnapshot, orderBy } = window._fsOps;
+        const db = window._db;
+
+        // Listen to accepted friendships where I am party A
+        const q1 = query(collection(db,'friendRequests'), where('fromUid','==',user.uid), where('status','==','accepted'));
+        friendsUnsubscribers.push(onSnapshot(q1, () => refreshFriendsData()));
+
+        // Listen to accepted friendships where I am party B
+        const q2 = query(collection(db,'friendRequests'), where('toUid','==',user.uid), where('status','==','accepted'));
+        friendsUnsubscribers.push(onSnapshot(q2, () => refreshFriendsData()));
+
+        // Listen to incoming pending requests
+        const q3 = query(collection(db,'friendRequests'), where('toUid','==',user.uid), where('status','==','pending'));
+        friendsUnsubscribers.push(onSnapshot(q3, snap => {
+            incomingRequests = snap.docs.map(d => ({id:d.id,...d.data()}));
+            renderIncomingRequests();
+        }));
+
+        // Listen to outgoing pending requests
+        const q4 = query(collection(db,'friendRequests'), where('fromUid','==',user.uid), where('status','==','pending'));
+        friendsUnsubscribers.push(onSnapshot(q4, snap => {
+            outgoingRequests = snap.docs.map(d => ({id:d.id,...d.data()}));
+        }));
+
+        refreshFriendsData();
+    }
+
+    async function refreshFriendsData() {
+        const user = window.currentUser;
+        if (!user) return;
+        const { collection, query, where, getDocs } = window._fsOps;
+        const db = window._db;
+
+        try {
+            // Get all accepted requests involving this user
+            const [snap1, snap2] = await Promise.all([
+                getDocs(query(collection(db,'friendRequests'), where('fromUid','==',user.uid), where('status','==','accepted'))),
+                getDocs(query(collection(db,'friendRequests'), where('toUid','==',user.uid), where('status','==','accepted')))
+            ]);
+
+            const friendUids = new Set();
+            snap1.docs.forEach(d => friendUids.add(d.data().toUid));
+            snap2.docs.forEach(d => friendUids.add(d.data().fromUid));
+
+            if (friendUids.size === 0) { friendsList = []; renderFriendsList(); return; }
+
+            // Fetch each friend's profile from users collection
+            const { doc, getDoc } = window._fsOps;
+            const profiles = await Promise.all([...friendUids].map(uid => getDoc(doc(db,'users',uid))));
+            friendsList = profiles.filter(p => p.exists()).map(p => ({uid: p.id, ...p.data()}));
+            renderFriendsList();
+        } catch(e) { console.error('refreshFriendsData error:', e); }
+    }
+
+    function updateFriendsSidebar() {
+        // Show own stats in the friends sidebar
+        let mDone=0,aDone=0,total=0;
+        Object.keys(DATA).forEach(sub=>{ ['11','12'].forEach(cls=>{ Object.values(DATA[sub][cls]).forEach(chs=>{ chs.forEach(ch=>{ total++; const st=store[`${sub}-${ch.s}`]?.stage||'Pending'; if(st==='Mains PYQ'||st==='Advance PYQ')mDone++; if(st==='Advance PYQ')aDone++; }); }); }); });
+        const mp = total>0?Math.round((mDone/total)*100):0;
+        const ap = total>0?Math.round((aDone/total)*100):0;
+        const mb = document.getElementById('fsd-mains-bar'), mpEl = document.getElementById('fsd-mains-pct');
+        const ab = document.getElementById('fsd-adv-bar'),  apEl = document.getElementById('fsd-adv-pct');
+        if (mb) mb.style.width = mp + '%';
+        if (mpEl) mpEl.textContent = mp + '%';
+        if (ab) ab.style.width = ap + '%';
+        if (apEl) apEl.textContent = ap + '%';
+    }
+
+    async function friendsSearch(query) {
+        clearTimeout(searchDebounce);
+        const resultsEl = document.getElementById('friends-search-results');
+        if (!query || query.trim().length < 2) { if(resultsEl) resultsEl.innerHTML = ''; return; }
+        const q = query.trim().toLowerCase();
+        searchDebounce = setTimeout(async () => {
+            if (!resultsEl) return;
+            resultsEl.innerHTML = '<div style="font-size:0.78rem;color:var(--text-secondary);padding:8px">Searching...</div>';
+            const user = window.currentUser;
+            if (!user) return;
+            try {
+                const { collection, getDocs } = window._fsOps;
+                const snap = await getDocs(collection(window._db, 'users'));
+                const results = snap.docs
+                    .map(d => ({uid: d.id, ...d.data()}))
+                    .filter(u => u.uid !== user.uid &&
+                        (u.displayName?.toLowerCase().includes(q) || u.email?.toLowerCase().includes(q))
+                    ).slice(0, 8);
+
+                if (!results.length) { resultsEl.innerHTML = '<div style="font-size:0.78rem;color:var(--text-secondary);padding:8px">No users found.</div>'; return; }
+
+                const myFriendUids = new Set(friendsList.map(f => f.uid));
+                const myOutgoingUids = new Set(outgoingRequests.map(r => r.toUid));
+
+                resultsEl.innerHTML = results.map(u => {
+                    const isFriend = myFriendUids.has(u.uid);
+                    const isPending = myOutgoingUids.has(u.uid);
+                    const av = u.photoURL
+                        ? `<img class="friend-avatar" src="${u.photoURL}" alt="${u.displayName}">`
+                        : `<div class="friend-avatar-placeholder">${u.initial||'?'}</div>`;
+                    let btn = '';
+                    if (isFriend) btn = `<button class="friend-action-btn fab-friends" disabled>&#10003; Friends</button>`;
+                    else if (isPending) btn = `<button class="friend-action-btn fab-pending" disabled>&#9201; Pending</button>`;
+                    else btn = `<button class="friend-action-btn fab-add" onclick="sendFriendRequest('${u.uid}','${escHtml(u.displayName)}','${u.photoURL||''}','${u.initial||'?'}')">&#43; Add</button>`;
+                    return `<div class="friend-search-item">${av}<div class="friend-info"><div class="friend-name">${escHtml(u.displayName)}</div><div class="friend-email">${escHtml(u.email)}</div></div>${btn}</div>`;
+                }).join('');
+            } catch(e) { console.error(e); resultsEl.innerHTML = '<div style="font-size:0.78rem;color:var(--text-secondary);padding:8px">Search failed. Try again.</div>'; }
+        }, 400);
+    }
+
+    async function sendFriendRequest(toUid, toName, toPhoto, toInitial) {
+        const user = window.currentUser;
+        if (!user) return;
+        try {
+            const { collection, addDoc, serverTimestamp } = window._fsOps;
+            await addDoc(collection(window._db,'friendRequests'), {
+                fromUid: user.uid, toUid,
+                fromName: user.displayName || 'Anonymous',
+                fromPhoto: user.photoURL || null,
+                fromInitial: (user.displayName||'A')[0].toUpperCase(),
+                toName, toPhoto, toInitial,
+                status: 'pending',
+                createdAt: serverTimestamp()
+            });
+            // Refresh search display
+            const inp = document.getElementById('friends-search-input');
+            if (inp) friendsSearch(inp.value);
+        } catch(e) { console.error(e); alert('Failed to send request.'); }
+    }
+
+    async function acceptRequest(reqId) {
+        try {
+            const { doc, updateDoc } = window._fsOps;
+            await updateDoc(doc(window._db,'friendRequests',reqId), { status: 'accepted' });
+        } catch(e) { console.error(e); alert('Failed to accept request.'); }
+    }
+
+    async function declineRequest(reqId) {
+        try {
+            const { doc, updateDoc } = window._fsOps;
+            await updateDoc(doc(window._db,'friendRequests',reqId), { status: 'declined' });
+        } catch(e) { console.error(e); alert('Failed to decline request.'); }
+    }
+
+    function renderIncomingRequests() {
+        const section = document.getElementById('incoming-requests-section');
+        const list = document.getElementById('incoming-requests-list');
+        const badge = document.getElementById('req-count');
+        if (!section || !list) return;
+        const pending = incomingRequests;
+        section.style.display = pending.length ? 'block' : 'none';
+        if (badge) badge.textContent = pending.length;
+        list.innerHTML = pending.map(r => {
+            const av = r.fromPhoto
+                ? `<img class="friend-avatar" src="${r.fromPhoto}" alt="${r.fromName}">`
+                : `<div class="friend-avatar-placeholder">${r.fromInitial||'?'}</div>`;
+            return `<div class="request-item">${av}<div class="request-meta"><div class="friend-name">${escHtml(r.fromName)}</div><div class="friend-email" style="font-size:0.68rem;color:var(--text-secondary)">Wants to be your study buddy</div></div><div class="request-actions"><button class="req-accept-btn" onclick="acceptRequest('${r.id}')">&#10003; Accept</button><button class="req-decline-btn" onclick="declineRequest('${r.id}')">&#10005;</button></div></div>`;
+        }).join('');
+    }
+
+    function renderFriendsList() {
+        const body = document.getElementById('friends-list-body');
+        const countEl = document.getElementById('friends-count');
+        if (!body) return;
+        if (countEl) countEl.textContent = friendsList.length + (friendsList.length === 1 ? ' friend' : ' friends');
+        if (!friendsList.length) { body.innerHTML = '<div class="friends-empty">You have no friends yet.<br>Search above to find and add people!</div>'; return; }
+        body.innerHTML = friendsList.map(f => {
+            const av = f.photoURL
+                ? `<img class="friend-avatar" src="${f.photoURL}" alt="${f.displayName}">`
+                : `<div class="friend-avatar-placeholder">${f.initial||'?'}</div>`;
+            const mains = f.stats?.mains ?? '—';
+            const adv   = f.stats?.adv   ?? '—';
+            return `<div class="friend-list-item" onclick="openFriendProfile('${f.uid}')">
+                ${av}
+                <div class="friend-info">
+                    <div class="friend-name">${escHtml(f.displayName)}</div>
+                    <div class="friend-email">${escHtml(f.email)}</div>
+                </div>
+                <div class="friend-list-stats">
+                    <div class="fls-row">Mains <span class="fls-val" style="color:var(--mains)">${mains}%</span></div>
+                    <div class="fls-row">Adv <span class="fls-val" style="color:var(--adv)">${typeof adv==='number'?adv+'%':'—'}</span></div>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    function openFriendProfile(uid) {
+        const f = friendsList.find(x => x.uid === uid);
+        if (!f) return;
+        currentProfileUid = uid;
+        const av = document.getElementById('fpm-avatar-wrap');
+        if (av) av.innerHTML = f.photoURL
+            ? `<img class="fpm-avatar" src="${f.photoURL}" alt="${f.displayName}">`
+            : `<div class="fpm-avatar-placeholder">${f.initial||'?'}</div>`;
+        const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+        set('fpm-name', f.displayName);
+        set('fpm-email', f.email);
+        const s = f.stats || {};
+        set('fpm-mains', (s.mains ?? '—') + (s.mains !== undefined ? '%' : ''));
+        set('fpm-adv',   (s.adv   ?? '—') + (s.adv   !== undefined ? '%' : ''));
+        set('fpm-score', s.score !== undefined ? s.score.toLocaleString() + ' pts' : '—');
+
+        const subMap = [
+            ['fpm-phy-bar',  'fpm-phy-pct',  s.physics,     '#60a5fa'],
+            ['fpm-chem-bar', 'fpm-chem-pct', s.chemistry,   '#34d399'],
+            ['fpm-math-bar', 'fpm-math-pct', s.mathematics, '#f59e0b'],
+        ];
+        subMap.forEach(([barId, pctId, val, color]) => {
+            const bar = document.getElementById(barId), pct = document.getElementById(pctId);
+            if (bar) bar.style.width = (val || 0) + '%';
+            if (pct) pct.textContent = (val !== undefined ? val + '%' : '—');
+        });
+        document.getElementById('friend-profile-modal').classList.add('open');
+    }
+
+    function closeFriendProfile() {
+        document.getElementById('friend-profile-modal').classList.remove('open');
+        currentProfileUid = null;
+    }
+
+    async function fpmUnfriend() {
+        const user = window.currentUser;
+        if (!user || !currentProfileUid || !confirm('Remove this friend?')) return;
+        try {
+            const { collection, query, where, getDocs, doc, updateDoc } = window._fsOps;
+            const db = window._db;
+            // Find the friendship record
+            const [snap1, snap2] = await Promise.all([
+                getDocs(query(collection(db,'friendRequests'), where('fromUid','==',user.uid), where('toUid','==',currentProfileUid), where('status','==','accepted'))),
+                getDocs(query(collection(db,'friendRequests'), where('fromUid','==',currentProfileUid), where('toUid','==',user.uid), where('status','==','accepted')))
+            ]);
+            const allDocs = [...snap1.docs, ...snap2.docs];
+            await Promise.all(allDocs.map(d => updateDoc(doc(db,'friendRequests',d.id), {status:'removed'})));
+            closeFriendProfile();
+        } catch(e) { console.error(e); alert('Failed to remove friend.'); }
+    }
+
+    window.friendsInit = friendsInit;
+    window.friendsSearch = friendsSearch;
+    window.sendFriendRequest = sendFriendRequest;
+    window.acceptRequest = acceptRequest;
+    window.declineRequest = declineRequest;
+    window.openFriendProfile = openFriendProfile;
+    window.closeFriendProfile = closeFriendProfile;
+    window.fpmUnfriend = fpmUnfriend;
+    window.writeUserProfile = writeUserProfile;
 
     let desktopSidebarOpen=true;
     function mobToggle(){const aside=document.querySelector('aside');const overlay=document.getElementById('mob-overlay');const isMobile=window.innerWidth<=768;if(isMobile){const isOpen=aside.classList.toggle('mob-open');overlay.classList.toggle('open',isOpen);}else{desktopSidebarOpen=!desktopSidebarOpen;aside.classList.toggle('desktop-collapsed',!desktopSidebarOpen);}}

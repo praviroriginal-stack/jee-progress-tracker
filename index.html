@@ -3,12 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="referrer" content="unsafe-url">
 <title>JEE.COMMAND — The Ultimate JEE 2026 Tracker</title>
 <meta name="description" content="Track every chapter, rank against friends, get AI study plans, join community doubts. Free. No install.">
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* ═══ LANDING PAGE ═══ */
+/* ═══ LANDING ═══ */
 
 :root {
   --bg: #030712;
@@ -551,7 +550,7 @@ footer {
 .launch-bar-fill { height:100%; width:0%; background:linear-gradient(90deg,#6366f1,#3b82f6,#06b6d4); border-radius:3px; transition:width .6s cubic-bezier(.4,0,.2,1); }
 .launch-label { font-size:.68rem; color:#475569; font-family:'DM Mono',monospace; letter-spacing:.14em; text-transform:uppercase; }
 
-/* ═══ TRACKER APP ═══ */
+/* ═══ TRACKER ═══ */
 #app-shell { font-family: 'Plus Jakarta Sans', sans-serif; }
 
         :root{
@@ -1846,7 +1845,27 @@ footer {
 
             #app-shell .doubt-actions{ padding: 8px 14px 10px 50px !important; flex-wrap: wrap; gap: 6px; }
 
-            #app-shell #targets-panel{ width: calc(100vw - 32px) !important; right: 16px !important; bottom: 16px !important; }
+            #app-shell #targets-panel{ width: 48px !important; min-width: 48px !important; right: 16px !important; bottom: 16px !important; border-radius: 50% !important; overflow: hidden !important; }
+
+            #app-shell #targets-panel-header{ padding: 0 !important; width: 48px; height: 48px; border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important; border-bottom: none !important; }
+
+            #app-shell #targets-panel-header .tp-full{ display: none !important; }
+
+            #app-shell #targets-panel-header .tp-icon{ display: flex !important; }
+
+            #app-shell #targets-panel.expanded-mobile{ width: calc(100vw - 32px) !important; border-radius: 18px !important; }
+
+            #app-shell #targets-panel.expanded-mobile #targets-panel-header{ width: auto; height: auto; padding: 13px 16px !important; border-radius: 0 !important; border-bottom: 1px solid rgba(16,185,129,0.2) !important; justify-content: space-between !important; }
+
+            #app-shell #targets-panel.expanded-mobile #targets-panel-header .tp-full{ display: flex !important; }
+
+            #app-shell #targets-panel.expanded-mobile #targets-panel-header .tp-icon{ display: none !important; }
+
+            #app-shell #targets-panel.expanded-mobile #targets-panel-body{ display: block !important; }
+
+            #app-shell #targets-panel:not(.expanded-mobile) #targets-panel-body{ display: none !important; }
+
+            #app-shell #targets-panel:not(.expanded-mobile) #targets-panel.collapsed #targets-panel-body{ display: none !important; }
 
         }
         @media (max-width: 420px) {
@@ -1932,7 +1951,6 @@ footer {
 </head>
 <body>
 
-<!-- ══ LANDING PAGE ══ -->
 <div id="landing-page">
 <!-- HERO -->
 <div class="hero">
@@ -2303,14 +2321,12 @@ footer {
 </footer>
 </div>
 
-<!-- ══ LAUNCH OVERLAY ══ -->
 <div id="launch-overlay">
   <div class="launch-logo">JEE.COMMAND</div>
   <div class="launch-bar-wrap"><div class="launch-bar-fill" id="launch-bar"></div></div>
   <div class="launch-label" id="launch-label">Loading your tracker…</div>
 </div>
 
-<!-- ══ TRACKER APP ══ -->
 <div id="app-shell">
 <body>
 
@@ -2470,6 +2486,7 @@ footer {
                 <p class="ai-hours-subtitle">Tell the AI how many free hours you have today. It will scan your entire backlog and build the most effective study plan, chapter by chapter, with time estimates.</p>
                 <div class="ai-input-row">
                     <div class="ai-input-group"><label>Free hours today</label><input type="number" id="ai-hours-input" class="ai-hours-input" min="0.5" max="16" step="0.5" value="4" placeholder="e.g. 5"></div>
+                    <div class="ai-input-group"><label>Class filter</label><select id="ai-class-select" class="ai-focus-select"><option value="both">&#128218; Both Class 11 &amp; 12</option><option value="11">&#49;&#49; Class 11 only</option><option value="12">&#49;&#50; Class 12 only</option></select></div>
                     <div class="ai-input-group"><label>Focus priority</label><select id="ai-priority-select" class="ai-focus-select"><option value="balanced">&#9878;&#65039; Balanced (all subjects)</option><option value="physics">&#9889; Physics first</option><option value="chemistry">&#129514; Chemistry first</option><option value="mathematics">&#128208; Mathematics first</option><option value="weakest">&#127919; Weakest chapters first</option><option value="mains">&#128221; Mains PYQ focus</option><option value="advanced">&#127942; Advanced PYQ focus</option></select></div>
                     <div class="ai-input-group"><label>Target stage</label><select id="ai-stage-select" class="ai-focus-select"><option value="next">&#11014;&#65039; Move to next stage</option><option value="Theory">&#128218; Theory</option><option value="Examples">&#128161; Examples</option><option value="Exercise">&#9999;&#65039; Exercise</option><option value="Mains PYQ">&#128221; Mains PYQ</option><option value="Advance PYQ">&#127942; Advance PYQ</option></select></div>
                     <button class="ai-key-btn" id="ai-key-btn" onclick="openAISettings()">⚙️ API Key</button>
@@ -2793,9 +2810,17 @@ footer {
 </main>
 
 <div id="targets-panel">
-    <div id="targets-panel-header">
-        <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:1rem">&#127919;</span><span id="targets-panel-title">Today's Targets</span><span id="targets-done-badge">0/0</span></div>
+    <div id="targets-panel-header" onclick="mobileTargetsToggle()">
+        <!-- Icon-only (mobile collapsed) -->
+        <div class="tp-icon" style="display:none;flex-direction:column;align-items:center;justify-content:center;gap:1px;">
+            <span style="font-size:1.2rem">&#127919;</span>
+            <span id="targets-done-badge-mini" style="font-size:0.55rem;font-weight:800;color:#10b981;line-height:1;">0/0</span>
+        </div>
+        <!-- Full header (desktop + mobile expanded) -->
+        <div class="tp-full" style="display:flex;align-items:center;justify-content:space-between;width:100%;">
+            <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:1rem">&#127919;</span><span id="targets-panel-title">Today's Targets</span><span id="targets-done-badge">0/0</span></div>
         <button id="targets-collapse-btn" onclick="toggleTargetsPanel()" title="Collapse/Expand">&#9660;</button>
+        </div>
     </div>
     <div id="targets-panel-body">
         <div id="targets-list"></div>
@@ -2832,11 +2857,13 @@ footer {
                 <button onclick="closeAISettings()" style="background:transparent;border:1px solid rgba(255,255,255,0.1);color:#94a3b8;width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:0.9rem;">✕</button>
             </div>
             <div style="font-size:0.78rem;color:#94a3b8;margin-bottom:16px;line-height:1.6;">
-                The AI Study Planner uses <strong style="color:#f8fafc;">OpenRouter</strong> — a free API gateway.<br><br>
-                <strong style="color:#10b981;">How to get a free key:</strong><br>
-                1. Go to <a href="https://openrouter.ai" target="_blank" style="color:#3b82f6;">openrouter.ai</a> → create a free account<br>
-                2. Go to <strong>Keys</strong> → <strong>Create Key</strong><br>
-                3. Paste it below — stored only in your browser
+                The AI Planner uses <strong style="color:#f8fafc;">OpenRouter</strong> — a free AI gateway. Each user needs their own free key (takes 1 minute to get). Your key is saved <strong style="color:#f8fafc;">only in your browser</strong> — nobody else can see it.<br><br>
+                <strong style="color:#10b981;">Get your free key:</strong><br>
+                1. Go to <a href="https://openrouter.ai" target="_blank" style="color:#3b82f6;">openrouter.ai</a> → sign up free<br>
+                2. <strong style="color:#f8fafc;">Keys</strong> → Create Key → copy it<br>
+                3. <strong style="color:#f8fafc;">Settings</strong> → "Allowed HTTP Referers" → add your site URL<br>
+                &nbsp;&nbsp;&nbsp;<span style="font-family:monospace;background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:4px;font-size:0.72rem;">https://yourusername.github.io</span><br>
+                4. Paste key below → Save → done! 🎉
             </div>
             <div id="ai-local-warning" style="display:none;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:0.75rem;color:#f59e0b;line-height:1.6;">
                 ⚠️ <strong>You're on a local file.</strong> API calls won't work from <code>file://</code>. Upload to <strong>GitHub Pages</strong> and it works instantly.
@@ -2886,7 +2913,6 @@ window._fsOps = { collection, addDoc, onSnapshot, query, orderBy, where, getDocs
 window.saveToFirebase = async function () { if (!window.currentUser) return; await setDoc(doc(db, "users", window.currentUser.uid), { store: store, tests: tests }); };
 </script>
 
-<!-- Landing JS -->
 <script>
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
@@ -2897,30 +2923,15 @@ document.querySelectorAll('.feat-grid,.big-grid').forEach(grid => {
 });
 
 function launchApp() {
-  const landing = document.getElementById('landing-page');
-  const app     = document.getElementById('app-shell');
-  const overlay = document.getElementById('launch-overlay');
-  const bar     = document.getElementById('launch-bar');
-  const lbl     = document.getElementById('launch-label');
-
-  landing.style.display = 'none';
-  overlay.classList.add('show');
-  setTimeout(() => { bar.style.width = '40%'; }, 50);
-  setTimeout(() => { bar.style.width = '80%'; lbl.textContent = 'Almost there…'; }, 500);
-  setTimeout(() => {
-    bar.style.width = '100%';
-    setTimeout(() => {
-      app.style.display     = 'flex';
-      app.style.visibility  = 'visible';
-      app.style.pointerEvents = 'all';
-      app.style.opacity     = '1';
-      app.style.flexDirection = 'row';
-      overlay.style.opacity = '0';
-      setTimeout(() => overlay.classList.remove('show'), 350);
-      if (typeof init === 'function') init();
-      if (typeof window._attachMobListeners === 'function') window._attachMobListeners();
-    }, 150);
-  }, 900);
+  document.getElementById('landing-page').style.display = 'none';
+  const app = document.getElementById('app-shell');
+  app.style.display = 'flex';
+  app.style.visibility = 'visible';
+  app.style.pointerEvents = 'all';
+  app.style.opacity = '1';
+  app.style.flexDirection = 'row';
+  if (typeof init === 'function') init();
+  if (typeof window._attachMobListeners === 'function') window._attachMobListeners();
 }
 window.launchApp = launchApp;
 
@@ -2930,7 +2941,6 @@ document.querySelectorAll('.hero-cta,[data-launch]').forEach(btn => {
 });
 </script>
 
-<!-- Tracker JS -->
 <script>
 
     const DATA = {
@@ -3369,8 +3379,13 @@ document.querySelectorAll('.hero-cta,[data-launch]').forEach(btn => {
     function renderBacklog(){const list=document.getElementById('backlog-list');const chipsEl=document.getElementById('backlog-summary-chips');const sel=document.getElementById('backlog-filter-select');const filterVal=sel?sel.value:'Theory';const stageOrder=['Pending','Theory','Examples','Exercise','Mains PYQ','Advance PYQ'];const isBehind=(stage,filter)=>{if(filter==='Mastery')return stage!=='Advance PYQ';const fi=stageOrder.indexOf(filter);const si=stageOrder.indexOf(stage===undefined?'Pending':stage);return si<fi;};const subColor={physics:'#60a5fa',chemistry:'#34d399',mathematics:'#f59e0b'};const subIcon={physics:'⚡',chemistry:'🧪',mathematics:'📐'};const groups={};let totalBehind=0,phyBehind=0,chemBehind=0,mathBehind=0;Object.keys(DATA).forEach(sub=>{['11','12'].forEach(cls=>{Object.entries(DATA[sub][cls]).forEach(([unit,chapters])=>{chapters.forEach(ch=>{const id=`${sub}-${ch.s}`;const stage=store[id]?.stage||'Pending';if(!isBehind(stage,filterVal))return;totalBehind++;if(sub==='physics')phyBehind++;if(sub==='chemistry')chemBehind++;if(sub==='mathematics')mathBehind++;if(!groups[`${sub}__${cls}__${unit}`])groups[`${sub}__${cls}__${unit}`]={sub,cls,unit,items:[]};groups[`${sub}__${cls}__${unit}`].items.push({ch,stage});});});});});const filterLabel={Theory:'Theory',Examples:'Examples',Exercise:'Exercise','Mains PYQ':'Mains PYQ','Advance PYQ':'Advance PYQ',Mastery:'Mastery'}[filterVal];if(chipsEl){chipsEl.innerHTML=[{label:'Total Behind',val:totalBehind,color:'#94a3b8'},{label:'⚡ Physics',val:phyBehind,color:'#60a5fa'},{label:'🧪 Chemistry',val:chemBehind,color:'#34d399'},{label:'📐 Maths',val:mathBehind,color:'#f59e0b'}].map(c=>`<div style="background:var(--surface-1);border:1px solid var(--border);border-radius:14px;padding:14px 18px;text-align:center;"><div style="font-size:0.62rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-secondary);font-weight:800;margin-bottom:5px;">${c.label}</div><div style="font-size:1.8rem;font-weight:800;color:${c.color}">${c.val}</div></div>`).join('');}if(totalBehind===0){list.innerHTML=`<div style="text-align:center;padding:60px 20px;color:var(--text-secondary)"><div style="font-size:2.5rem;margin-bottom:12px">🎉</div><div style="font-size:1rem;font-weight:700;color:var(--text-primary);margin-bottom:6px">No backlog for ${filterLabel}!</div><div style="font-size:0.82rem">All chapters have reached this stage. Keep it up!</div></div>`;return;}const sortedKeys=Object.keys(groups).sort((a,b)=>{const[subA,clsA]=a.split('__');const[subB,clsB]=b.split('__');const subOrder=['physics','chemistry','mathematics'];if(subA!==subB)return subOrder.indexOf(subA)-subOrder.indexOf(subB);return clsA.localeCompare(clsB);});let html='',lastSubCls='';sortedKeys.forEach(key=>{const grp=groups[key];if(!grp.items.length)return;const subClsKey=`${grp.sub}__${grp.cls}`;if(subClsKey!==lastSubCls){lastSubCls=subClsKey;html+=`<div style="display:flex;align-items:center;gap:10px;padding:14px 20px 10px;background:rgba(255,255,255,0.025);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:2;backdrop-filter:blur(8px);"><span style="font-size:1rem">${subIcon[grp.sub]}</span><span style="font-size:0.78rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:${subColor[grp.sub]}">${grp.sub} · Class ${grp.cls}</span></div>`;}html+=`<div style="padding:6px 20px 2px;font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-secondary);margin-top:8px;">${grp.unit}</div>`;grp.items.forEach(({ch,stage})=>{const stageColor={Pending:'#475569',Theory:'#3b82f6',Examples:'#6366f1',Exercise:'#10b981','Mains PYQ':'#f59e0b','Advance PYQ':'#3b82f6'}[stage]||'#475569';html+=`<div style="display:flex;align-items:center;justify-content:space-between;padding:11px 20px;border-bottom:1px solid rgba(255,255,255,0.04);transition:background 0.15s;" onmouseenter="this.style.background='rgba(255,255,255,0.03)'" onmouseleave="this.style.background='transparent'"><span style="font-size:0.88rem;font-weight:600;color:var(--text-primary)">${ch.n}</span><span style="font-size:0.65rem;font-weight:800;padding:3px 10px;border-radius:20px;background:${stageColor}22;color:${stageColor};border:1px solid ${stageColor}44;white-space:nowrap;flex-shrink:0;">${stage}</span></div>`;});});list.innerHTML=html;}
 
     let panelCollapsed=JSON.parse(localStorage.getItem('targets_collapsed')||'false');
-    function toggleTargetsPanel(){panelCollapsed=!panelCollapsed;document.getElementById('targets-panel').classList.toggle('collapsed',panelCollapsed);localStorage.setItem('targets_collapsed',panelCollapsed);}
-    function renderTargets(){const list=document.getElementById('targets-list');const badge=document.getElementById('targets-done-badge');const done=targets.filter(t=>t.checked).length;badge.textContent=done+'/'+targets.length;if(!targets.length){list.innerHTML='<div class="t-empty">No targets yet. Add one below!</div>';return;}list.innerHTML=targets.map((t,i)=>`<div class="t-item ${t.checked?'done':''}"><div class="t-check ${t.checked?'checked':''}" onclick="toggleTarget(${i})">${t.checked?'&#10003;':''}</div><span class="t-text">${t.text}</span><button class="t-del" onclick="removeTarget(${i})" title="Remove">&#10005;</button></div>`).join('');document.getElementById('targets-panel').classList.toggle('collapsed',panelCollapsed);}
+    function mobileTargetsToggle(){
+    if(window.innerWidth>768){toggleTargetsPanel();return;}
+    const panel=document.getElementById('targets-panel');
+    panel.classList.toggle('expanded-mobile');
+}
+function toggleTargetsPanel(){panelCollapsed=!panelCollapsed;document.getElementById('targets-panel').classList.toggle('collapsed',panelCollapsed);localStorage.setItem('targets_collapsed',panelCollapsed);}
+    function renderTargets(){const list=document.getElementById('targets-list');const badge=document.getElementById('targets-done-badge');const mini=document.getElementById('targets-done-badge-mini');const done=targets.filter(t=>t.checked).length;badge.textContent=done+'/'+targets.length;if(mini)mini.textContent=done+'/'+targets.length;if(!targets.length){list.innerHTML='<div class="t-empty">No targets yet. Add one below!</div>';return;}list.innerHTML=targets.map((t,i)=>`<div class="t-item ${t.checked?'done':''}"><div class="t-check ${t.checked?'checked':''}" onclick="toggleTarget(${i})">${t.checked?'&#10003;':''}</div><span class="t-text">${t.text}</span><button class="t-del" onclick="removeTarget(${i})" title="Remove">&#10005;</button></div>`).join('');document.getElementById('targets-panel').classList.toggle('collapsed',panelCollapsed);}
     function addTarget(){const input=document.getElementById('new-target');const val=input.value.trim();if(val){targets.push({text:val,checked:false});input.value='';renderTargets();saveTargets();}}
     function toggleTarget(i){targets[i].checked=!targets[i].checked;renderTargets();saveTargets();}
     function removeTarget(i){targets.splice(i,1);renderTargets();saveTargets();}
@@ -4059,9 +4074,16 @@ document.querySelectorAll('.hero-cta,[data-launch]').forEach(btn => {
 
     function switchBacklogTab(tab){const classic=document.getElementById('backlog-classic-panel');const coverage=document.getElementById('ai-coverage-panel');const bstC=document.getElementById('bst-classic');const bstA=document.getElementById('bst-coverage');if(tab==='classic'){classic.classList.remove('hidden');coverage.classList.remove('active');bstC.classList.add('active');bstA.classList.remove('active');renderBacklog();}else{classic.classList.add('hidden');coverage.classList.add('active');bstC.classList.remove('active');bstA.classList.add('active');}}
 
-    async function generateAIPlan(){const hoursInput=document.getElementById('ai-hours-input');const priority=document.getElementById('ai-priority-select').value;const stageGoal=document.getElementById('ai-stage-select').value;const btn=document.getElementById('ai-gen-btn');const output=document.getElementById('ai-plan-output');const hours=parseFloat(hoursInput.value);if(!hours||hours<=0||hours>16){hoursInput.style.borderColor='#ef4444';setTimeout(()=>hoursInput.style.borderColor='',1200);return;}const stageOrder=['Pending','Theory','Examples','Exercise','Mains PYQ','Advance PYQ'];const allChapters=[];Object.keys(DATA).forEach(sub=>{['11','12'].forEach(cls=>{Object.entries(DATA[sub][cls]).forEach(([unit,chapters])=>{chapters.forEach(ch=>{const id=`${sub}-${ch.s}`;const stage=store[id]?.stage||'Pending';const stageIdx=stageOrder.indexOf(stage);allChapters.push({subject:sub,cls,unit,name:ch.n,currentStage:stage,stageIndex:stageIdx,nextStage:stageOrder[stageIdx+1]||null,isComplete:stage==='Advance PYQ'});});});});});const incomplete=allChapters.filter(c=>!c.isComplete);const totalBehind=incomplete.length;const chapterSummary=incomplete.slice(0,60).map(c=>`- ${c.subject.toUpperCase()} Cl.${c.cls} | ${c.unit} | ${c.name} | Currently at: ${c.currentStage}`).join('\n');const priorityDesc={balanced:'balance all three subjects evenly',physics:'prioritise Physics chapters',chemistry:'prioritise Chemistry chapters',mathematics:'prioritise Mathematics chapters',weakest:'prioritise chapters that are at the earliest stage (most behind)',mains:'focus on getting chapters to Mains PYQ coverage',advanced:'focus on getting chapters to Advance PYQ coverage'}[priority];const stageDesc=stageGoal==='next'?'move each chapter to its NEXT stage (e.g. Theory → Examples)':`cover the "${stageGoal}" stage for selected chapters`;const prompt=`You are an expert JEE 2026 study planner AI.\n\nThe student has ${hours} free hours today. Their backlog has ${totalBehind} incomplete chapters.\n\nSTUDENT'S BACKLOG (up to 60 chapters shown):\n${chapterSummary}\n\nINSTRUCTIONS:\n- Priority: ${priorityDesc}\n- Target: ${stageDesc}\n- Total time: ${hours} hours (${hours*60} minutes)\n- Create a realistic plan fitting within ${hours} hours\n- Assign specific time blocks in minutes per task\n- Choose 4-8 tasks maximum\n- Time estimates: Theory=45-60min, Examples=30-45min, Exercise=60-90min, Mains PYQ=60-90min, Advance PYQ=90-120min\n- Include a short motivational tip for each task\n\nRespond ONLY with valid JSON array (no markdown, no explanation):\n[\n  {\n    "taskNumber": 1,\n    "chapterName": "chapter name",\n    "subject": "Physics/Chemistry/Mathematics",\n    "unit": "unit name",\n    "class": "11 or 12",\n    "currentStage": "current stage",\n    "targetStage": "stage to complete",\n    "timeMinutes": 60,\n    "tip": "short tip",\n    "priority": "high/medium/low"\n  }\n]`;btn.disabled=true;btn.innerHTML=`<div style="width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.8s linear infinite"></div> Generating...`;output.classList.add('visible');output.innerHTML=`<div class="ai-loading-state"><div class="ai-loading-ring"></div><div class="ai-loading-text">🤖 AI is analysing your backlog…</div><div class="ai-loading-sub">Scanning ${totalBehind} chapters · Building optimal ${hours}h plan</div></div>`;try{
+    async function generateAIPlan(){const hoursInput=document.getElementById('ai-hours-input');const priority=document.getElementById('ai-priority-select').value;const stageGoal=document.getElementById('ai-stage-select').value;const btn=document.getElementById('ai-gen-btn');const output=document.getElementById('ai-plan-output');const hours=parseFloat(hoursInput.value);if(!hours||hours<=0||hours>16){hoursInput.style.borderColor='#ef4444';setTimeout(()=>hoursInput.style.borderColor='',1200);return;}const stageOrder=['Pending','Theory','Examples','Exercise','Mains PYQ','Advance PYQ'];const aiClassFilter=document.getElementById('ai-class-select')?.value||'both';const allChapters=[];Object.keys(DATA).forEach(sub=>{['11','12'].filter(c=>aiClassFilter==='both'||c===aiClassFilter).forEach(cls=>{Object.entries(DATA[sub][cls]).forEach(([unit,chapters])=>{chapters.forEach(ch=>{const id=`${sub}-${ch.s}`;const stage=store[id]?.stage||'Pending';const stageIdx=stageOrder.indexOf(stage);allChapters.push({subject:sub,cls,unit,name:ch.n,currentStage:stage,stageIndex:stageIdx,nextStage:stageOrder[stageIdx+1]||null,isComplete:stage==='Advance PYQ'});});});});});const incomplete=allChapters.filter(c=>!c.isComplete);const totalBehind=incomplete.length;const chapterSummary=incomplete.slice(0,60).map(c=>`- ${c.subject.toUpperCase()} Cl.${c.cls} | ${c.unit} | ${c.name} | Currently at: ${c.currentStage}`).join('\n');const priorityDesc={balanced:'balance all three subjects evenly',physics:'prioritise Physics chapters',chemistry:'prioritise Chemistry chapters',mathematics:'prioritise Mathematics chapters',weakest:'prioritise chapters that are at the earliest stage (most behind)',mains:'focus on getting chapters to Mains PYQ coverage',advanced:'focus on getting chapters to Advance PYQ coverage'}[priority];const stageDesc=stageGoal==='next'?'move each chapter to its NEXT stage (e.g. Theory → Examples)':`cover the "${stageGoal}" stage for selected chapters`;const prompt=`You are an expert JEE 2026 study planner AI.\n\nThe student has ${hours} free hours today. Their backlog has ${totalBehind} incomplete chapters.\n\nSTUDENT'S BACKLOG (up to 60 chapters shown):\n${chapterSummary}\n\nINSTRUCTIONS:\n- Priority: ${priorityDesc}\n- Target: ${stageDesc}\n- Total time: ${hours} hours (${hours*60} minutes)\n- Create a realistic plan fitting within ${hours} hours\n- Assign specific time blocks in minutes per task\n- Choose 4-8 tasks maximum\n- Time estimates: Theory=45-60min, Examples=30-45min, Exercise=60-90min, Mains PYQ=60-90min, Advance PYQ=90-120min\n- Include a short motivational tip for each task\n\nRespond ONLY with valid JSON array (no markdown, no explanation):\n[\n  {\n    "taskNumber": 1,\n    "chapterName": "chapter name",\n    "subject": "Physics/Chemistry/Mathematics",\n    "unit": "unit name",\n    "class": "11 or 12",\n    "currentStage": "current stage",\n    "targetStage": "stage to complete",\n    "timeMinutes": 60,\n    "tip": "short tip",\n    "priority": "high/medium/low"\n  }\n]`;btn.disabled=true;btn.innerHTML=`<div style="width:16px;height:16px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.8s linear infinite"></div> Generating...`;output.classList.add('visible');output.innerHTML=`<div class="ai-loading-state"><div class="ai-loading-ring"></div><div class="ai-loading-text">🤖 AI is analysing your backlog…</div><div class="ai-loading-sub">Scanning ${totalBehind} chapters · Building optimal ${hours}h plan</div></div>`;try{
 const _orKey=localStorage.getItem('openrouter_api_key')||'';
-if(!_orKey){throw new Error('No API key set. Click ⚙️ API Key to add your OpenRouter key.');}
+if(!_orKey){
+  // No key set — open the settings modal instead of showing a confusing error
+  btn.disabled=false;
+  btn.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg> Generate Plan';
+  output.classList.remove('visible');
+  if(typeof openAISettings==='function') openAISettings();
+  return;
+}
 const _orModel=localStorage.getItem('openrouter_model')||'google/gemini-2.0-flash-001';
 const _orPayload={model:_orModel,max_tokens:1500,messages:[{role:'user',content:prompt}]};
 
@@ -4069,17 +4091,11 @@ let response;
 try {
   response = await fetch('https://openrouter.ai/api/v1/chat/completions',{
     method:'POST',
-    headers:{
-      'Content-Type':'application/json',
-      'Authorization':'Bearer '+_orKey
-    },
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+_orKey},
     body:JSON.stringify(_orPayload)
   });
 } catch(netErr) {
-  if(location.protocol==='file:'){
-    throw new Error('You\'re opening this as a local file — browsers block API calls from file:// for security. Upload to GitHub Pages (free) and it will work perfectly.');
-  }
-  throw new Error('Could not reach OpenRouter. \n\nFix: Go to openrouter.ai → Settings → add your GitHub Pages URL to "Allowed HTTP Referers". \n\nError: '+netErr.message);
+  throw new Error('Failed to reach OpenRouter.\n\n👉 Fix: Go to openrouter.ai → your account (top right) → Settings → scroll to "Allowed HTTP Referers" → add your site URL (e.g. https://yourusername.github.io)\n\nThen try again.');
 }
 if(!response.ok){
   let errMsg='';
@@ -4131,7 +4147,7 @@ const rawText=data.choices?.[0]?.message?.content||'';let tasks;try{const cleane
     window.saveAISettings = saveAISettings;
     window.clearAISettings = clearAISettings;
 
-    window.render=render;window.updateStats=updateStats;window.renderTests=renderTests;window.switchTab=switchTab;window.setClass=setClass;window.toggleUnit=toggleUnit;window.setStage=setStage;window.editNote=editNote;window.openTestModal=openTestModal;window.closeTestModal=closeTestModal;window.submitTest=submitTest;window.removeTest=removeTest;window.addTarget=addTarget;window.toggleTarget=toggleTarget;window.toggleTargetsPanel=toggleTargetsPanel;window.removeTarget=removeTarget;window.startNotificationReminders=startNotificationReminders;window.saveVault=saveVault;window.vaultSwitchTab=vaultSwitchTab;window.vaultAddSection=vaultAddSection;window.vaultDeleteSection=vaultDeleteSection;window.vaultRenameSection=vaultRenameSection;window.vaultUpdateText=vaultUpdateText;window.vaultTriggerImageUpload=vaultTriggerImageUpload;window.vaultHandleImageUpload=vaultHandleImageUpload;window.vaultDeleteImage=vaultDeleteImage;window.vaultOpenLightbox=vaultOpenLightbox;window.vaultCloseLightbox=vaultCloseLightbox;window.markRevised=markRevised;window.toggleSubtopics=toggleSubtopics;window.setSubtopic=setSubtopic;window.pomToggle=pomToggle;window.pomReset=pomReset;window.pomSkipStep=pomSkipStep;window.pomClearLog=pomClearLog;window.seqAddStep=seqAddStep;window.seqDeleteStep=seqDeleteStep;window.seqUpdateMinutes=seqUpdateMinutes;window.seqUpdateLabel=seqUpdateLabel;window.seqSave=seqSave;window.seqClear=seqClear;window.commInit=commInit;window.commHandleDoubtImg=commHandleDoubtImg;window.commClearDoubtImg=commClearDoubtImg;window.commOpenLightbox=commOpenLightbox;window.commPostDoubt=commPostDoubt;window.commPostReply=commPostReply;window.commMarkSolved=commMarkSolved;window.commDeleteDoubt=commDeleteDoubt;window.commSetFilter=commSetFilter;window.commToggleReplies=commToggleReplies;window.commRender=commRender;window.updateAuthUI=updateAuthUI;window.signOutUser=signOutUser;window.switchBacklogTab=switchBacklogTab;window.generateAIPlan=generateAIPlan;
+    window.render=render;window.updateStats=updateStats;window.renderTests=renderTests;window.switchTab=switchTab;window.setClass=setClass;window.toggleUnit=toggleUnit;window.setStage=setStage;window.editNote=editNote;window.openTestModal=openTestModal;window.closeTestModal=closeTestModal;window.submitTest=submitTest;window.removeTest=removeTest;window.addTarget=addTarget;window.toggleTarget=toggleTarget;window.toggleTargetsPanel=toggleTargetsPanel;window.mobileTargetsToggle=mobileTargetsToggle;window.removeTarget=removeTarget;window.startNotificationReminders=startNotificationReminders;window.saveVault=saveVault;window.vaultSwitchTab=vaultSwitchTab;window.vaultAddSection=vaultAddSection;window.vaultDeleteSection=vaultDeleteSection;window.vaultRenameSection=vaultRenameSection;window.vaultUpdateText=vaultUpdateText;window.vaultTriggerImageUpload=vaultTriggerImageUpload;window.vaultHandleImageUpload=vaultHandleImageUpload;window.vaultDeleteImage=vaultDeleteImage;window.vaultOpenLightbox=vaultOpenLightbox;window.vaultCloseLightbox=vaultCloseLightbox;window.markRevised=markRevised;window.toggleSubtopics=toggleSubtopics;window.setSubtopic=setSubtopic;window.pomToggle=pomToggle;window.pomReset=pomReset;window.pomSkipStep=pomSkipStep;window.pomClearLog=pomClearLog;window.seqAddStep=seqAddStep;window.seqDeleteStep=seqDeleteStep;window.seqUpdateMinutes=seqUpdateMinutes;window.seqUpdateLabel=seqUpdateLabel;window.seqSave=seqSave;window.seqClear=seqClear;window.commInit=commInit;window.commHandleDoubtImg=commHandleDoubtImg;window.commClearDoubtImg=commClearDoubtImg;window.commOpenLightbox=commOpenLightbox;window.commPostDoubt=commPostDoubt;window.commPostReply=commPostReply;window.commMarkSolved=commMarkSolved;window.commDeleteDoubt=commDeleteDoubt;window.commSetFilter=commSetFilter;window.commToggleReplies=commToggleReplies;window.commRender=commRender;window.updateAuthUI=updateAuthUI;window.signOutUser=signOutUser;window.switchBacklogTab=switchBacklogTab;window.generateAIPlan=generateAIPlan;
 
 
     // ── FRIENDS ──
@@ -4670,7 +4686,6 @@ const rawText=data.choices?.[0]?.message?.content||'';let tasks;try{const cleane
     function mobClose(){const a=document.querySelector('#app-shell aside');if(a)a.classList.remove('mob-open');const ov=document.getElementById('mob-overlay');if(ov)ov.classList.remove('open');}
     window._attachMobListeners=function(){document.querySelectorAll('#app-shell .nav-link').forEach(l=>{l.addEventListener('click',()=>{if(window.innerWidth<=768)mobClose();});});};
     window.mobToggle=mobToggle; window.mobClose=mobClose;
-    // init() called by launchApp() only
 </script>
 
 </body>

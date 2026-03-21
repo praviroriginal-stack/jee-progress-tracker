@@ -3041,6 +3041,27 @@ document.querySelectorAll('.hero-cta, [data-launch]').forEach(btn => {
         const container=document.getElementById('syllabus-view');
         const units=DATA[curTab][curCls];
         container.innerHTML = '';
+        if (!localStorage.getItem('tip_shift_dismissed')) {
+            const tip = document.createElement('div');
+            tip.id = 'shift-tip-wrap';
+            tip.style.cssText = 'transition:opacity 0.3s,transform 0.3s;';
+            tip.innerHTML = `<div id="shift-tip" style="display:flex;align-items:center;gap:10px;padding:10px 16px;margin-bottom:1.2rem;background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.18);border-radius:12px;font-size:0.72rem;color:var(--text-secondary);font-weight:600;cursor:pointer;user-select:none;transition:opacity 0.3s,transform 0.3s;" title="Click to dismiss"><span style="font-size:1rem;flex-shrink:0">💡</span><span style="flex:1"><span style="color:var(--text-primary);font-weight:700;">Tip:</span> Click a stage to toggle it. <kbd style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:5px;padding:1px 6px;font-size:0.68rem;font-family:monospace;color:var(--text-primary);">Shift</kbd> + click to select <em>all stages up to that one</em>. On mobile, <strong style="color:var(--text-primary)">double-tap</strong> a stage to do the same.</span><span style="font-size:0.65rem;color:var(--text-secondary);opacity:0.6;flex-shrink:0;margin-left:6px;">tap to dismiss</span></div>`;
+            container.appendChild(tip);
+            const tipEl = tip.querySelector('#shift-tip');
+            function dismissTip() {
+                localStorage.setItem('tip_shift_dismissed', '1');
+                tip.style.opacity = '0';
+                tip.style.transform = 'translateY(-4px)';
+                setTimeout(() => tip.remove(), 300);
+            }
+            tipEl.addEventListener('click', dismissTip);
+            let lastTap = 0;
+            tipEl.addEventListener('touchend', function(e) {
+                const now = Date.now();
+                if (now - lastTap < 300) { e.preventDefault(); dismissTip(); }
+                lastTap = now;
+            });
+        }
         for (const [uName,chapters] of Object.entries(units)) {
             const uId=`${curTab}-${curCls}-${uName}`;
             const isOpen=openUnits.has(uId);
@@ -3068,7 +3089,7 @@ document.querySelectorAll('.hero-cta, [data-launch]').forEach(btn => {
                                 </div>
                             </div>
                             <div class="stage-box">
-                                ${['Theory','Examples','Exercise','Mains PYQ','Advance PYQ'].map(s=>{const stages=store[id]?.stages||[];const isActive=stages.includes(s)||(stages.length===0&&store[id]?.stage===s&&s!=='Pending');return`<button class="stage-btn ${isActive?'active':''}" data-s="${s}" onclick="setStage('${id}','${s}')" title="${s}">${s}</button>`;}).join('')}
+                                ${['Theory','Examples','Exercise','Mains PYQ','Advance PYQ'].map(s=>{const stages=store[id]?.stages||[];const isActive=stages.includes(s)||(stages.length===0&&store[id]?.stage===s&&s!=='Pending');return`<button class="stage-btn ${isActive?'active':''}" data-s="${s}" onclick="setStage('${id}','${s}',event)" title="${s} · Shift+click to select all up to this stage">${s}</button>`;}).join('')}
                             </div>
                             <div class="action-row">
                                 <a href="https://questions.examside.com/past-years/jee/jee-main/${curTab==='mathematics'?'maths':curTab}/${ch.s}" target="_blank" class="action-btn">PYQs</a>
@@ -3132,17 +3153,43 @@ document.querySelectorAll('.hero-cta, [data-launch]').forEach(btn => {
     }
 
     function toggleUnit(id){if(openUnits.has(id))openUnits.delete(id);else openUnits.add(id);render();updateStats();}
-    function setStage(id, s) {
+    function setStage(id, s, event) {
         if (!store[id]) store[id] = {};
-        const cur = new Set(store[id].stages || []);
-        if (cur.has(s)) cur.delete(s); else cur.add(s);
-        store[id].stages = [...cur];
-        // Keep legacy .stage = highest stage for backlog/AI compat
         const ORDER = ['Theory','Examples','Exercise','Mains PYQ','Advance PYQ'];
+        const cur = new Set(store[id].stages || []);
+        if (event && event.shiftKey) {
+            const clickedIdx = ORDER.indexOf(s);
+            const stagesUpTo = ORDER.slice(0, clickedIdx + 1);
+            const allAlreadyOn = stagesUpTo.every(x => cur.has(x));
+            if (allAlreadyOn) { stagesUpTo.forEach(x => cur.delete(x)); }
+            else { stagesUpTo.forEach(x => cur.add(x)); }
+        } else {
+            if (cur.has(s)) cur.delete(s); else cur.add(s);
+        }
+        store[id].stages = [...cur];
         const highest = ORDER.filter(x => cur.has(x)).pop() || 'Pending';
         store[id].stage = highest;
         save(); render(); updateStats();
     }
+    (function() {
+        let _lastTapBtn = null, _lastTapTime = 0;
+        document.addEventListener('touchend', function(e) {
+            const btn = e.target.closest('.stage-btn');
+            if (!btn) return;
+            const now = Date.now();
+            if (_lastTapBtn === btn && now - _lastTapTime < 300) {
+                e.preventDefault();
+                const id  = btn.getAttribute('onclick').match(/setStage\('([^']+)'/)[1];
+                const s   = btn.getAttribute('data-s');
+                setStage(id, s, { shiftKey: true });
+                _lastTapBtn = null;
+            } else {
+                _lastTapBtn = btn;
+                _lastTapTime = now;
+            }
+        }, { passive: false });
+    })();
+
     function editNote(id){const val=prompt("Chapter Note/Formula:",store[id]?.note||"");if(val!==null){store[id]={...store[id],note:val};save();render();}}
     function save(){localStorage.setItem('jee_command_v10',JSON.stringify(store));if(window.saveToFirebase)window.saveToFirebase();if(window.currentUser&&window.writeUserProfile)window.writeUserProfile(window.currentUser);}
 

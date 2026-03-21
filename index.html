@@ -537,7 +537,7 @@ footer {
   visibility: hidden;
   pointer-events: none;
   position: fixed; inset: 0; z-index: 10000;
-  background: #020617; opacity: 0; transition: opacity 0.4s ease;
+  background: #020617; opacity: 0;
   flex-direction: row; overflow: hidden;
 }
 #app-shell.visible {
@@ -1623,6 +1623,18 @@ footer {
 
         #app-shell .st-progress{ font-size:0.6rem; font-weight:800; color:var(--success); margin-left:4px; }
 
+        #app-shell .st-actions{ display:flex; gap:4px; margin-left:auto; flex-shrink:0; }
+
+        #app-shell .st-btn{ display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:6px; font-size:0.75rem; text-decoration:none; transition:all 0.15s; border:1px solid transparent; }
+
+        #app-shell .st-btn.st-q{ background:rgba(99,102,241,0.12); border-color:rgba(99,102,241,0.25); }
+
+        #app-shell .st-btn.st-q:hover{ background:rgba(99,102,241,0.25); border-color:rgba(99,102,241,0.5); }
+
+        #app-shell .st-btn.st-f{ background:rgba(245,158,11,0.12); border-color:rgba(245,158,11,0.25); }
+
+        #app-shell .st-btn.st-f:hover{ background:rgba(245,158,11,0.25); border-color:rgba(245,158,11,0.5); }
+
         #app-shell .spin{ display: inline-block; animation: spin 1s linear infinite; font-size: 1.4rem; }
 
         @keyframes spin { to { transform: rotate(360deg); } }
@@ -1939,9 +1951,9 @@ footer {
   <p class="hero-sub">
     <strong>JEE.COMMAND</strong> is the all-in-one study tracker built for JEE 2026 aspirants — syllabus tracking, AI planning, community doubts, live leaderboards, and more. <em>All in one file.</em>
   </p>
-  <button class="hero-cta" onclick="launchApp()">
+  <a class="hero-cta" href="jee-tracker.html">
     Open the Tracker →
-  </button>
+  </a>
   <div class="hero-stats">
     <div>
       <div class="hero-stat-val" style="color:#6366f1">200+</div>
@@ -2284,14 +2296,13 @@ footer {
 <footer>
   <div class="footer-logo">JEE.COMMAND</div>
   <div class="footer-sub">The ultimate tracker for JEE 2026 aspirants. Open &amp; free.</div>
-  <button class="hero-cta" onclick="launchApp()" style="font-size:0.9rem;padding:14px 30px;">
+  <a class="hero-cta" href="jee-tracker.html" style="font-size:0.9rem;padding:14px 30px;">
     Start Tracking Now →
-  </button>
+  </a>
   <p style="font-size:0.72rem;color:var(--muted);margin-top:2.5rem;font-weight:300;">
     Single HTML file · No install · Works offline · Google sign-in for cloud sync
   </p>
 </footer>
-
 </div>
 
 <!-- ══ LAUNCH OVERLAY ══ -->
@@ -2834,15 +2845,12 @@ window.saveToFirebase = async function () { if (!window.currentUser) return; awa
 
 <!-- Landing page JS -->
 <script>
-
 // Scroll reveal
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-// Stagger reveal children in grid
-document.querySelectorAll('.feat-grid.reveal, .big-grid.reveal').forEach(grid => {
+document.querySelectorAll('.feat-grid, .big-grid').forEach(grid => {
   [...grid.children].forEach((card, i) => {
     card.style.transitionDelay = (i * 0.07) + 's';
     card.classList.add('reveal');
@@ -2850,21 +2858,7 @@ document.querySelectorAll('.feat-grid.reveal, .big-grid.reveal').forEach(grid =>
   });
 });
 
-// Animated heat grid
-const heatSection = document.createElement('div');
-heatSection.className = 'heat-grid';
-const colors = ['#0f172a','#0f172a','#0f172a','#334155','#334155','#ef4444','#f59e0b','#10b981','#10b981','#10b981'];
-for (let i = 0; i < 7 * 5; i++) {
-  const c = document.createElement('div');
-  c.className = 'heat-cell';
-  c.style.background = colors[Math.floor(Math.random() * colors.length)];
-  c.style.opacity = 0.6 + Math.random() * 0.4;
-  heatSection.appendChild(c);
-}
-
-
 function launchApp() {
-  // Hide landing, show app
   document.getElementById('landing-page').style.display = 'none';
   const app = document.getElementById('app-shell');
   app.style.display = 'flex';
@@ -2872,11 +2866,6 @@ function launchApp() {
   app.style.pointerEvents = 'all';
   app.style.opacity = '1';
   app.style.flexDirection = 'row';
-  app.style.position = 'fixed';
-  app.style.inset = '0';
-  app.style.zIndex = '10000';
-  app.style.background = '#020617';
-  app.style.overflow = 'hidden';
   if (typeof init === 'function') init();
   if (typeof window._attachMobListeners === 'function') window._attachMobListeners();
 }
@@ -2884,7 +2873,6 @@ window.launchApp = launchApp;
 
 document.querySelectorAll('.hero-cta, [data-launch]').forEach(btn => {
   btn.removeAttribute('href');
-  btn.style.cursor = 'pointer';
   btn.addEventListener('click', launchApp);
 });
 </script>
@@ -3156,14 +3144,14 @@ document.querySelectorAll('.hero-cta, [data-launch]').forEach(btn => {
                     ${chapters.map(ch=>{
                         const id=`${curTab}-${ch.s}`;
                         const stage=store[id]?.stage||'Pending';
-                        const note=store[id]?.note||"Add formula or note...";
+                        const note=store[id]?.note||"Note";
                         const heat=getHeatClass(id);
                         const revLabel=getRevLabel(id);
                         return `<div class="chapter-item ${heat}">
                             <div class="ch-info-container">
                                 <div class="ch-title">${ch.n}</div>
                                 <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:4px;">
-                                    <div class="note-preview" onclick="editNote('${id}')">${note}</div>
+                                    <div class="note-preview" onclick="editNote('${id}')" title="Click to edit note">${store[id]?.note?'📝 '+store[id].note:'📝 Note'}</div>
                                     <button class="rev-badge ${heat.replace('heat-','rev-')}" onclick="markRevised('${id}')" title="Click to mark as revised today">${revLabel}</button>
                                 </div>
                             </div>
@@ -3175,7 +3163,7 @@ document.querySelectorAll('.hero-cta, [data-launch]').forEach(btn => {
                                 <a href="${'https://chatgpt.com/?q='+encodeURIComponent('JEE 2027 formula sheet for '+ch.n+' in '+curTab.charAt(0).toUpperCase()+curTab.slice(1)+'. List every important formula with variable definitions, units, and note which ones appear most in JEE Mains & Advanced.')}" target="_blank" class="action-btn" style="background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.35);color:#f59e0b;">📝 Formulae</a>
                                 <a href="${'https://chatgpt.com/?q='+encodeURIComponent('Give me the 10 most important JEE-level questions from '+ch.n+' in '+curTab.charAt(0).toUpperCase()+curTab.slice(1)+', covering all major subtopics.')}" target="_blank" class="action-btn" style="background:rgba(99,102,241,0.12);border-color:rgba(99,102,241,0.35);color:#818cf8;">❓ Questions</a>
                             </div>
-                            ${(()=>{const subs=SUBTOPICS[ch.s]||[];if(!subs.length)return'';const done=subs.filter(t=>store[id]?.subtopics?.[t]).length;return`<div><button id="stb-${id}" class="subtopics-toggle" onclick="toggleSubtopics('${id}')"><span>📋 Subtopics</span><span class="st-progress" id="stc-${id}">${done}/${subs.length}</span><span class="st-arrow">▾</span></button><div id="stl-${id}" class="subtopics-list">${subs.map(t=>{const checked=!!(store[id]?.subtopics?.[t]);return`<label class="subtopic-item${checked?' done':''}"><input class="subtopic-cb" type="checkbox" ${checked?'checked':''} onchange="setSubtopic('${id}','${t.replace(/'/g,"\\'")}',this)"><span class="subtopic-label">${t}</span></label>`;}).join('')}</div></div>`;})()}
+                            ${(()=>{const subs=SUBTOPICS[ch.s]||[];if(!subs.length)return'';const done=subs.filter(t=>store[id]?.subtopics?.[t]).length;return`<div><button id="stb-${id}" class="subtopics-toggle" onclick="toggleSubtopics('${id}')"><span>📋 Subtopics</span><span class="st-progress" id="stc-${id}">${done}/${subs.length}</span><span class="st-arrow">▾</span></button><div id="stl-${id}" class="subtopics-list">${subs.map(t=>{const checked=!!(store[id]?.subtopics?.[t]);const tEnc=encodeURIComponent(t);const chEnc=encodeURIComponent(ch.n);const subEnc=encodeURIComponent(curTab.charAt(0).toUpperCase()+curTab.slice(1));const qUrl='https://chatgpt.com/?q='+encodeURIComponent('Give me the 5 most important JEE-level questions specifically on the subtopic "'+t+'" from '+ch.n+' in '+curTab.charAt(0).toUpperCase()+curTab.slice(1)+'. Focus only on this subtopic.');const fUrl='https://chatgpt.com/?q='+encodeURIComponent('Give me all important formulas and key points for the subtopic "'+t+'" from '+ch.n+' in '+curTab.charAt(0).toUpperCase()+curTab.slice(1)+' for JEE preparation.');return`<div class="subtopic-item${checked?' done':''}"><input class="subtopic-cb" type="checkbox" ${checked?'checked':''} onchange="setSubtopic('${id}','${t.replace(/'/g,"\\'")}',this)"><span class="subtopic-label">${t}</span><div class="st-actions"><a class="st-btn st-q" href="${qUrl}" target="_blank" title="Questions on ${t}">❓</a><a class="st-btn st-f" href="${fUrl}" target="_blank" title="Formulas for ${t}">📝</a></div></div>`;}).join('')}</div></div>`;})()}
                         </div>`;
                     }).join('')}
                 </div>`;
@@ -4554,12 +4542,12 @@ document.querySelectorAll('.hero-cta, [data-launch]').forEach(btn => {
     init();
 
 
-    function mobClose(){document.querySelector('#app-shell aside').classList.remove('mob-open');const ov=document.getElementById('mob-overlay');if(ov)ov.classList.remove('open');}
+    function mobClose(){const a=document.querySelector('#app-shell aside');if(a)a.classList.remove('mob-open');const ov=document.getElementById('mob-overlay');if(ov)ov.classList.remove('open');}
     window._attachMobListeners = function() {
         document.querySelectorAll('#app-shell .nav-link').forEach(l=>{l.addEventListener('click',()=>{if(window.innerWidth<=768)mobClose();});});
     };
-    window.mobToggle=mobToggle;window.mobClose=mobClose;
-    // init() called by launchApp() only — not on page load
+    window.mobToggle=mobToggle; window.mobClose=mobClose;
+    // init() called by launchApp() only
 </script>
 
 </body>

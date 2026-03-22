@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JEE.COMMAND — The Ultimate JEE 2026 Tracker</title>
+<title>JEEverse — The Ultimate JEE 2026 Study Hub</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 /* ═══ LANDING ═══ */
@@ -287,6 +287,8 @@ section {
 
 .feat-card:hover::before { opacity: 1; }
 .feat-card:hover { background: #0f1823; }
+.feat-card.feat-link { cursor: pointer; }
+.feat-card.feat-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .feat-icon {
   font-size: 1.8rem;
@@ -340,6 +342,8 @@ section {
 }
 
 .big-card:hover { border-color: rgba(255,255,255,0.12); transform: translateY(-2px); }
+.big-card.big-link { cursor: pointer; }
+.big-card.big-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 .big-card-accent {
   position: absolute;
@@ -514,6 +518,8 @@ section {
 }
 
 .full-card:hover { border-color: rgba(255,255,255,0.1); }
+.full-card.full-link { cursor: pointer; }
+.full-card.full-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 /* ── FOOTER ── */
 footer {
@@ -2088,10 +2094,10 @@ footer {
     <span class="line2">Rank Higher.</span>
   </h1>
   <p class="hero-sub">
-    <strong>JEE.COMMAND</strong> is the all-in-one study tracker built for JEE 2026 aspirants — syllabus tracking, AI planning, community doubts, live leaderboards, and more. <em>All in one file.</em>
+    <strong>JEEverse</strong> is the all-in-one study hub for serious JEE aspirants — syllabus tracking, AI planning, community doubts, live leaderboards, and more. <em>All in one study hub.</em>
   </p>
   <button class="hero-cta" onclick="launchApp()">
-    Open the Tracker →
+    Open JEEverse →
   </button>
   <!-- Fixed bottom-corner scroll arrows -->
   <div class="big-arrow big-arrow-left">&#8595;</div>
@@ -2099,8 +2105,8 @@ footer {
 
   <div class="hero-stats">
     <div>
-      <div class="hero-stat-val" style="color:#6366f1">200+</div>
-      <div class="hero-stat-lbl">Chapters tracked</div>
+      <div class="hero-stat-val" style="color:#6366f1">75+</div>
+      <div class="hero-stat-lbl">Chapters available</div>
     </div>
     <div>
       <div class="hero-stat-val" style="color:#f59e0b">5</div>
@@ -2126,55 +2132,55 @@ footer {
   <p class="section-sub reveal">Built by a JEE aspirant, for JEE aspirants. Every feature exists because someone needed it during prep.</p>
 
   <div class="feat-grid reveal">
-    <div class="feat-card" style="--card-glow: radial-gradient(circle at 0 0, rgba(99,102,241,0.06), transparent 60%)">
+    <div class="feat-card feat-link" style="--card-glow: radial-gradient(circle at 0 0, rgba(99,102,241,0.06), transparent 60%)" onclick="window.location.href='https://anshverma-stack.github.io/JEEverse/?tab=physics'" role="link" tabindex="0">
       <span class="feat-icon">📐</span>
       <div class="feat-name">Full Syllabus Tracker</div>
       <div class="feat-desc">Physics, Chemistry &amp; Maths — Class 11 &amp; 12 — every chapter, every unit. Toggle between classes instantly.</div>
       <span class="feat-tag" style="background:rgba(99,102,241,0.1);color:#a5b4fc;">3 Subjects · 6 Classes</span>
     </div>
-    <div class="feat-card" style="--card-glow: radial-gradient(circle at 50% 0, rgba(16,185,129,0.06), transparent 60%)">
+    <div class="feat-card feat-link" style="--card-glow: radial-gradient(circle at 50% 0, rgba(16,185,129,0.06), transparent 60%)" onclick="window.location.href='https://anshverma-stack.github.io/JEEverse/?tab=physics'" role="link" tabindex="0">
       <span class="feat-icon">🎯</span>
       <div class="feat-name">Multi-Stage Progress</div>
       <div class="feat-desc">Mark Theory, Examples, Exercise, Mains PYQ and Advance PYQ independently per chapter. Mix &amp; match as you go.</div>
       <span class="feat-tag" style="background:rgba(16,185,129,0.1);color:#6ee7b7;">5 Stages · Multi-select</span>
     </div>
-    <div class="feat-card" style="--card-glow: radial-gradient(circle at 100% 0, rgba(245,158,11,0.06), transparent 60%)">
+    <div class="feat-card feat-link" style="--card-glow: radial-gradient(circle at 100% 0, rgba(245,158,11,0.06), transparent 60%)" onclick="window.location.href='https://anshverma-stack.github.io/JEEverse/?tab=backlog&sub=coverage'" role="link" tabindex="0">
       <span class="feat-icon">🧠</span>
       <div class="feat-name">AI Study Planner</div>
       <div class="feat-desc">AI scans your entire backlog and builds a personalised study plan for the day — with time blocks, priorities and tips. Bring your own free OpenRouter API key.</div>
       <span class="feat-tag" style="background:rgba(245,158,11,0.1);color:#fcd34d;">Powered by OpenRouter AI</span>
     </div>
-    <div class="feat-card" style="--card-glow: radial-gradient(circle at 0 100%, rgba(232,121,249,0.06), transparent 60%)">
+    <div class="feat-card feat-link" style="--card-glow: radial-gradient(circle at 0 100%, rgba(232,121,249,0.06), transparent 60%)" onclick="window.location.href='https://anshverma-stack.github.io/JEEverse/?tab=backlog'" role="link" tabindex="0">
       <span class="feat-icon">🔥</span>
       <div class="feat-name">Revision Heatmap</div>
       <div class="feat-desc">Every chapter glows green, amber or red based on how recently you revised it. Never let a topic go cold again.</div>
       <span class="feat-tag" style="background:rgba(232,121,249,0.1);color:#f0abfc;">Heat tracking · Click to log</span>
     </div>
-    <div class="feat-card" style="--card-glow: radial-gradient(circle at 50% 100%, rgba(59,130,246,0.06), transparent 60%)">
+    <div class="feat-card feat-link" style="--card-glow: radial-gradient(circle at 50% 100%, rgba(59,130,246,0.06), transparent 60%)" onclick="window.location.href='https://anshverma-stack.github.io/JEEverse/?tab=vault'" role="link" tabindex="0">
       <span class="feat-icon">📝</span>
       <div class="feat-name">Study Vault</div>
       <div class="feat-desc">Save notes, formulae and PYQ observations per topic. Upload images of handwritten notes or diagrams.</div>
       <span class="feat-tag" style="background:rgba(59,130,246,0.1);color:#93c5fd;">Notes + Images</span>
     </div>
-    <div class="feat-card" style="--card-glow: radial-gradient(circle at 100% 100%, rgba(16,185,129,0.06), transparent 60%)">
+    <div class="feat-card feat-link" style="--card-glow: radial-gradient(circle at 100% 100%, rgba(16,185,129,0.06), transparent 60%)" onclick="window.location.href='https://anshverma-stack.github.io/JEEverse/?tab=pomodoro'" role="link" tabindex="0">
       <span class="feat-icon">⏱</span>
       <div class="feat-name">Custom Pomodoro</div>
       <div class="feat-desc">Build your own study sequence — set Study blocks, Short breaks, Long breaks. Hourly desktop notifications keep you on track.</div>
       <span class="feat-tag" style="background:rgba(16,185,129,0.1);color:#6ee7b7;">Custom sequences</span>
     </div>
-    <div class="feat-card" style="--card-glow: radial-gradient(circle at 0 0, rgba(245,158,11,0.08), transparent 60%)">
+    <div class="feat-card feat-link" style="--card-glow: radial-gradient(circle at 0 0, rgba(245,158,11,0.08), transparent 60%)" onclick="window.location.href='https://anshverma-stack.github.io/JEEverse/?tab=physics'" role="link" tabindex="0">
       <span class="feat-icon">📋</span>
       <div class="feat-name">Chapter PYQ Access</div>
       <div class="feat-desc">Direct JEE Main PYQs from every chapter card — one click to Examside.com questions for that exact chapter.</div>
       <span class="feat-tag" style="background:rgba(245,158,11,0.1);color:#fcd34d;">Examside Links</span>
     </div>
-    <div class="feat-card" style="--card-glow: radial-gradient(circle at 100% 0, rgba(99,102,241,0.08), transparent 60%)">
+    <div class="feat-card feat-link" style="--card-glow: radial-gradient(circle at 100% 0, rgba(99,102,241,0.08), transparent 60%)" onclick="window.location.href='https://anshverma-stack.github.io/JEEverse/?tab=physics'" role="link" tabindex="0">
       <span class="feat-icon">🧠</span>
       <div class="feat-name">AI Notes & Questions</div>
       <div class="feat-desc">Chapter & topic-wise notes + instant AI questions (ChatGPT). Every chapter card → everything you need.</div>
       <span class="feat-tag" style="background:rgba(99,102,241,0.1);color:#a5b4fc;">AI Powered</span>
     </div>
-    <div class="feat-card" style="--card-glow: radial-gradient(circle at 100% 100%, rgba(99,102,241,0.08), transparent 60%)">
+    <div class="feat-card feat-link" style="--card-glow: radial-gradient(circle at 100% 100%, rgba(99,102,241,0.08), transparent 60%)" onclick="window.location.href='https://anshverma-stack.github.io/JEEverse/?tab=backlog&sub=coverage'" role="link" tabindex="0">
       <span class="feat-icon">🤖</span>
       <div class="feat-name">AI Integration</div>
       <div class="feat-desc">Study Planner · Instant Chat · Formula Sheets · Question Generator — powered by OpenRouter models</div>
@@ -2190,11 +2196,11 @@ footer {
 <section>
   <div class="section-label reveal">Score &amp; Rankings</div>
   <h2 class="section-title reveal">A point system that<br>actually makes sense.</h2>
-  <p class="section-sub reveal">Not every stage is worth the same. JEE.COMMAND weights your progress to reflect what actually matters for the exam.</p>
+  <p class="section-sub reveal">Not every stage is worth the same. JEEverse weights your progress to reflect what actually matters for the exam.</p>
 
   <div class="big-grid reveal">
     <!-- Mains scoring -->
-    <div class="big-card">
+    <div class="big-card big-link" onclick="window.location.href='https://anshverma-stack.github.io/JEEverse/?tab=physics'" role="link" tabindex="0">
       <div class="big-card-accent" style="background: linear-gradient(90deg, #6366f1, #3b82f6)"></div>
       <div class="big-card-num">01 — Mains Scoring</div>
       <div class="big-card-title" style="color:#a5b4fc">Mains Readiness<br>Points</div>
@@ -2224,7 +2230,7 @@ footer {
     </div>
 
     <!-- Advanced scoring -->
-    <div class="big-card">
+    <div class="big-card big-link" onclick="window.location.href='https://anshverma-stack.github.io/JEEverse/?tab=physics'" role="link" tabindex="0">
       <div class="big-card-accent" style="background: linear-gradient(90deg, #f59e0b, #e879f9)"></div>
       <div class="big-card-num">02 — Advanced Scoring</div>
       <div class="big-card-title" style="color:#fcd34d">Advanced Mastery<br>Points</div>
@@ -2260,7 +2266,7 @@ footer {
   </div>
 
   <!-- Leaderboard preview -->
-  <div class="full-card reveal">
+  <div class="full-card full-link reveal" onclick="window.location.href='https://anshverma-stack.github.io/JEEverse/?tab=friends'" role="link">
     <div>
       <div class="big-card-accent" style="background: linear-gradient(90deg, #10b981, #6366f1); position:relative; top:auto; left:auto; right:auto; height:3px; border-radius:3px; margin-bottom:1.5rem;"></div>
       <div class="big-card-num">03 — Live Rankings</div>
@@ -2318,7 +2324,7 @@ footer {
   <p class="section-sub reveal">Three dedicated community spaces — built for how JEE prep actually happens.</p>
 
   <div class="big-grid reveal">
-    <div class="big-card">
+    <div class="big-card big-link" onclick="window.location.href='https://anshverma-stack.github.io/JEEverse/?tab=community'" role="link">
       <div class="big-card-accent" style="background:linear-gradient(90deg,#3b82f6,#6366f1)"></div>
       <div class="big-card-num">01 — Doubts Forum</div>
       <div class="big-card-title">❓ Ask. Answer.<br>Get Unstuck.</div>
@@ -2337,7 +2343,7 @@ footer {
       </div>
     </div>
 
-    <div class="big-card">
+    <div class="big-card big-link" onclick="window.location.href='https://anshverma-stack.github.io/JEEverse/?tab=groups'" role="link">
       <div class="big-card-accent" style="background:linear-gradient(90deg,#10b981,#e879f9)"></div>
       <div class="big-card-num">02 — Study Groups</div>
       <div class="big-card-title">👥 Public &amp; Private<br>Group Chats</div>
@@ -2364,7 +2370,7 @@ footer {
   </div>
 
   <!-- Friends full-width -->
-  <div class="full-card reveal">
+  <div class="full-card full-link reveal" onclick="window.location.href='https://anshverma-stack.github.io/JEEverse/?tab=friends'" role="link">
     <div>
       <div class="big-card-num">03 — Friends System</div>
       <div class="big-card-title">👫 See Each Other's<br>Real Progress</div>
@@ -2425,25 +2431,25 @@ footer {
   <h2 class="section-title reveal">The details that<br>make a difference.</h2>
 
   <div class="feat-grid reveal" style="grid-template-columns: repeat(2, 1fr)">
-    <div class="feat-card" style="--card-glow: radial-gradient(circle at 0 0, rgba(245,158,11,0.06), transparent 60%)">
+    <div class="feat-card feat-link" style="--card-glow: radial-gradient(circle at 0 0, rgba(245,158,11,0.06), transparent 60%)" onclick="window.location.href='https://anshverma-stack.github.io/JEEverse/?tab=mains'" role="link">
       <span class="feat-icon">📊</span>
       <div class="feat-name">JEE Mains & Advanced Test Logger</div>
       <div class="feat-desc">Log every mock test result — total marks, subject-wise breakdown, AIR estimate, batch rank. Track your trajectory over time with a clean history view.</div>
       <span class="feat-tag" style="background:rgba(245,158,11,0.1);color:#fcd34d;">Mains + Advanced separate</span>
     </div>
-    <div class="feat-card" style="--card-glow: radial-gradient(circle at 100% 0, rgba(16,185,129,0.06), transparent 60%)">
+    <div class="feat-card feat-link" style="--card-glow: radial-gradient(circle at 100% 0, rgba(16,185,129,0.06), transparent 60%)" onclick="window.location.href='https://anshverma-stack.github.io/JEEverse/?tab=backlog'" role="link" tabindex="0">
       <span class="feat-icon">📋</span>
       <div class="feat-name">Daily Targets Panel</div>
       <div class="feat-desc">A floating to-do panel for daily goals. Tick them off as you go — the tab title updates live with your completion count. Enable hourly desktop reminders to stay on track.</div>
       <span class="feat-tag" style="background:rgba(16,185,129,0.1);color:#6ee7b7;">Live tab title · Notifications</span>
     </div>
-    <div class="feat-card" style="--card-glow: radial-gradient(circle at 0 100%, rgba(59,130,246,0.06), transparent 60%)">
+    <div class="feat-card feat-link" style="--card-glow: radial-gradient(circle at 0 100%, rgba(59,130,246,0.06), transparent 60%)" onclick="window.location.href='https://anshverma-stack.github.io/JEEverse/?tab=physics'" role="link" tabindex="0">
       <span class="feat-icon">🔄</span>
       <div class="feat-name">Cloud Sync via Google</div>
       <div class="feat-desc">Sign in with Google and your entire progress syncs to the cloud. Switch devices, share with friends — your data follows you everywhere, instantly.</div>
       <span class="feat-tag" style="background:rgba(59,130,246,0.1);color:#93c5fd;">Firebase · Real-time</span>
     </div>
-    <div class="feat-card" style="--card-glow: radial-gradient(circle at 100% 100%, rgba(232,121,249,0.06), transparent 60%)">
+    <div class="feat-card feat-link" style="--card-glow: radial-gradient(circle at 100% 100%, rgba(232,121,249,0.06), transparent 60%)" onclick="window.location.href='https://anshverma-stack.github.io/JEEverse/?tab=physics'" role="link" tabindex="0">
       <span class="feat-icon">📎</span>
       <div class="feat-name">PYQ & Formula Quick-Links</div>
       <div class="feat-desc">Every chapter has one-click links to ExamSide PYQs, ChatGPT formula sheets, and practice question generators — directly from the chapter card.</div>
@@ -2456,8 +2462,8 @@ footer {
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">JEE.COMMAND</div>
-  <div class="footer-sub">The ultimate tracker for JEE 2026 aspirants. Open &amp; free.</div>
+  <div class="footer-logo">JEEverse</div>
+  <div class="footer-sub">The ultimate study hub for JEE 2026 aspirants. Open &amp; free.</div>
   <button class="hero-cta" onclick="launchApp()" style="font-size:0.9rem;padding:14px 30px;">
     Start Tracking Now →
   </button>
@@ -2467,9 +2473,9 @@ footer {
 </footer>
 </div>
 <div id="launch-overlay">
-  <div class="launch-logo">JEE.COMMAND</div>
+  <div class="launch-logo">JEEverse</div>
   <div class="launch-bar-wrap"><div class="launch-bar-fill" id="launch-bar"></div></div>
-  <div class="launch-label" id="launch-label">Loading your tracker…</div>
+  <div class="launch-label" id="launch-label">Loading your study hub…</div>
 </div>
 <div id="app-shell">
 <body>
@@ -2480,7 +2486,7 @@ footer {
 <aside>
     <!-- Pinned top: logo -->
     <div class="sidebar-top">
-        <div class="logo-text"><div class="logo-dot"></div> JEE.COMMAND</div>
+        <div class="logo-text"><div class="logo-dot"></div> JEEverse</div>
     </div>
     <!-- Scrollable nav -->
     <div class="sidebar-scroll">
@@ -3134,7 +3140,63 @@ function launchApp() {
   if (typeof init==='function') init();
   if (typeof window._attachMobListeners==='function') window._attachMobListeners();
 }
+function launchAndGo(tab, backlogSubtab) {
+  launchApp();
+  setTimeout(function() {
+    var sel = '.nav-link[onclick*="' + "'" + tab + "'" + '"]';
+    var navEl = document.querySelector(sel);
+    if (navEl && typeof switchTab === 'function') {
+      switchTab(tab, navEl);
+      if (tab === 'backlog' && backlogSubtab === 'coverage' && typeof switchBacklogTab === 'function') {
+        switchBacklogTab('coverage');
+      }
+    }
+  }, 0);
+}
 window.launchApp = launchApp;
+window.launchAndGo = launchAndGo;
+
+// ── DEEP-LINK: auto-launch to tab when ?tab= param is present ──
+(function() {
+  var p = new URLSearchParams(location.search);
+  var tab = p.get('tab');
+  var sub = p.get('sub') || null;
+  if (!tab) return;
+
+  // Clean the URL immediately
+  history.replaceState(null, '', location.pathname);
+
+  function doSwitch() {
+    // Find and click the nav link for this tab
+    var sel = '#app-shell .nav-link[onclick*="\'' + tab + '\'"]';
+    var navEl = document.querySelector(sel);
+    if (navEl && typeof switchTab === 'function') {
+      switchTab(tab, navEl);
+    }
+    // Handle sub-tab (e.g. backlog → AI Coverage)
+    if (sub && tab === 'backlog' && sub === 'coverage') {
+      setTimeout(function() {
+        if (typeof switchBacklogTab === 'function') {
+          switchBacklogTab('coverage');
+        }
+      }, 200);
+    }
+  }
+
+  function doLaunch() {
+    // Show the app shell
+    if (typeof launchApp === 'function') launchApp();
+    // Give init() time to finish rendering the nav before switching tabs
+    setTimeout(doSwitch, 600);
+  }
+
+  // Fire after full page load so all scripts + DOM are ready
+  window.addEventListener('load', function() {
+    // Small delay to let inline scripts after </body> finish
+    setTimeout(doLaunch, 100);
+  });
+})();
+
 document.querySelectorAll('.hero-cta,[data-launch]').forEach(btn => {
   btn.removeAttribute('href');
   btn.addEventListener('click', launchApp);
@@ -3338,7 +3400,7 @@ document.querySelectorAll('.hero-cta,[data-launch]').forEach(btn => {
     let currentTestType = '';
     ['mains','advanced'].forEach(type => { tests[type] = (tests[type] || []).map(t => ({ maxMarks: t.maxMarks || 300, ...t })); });
 
-    function updateTabTitle() { const done = targets.filter(t=>t.checked).length; const total = targets.length; document.title = total===0 ? 'JEE Ultimate Tracker | 2026' : `(${done}/${total} done) JEE Tracker`; }
+    function updateTabTitle() { const done = targets.filter(t=>t.checked).length; const total = targets.length; document.title = total===0 ? 'JEEverse | 2026' : `(${done}/${total} done) JEEverse`; }
     async function requestNotificationPermission() { if (!('Notification' in window)) return false; if (Notification.permission==='granted') return true; if (Notification.permission==='denied') return false; const r = await Notification.requestPermission(); return r==='granted'; }
     function fireTargetNotification() { if (Notification.permission!=='granted') return; const pending=targets.filter(t=>!t.checked); const done=targets.filter(t=>t.checked).length; const total=targets.length; if (total===0){new Notification('JEE Tracker',{body:'No targets set for today.',tag:'jee-targets',renotify:true});return;} if (pending.length===0){new Notification('JEE Tracker — All Done! 🎉',{body:`Completed all ${total} targets!`,tag:'jee-targets',renotify:true});return;} const preview=pending.slice(0,3).map(t=>'• '+t.text).join('\n'); const more=pending.length>3?`\n+ ${pending.length-3} more`:''; new Notification(`JEE Tracker — ${done}/${total} done`,{body:`Still pending:\n${preview}${more}`,tag:'jee-targets',renotify:true}); }
     let notifInterval = null;
@@ -4616,7 +4678,7 @@ const rawText=data.choices?.[0]?.message?.content||'';let tasks;try{const cleane
         const model = document.getElementById('chat-model-sel')?.value || 'google/gemini-2.0-flash-001';
         const { notesCtx, chapCtx, targetsCtx } = chatGetAppState();
 
-        const SYSTEM = `You are an intelligent AI assistant embedded inside JEE.COMMAND, a JEE 2026 study tracker app. You can both answer questions AND directly control the app by calling tools.
+        const SYSTEM = `You are an intelligent AI assistant embedded inside JEEverse, a JEE 2026 study tracker app. You can both answer questions AND directly control the app by calling tools.
 
 CURRENT APP STATE:
 === VAULT NOTES ===

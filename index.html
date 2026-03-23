@@ -8,7 +8,10 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-WV9GRYV1RM');
+  gtag('config', 'G-WV9GRYV1RM', {
+    page_title: 'Landing Page',
+    page_path: '/JEEverse/'
+  });
 </script>
 <script>
 (function(){
@@ -1500,6 +1503,15 @@ footer {
         #app-shell .gm-resize-hint{ font-size: 0.6rem; color: var(--text-secondary); text-align: center; padding: 3px 0; opacity: 0.5; letter-spacing: 0.08em; }
 
         #app-shell .gm-header{ padding: 18px 22px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 14px; background: rgba(255,255,255,0.02); }
+        #app-shell .gm-members-btn{ background:rgba(255,255,255,0.05); border:1px solid var(--border); color:var(--text-secondary); padding:4px 10px; border-radius:8px; cursor:pointer; font-size:0.72rem; font-weight:700; transition:all 0.15s; white-space:nowrap; }
+        #app-shell .gm-members-btn:hover{ background:rgba(99,102,241,0.12); border-color:rgba(99,102,241,0.3); color:#a5b4fc; }
+        #app-shell .gm-members-panel{ display:none; border-bottom:1px solid var(--border); background:rgba(255,255,255,0.02); max-height:220px; overflow-y:auto; }
+        #app-shell .gm-members-panel.open{ display:block; }
+        #app-shell .gm-member-row{ display:flex; align-items:center; gap:10px; padding:9px 18px; border-bottom:1px solid rgba(255,255,255,0.03); }
+        #app-shell .gm-member-row:last-child{ border-bottom:none; }
+        #app-shell .gm-member-av{ width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:800; color:white; flex-shrink:0; }
+        #app-shell .gm-member-name{ font-size:0.8rem; font-weight:600; color:var(--text-primary); flex:1; }
+        #app-shell .gm-member-badge{ font-size:0.58rem; background:rgba(245,158,11,0.15); color:#fcd34d; border:1px solid rgba(245,158,11,0.3); border-radius:5px; padding:2px 6px; font-weight:800; }
 
         #app-shell .gm-avatar{ width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
 
@@ -3438,8 +3450,12 @@ footer {
                     <div class="gm-title" id="gm-title-el">Group Chat</div>
                     <div class="gm-sub" id="gm-sub-el">0 members</div>
                 </div>
+                <button class="gm-members-btn" id="gm-members-btn" onclick="gmToggleMembers()">👥 Members</button>
                 <button id="gm-invite-btn" onclick="copyGroupInviteLink()" title="Copy invite link" style="display:none;background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.3);color:#10b981;padding:6px 12px;border-radius:9px;cursor:pointer;font-size:0.75rem;font-weight:700;margin-right:8px;transition:all 0.15s;">&#128279; Invite</button>
                 <button class="gm-close" onclick="closeGroupModal()">&#10005;</button>
+            </div>
+            <div class="gm-members-panel" id="gm-members-panel">
+                <div id="gm-members-list" style="padding:4px 0;"></div>
             </div>
             <div class="gm-messages" id="gm-messages-el"><div class="gm-empty">No messages yet. Say hello! &#128075;</div></div>
             <div class="gm-input-row">
@@ -3872,6 +3888,14 @@ function launchApp() {
   app.style.pointerEvents='all'; app.style.opacity='1'; app.style.flexDirection='row';
   if (typeof init==='function') init();
   if (typeof window._attachMobListeners==='function') window._attachMobListeners();
+  // Track app open as a pageview
+  if (typeof gtag === 'function') {
+    gtag('event', 'page_view', {
+      page_title: 'App — Physics',
+      page_location: window.location.origin + window.location.pathname + '?tab=physics',
+      page_path: '/JEEverse/?tab=physics'
+    });
+  }
 }
 // ── DEEP-LINK: runs after all scripts load, reads __deepLinkTab set in <head> ──
 window.addEventListener('load', function() {
@@ -4114,6 +4138,22 @@ document.querySelectorAll('.hero-cta,[data-launch]').forEach(btn => {
     function switchTab(tab,el) {
         document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
         el.classList.add('active');
+        // Fire GA virtual pageview so each tab shows as a separate page
+        if (typeof gtag === 'function') {
+            var tabTitles = {
+                physics:'App — Physics', chemistry:'App — Chemistry',
+                mathematics:'App — Mathematics', backlog:'App — Backlog & AI Planner',
+                vault:'App — Study Vault', pomodoro:'App — Pomodoro Timer',
+                mains:'App — JEE Mains Tests', advanced:'App — JEE Advanced Tests',
+                community:'App — Doubts Forum', groups:'App — Study Groups',
+                friends:'App — Friends'
+            };
+            gtag('event', 'page_view', {
+                page_title: tabTitles[tab] || ('App — ' + tab),
+                page_location: window.location.origin + window.location.pathname + '?tab=' + tab,
+                page_path: '/JEEverse/?tab=' + tab
+            });
+        }
         ['syllabus-view','vault-view','backlog-view','mains-view','advanced-view','pomodoro-view','community-view','groups-view','friends-view'].forEach(id=>{document.getElementById(id).classList.remove('active');});
         document.getElementById('cls-toggle-box').style.display='none';
         if (tab==='vault'){document.getElementById('view-title').innerText="Study Vault";document.getElementById('vault-view').classList.add('active');}
@@ -4634,6 +4674,22 @@ function toggleTargetsPanel(){panelCollapsed=!panelCollapsed;document.getElement
             const members = [...(g.members || []), { uid: user.uid, name: user.displayName || 'Anonymous', initial: (user.displayName || 'A')[0].toUpperCase() }];
             const memberIds = [...(g.memberIds || []), user.uid];
             await updateDoc(gRef, { members, memberIds });
+            // Notify the group creator that someone joined
+            if (g.creatorId && g.creatorId !== user.uid) {
+                try {
+                    const { addDoc, collection: col, serverTimestamp: sts } = window._fsOps;
+                    await addDoc(col(window._db, 'groupNotifications'), {
+                        toUid: g.creatorId,
+                        groupId: g.id,
+                        groupName: g.name || 'your group',
+                        groupEmoji: g.emoji || '👥',
+                        joinerName: user.displayName || 'Someone',
+                        joinerInitial: (user.displayName || 'S')[0].toUpperCase(),
+                        createdAt: sts(),
+                        read: false
+                    });
+                } catch(e) { console.warn('Could not send join notification:', e); }
+            }
             openGroupChatFromCard({ ...g, members, memberIds });
         } catch(e) { console.error(e); alert('Failed to join group.'); }
     }
@@ -4670,6 +4726,11 @@ function toggleTargetsPanel(){panelCollapsed=!panelCollapsed;document.getElement
     function openGroupChat(groupId, groupName, emoji, memberIds, groupData) {
         activeGroupId = groupId;
         activeGroupData = groupData || { id: groupId, name: groupName, emoji, memberIds, type: 'public' };
+        // Close members panel when opening a new chat
+        const mp = document.getElementById('gm-members-panel');
+        const mb = document.getElementById('gm-members-btn');
+        if (mp) { mp.classList.remove('open'); }
+        if (mb) mb.style.background = '';
         document.getElementById('gm-avatar-el').textContent = emoji || '👥';
         document.getElementById('gm-title-el').textContent = groupName;
         document.getElementById('gm-sub-el').textContent = `${memberIds.length} member${memberIds.length !== 1 ? 's' : ''}`;
@@ -4686,6 +4747,33 @@ function toggleTargetsPanel(){panelCollapsed=!panelCollapsed;document.getElement
             renderGroupMessages(snap.docs.map(d => ({ id: d.id, ...d.data() })));
         }, err => console.error('Group messages error:', err));
         setTimeout(() => document.getElementById('gm-input').focus(), 200);
+    }
+
+    function gmToggleMembers() {
+        const panel = document.getElementById('gm-members-panel');
+        const btn   = document.getElementById('gm-members-btn');
+        if (!panel) return;
+        const open = panel.classList.toggle('open');
+        if (btn) btn.style.background = open ? 'rgba(99,102,241,0.15)' : '';
+        if (open) gmRenderMembers();
+    }
+
+    function gmRenderMembers() {
+        const list = document.getElementById('gm-members-list');
+        if (!list || !activeGroupData) return;
+        const members = activeGroupData.members || [];
+        const creatorId = activeGroupData.creatorId || '';
+        const avatarColors = ['#6366f1','#10b981','#f59e0b','#e879f9','#3b82f6','#ef4444','#06b6d4'];
+        list.innerHTML = members.length ? members.map((m, i) => {
+            const color = avatarColors[i % avatarColors.length];
+            const isCreator = m.uid === creatorId;
+            const isMe = window.currentUser && m.uid === window.currentUser.uid;
+            return `<div class="gm-member-row">
+                <div class="gm-member-av" style="background:${color}">${m.initial || '?'}</div>
+                <div class="gm-member-name">${m.name || 'Anonymous'}${isMe ? ' <span style="font-size:0.65rem;color:var(--text-secondary)">(you)</span>' : ''}</div>
+                ${isCreator ? '<span class="gm-member-badge">Creator</span>' : ''}
+            </div>`;
+        }).join('') : '<div style="padding:12px 18px;font-size:0.78rem;color:var(--text-secondary);">No members yet.</div>';
     }
 
     function gmHandleImg(input) {
@@ -5687,7 +5775,30 @@ RULES:
             });
         }));
 
-        // 3. New community doubts (green dot + notification for everyone)
+        // 3. Group join notifications (for group creators)
+        const qJoin = query(
+            collection(db, 'groupNotifications'),
+            where('toUid', '==', user.uid),
+            orderBy('createdAt', 'desc'),
+            limit(20)
+        );
+        notifUnsubs.push(onSnapshot(qJoin, snap => {
+            snap.docs.forEach(d => {
+                const n = d.data();
+                notifAddItem({
+                    id: 'gjoin_' + d.id,
+                    icon: n.groupEmoji || '👥',
+                    iconBg: 'rgba(16,185,129,0.15)',
+                    title: n.groupName || 'Your Group',
+                    body: (n.joinerName || 'Someone') + ' just joined your group!',
+                    ts: n.createdAt,
+                    action: 'groups'
+                });
+            });
+            notifRender();
+        }));
+
+        // 4. New community doubts (green dot + notification for everyone)
         const q3 = query(collection(db, 'doubts'), orderBy('createdAt', 'desc'), limit(1));
         notifUnsubs.push(onSnapshot(q3, snap => {
             if (!snap.docs.length) return;
@@ -5739,6 +5850,8 @@ RULES:
     };
 
     window.notifToggle = notifToggle;
+    window.gmToggleMembers = gmToggleMembers;
+    window.gmRenderMembers = gmRenderMembers;
     window.notifMarkAllRead = notifMarkAllRead;
     window.notifClick = notifClick;
 

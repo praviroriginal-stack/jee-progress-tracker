@@ -1132,8 +1132,7 @@ footer {
         #app-shell .focus-subtab{ padding:8px 18px; border-radius:10px; border:none; background:transparent; color:var(--text-secondary); font-size:0.82rem; font-weight:700; cursor:pointer; transition:all 0.18s; font-family:inherit; white-space:nowrap; }
         #app-shell .focus-subtab:hover{ color:var(--text-primary); }
         #app-shell .focus-subtab.active{ background:var(--surface-1); color:var(--text-primary); box-shadow:0 2px 8px rgba(0,0,0,0.3); }
-        #app-shell .focus-panel{ display:none; }
-        #app-shell .focus-panel.active{ display:block; }
+        /* focus panels are now full content-body views — no panel CSS needed */
         /* Stats cards */
         #app-shell .stats-section-card{ background:var(--surface-1); border:1px solid var(--border); border-radius:20px; padding:1.8rem; margin-bottom:1.2rem; }
         #app-shell .stats-section-title{ font-size:0.78rem; font-weight:800; text-transform:uppercase; letter-spacing:0.08em; color:var(--text-secondary); margin-bottom:1rem; }
@@ -2186,6 +2185,19 @@ footer {
 
         }
         /* Friends sub-tabs */
+        #app-shell .syl-subtabs{ display:flex; gap:4px; background:var(--surface-2); padding:4px; border-radius:14px; margin-bottom:1.6rem; width:fit-content; }
+        #app-shell .syl-subtab{ padding:8px 20px; border-radius:10px; border:none; background:transparent; color:var(--text-secondary); font-size:0.82rem; font-weight:700; cursor:pointer; transition:all 0.18s; font-family:inherit; white-space:nowrap; }
+        #app-shell .syl-subtab:hover{ color:var(--text-primary); }
+        #app-shell .syl-subtab.active{ background:var(--surface-1); color:var(--text-primary); box-shadow:0 2px 8px rgba(0,0,0,0.3); }
+        #app-shell .comm-subtabs{ display:flex; gap:4px; background:var(--surface-2); padding:4px; border-radius:14px; margin-bottom:1.6rem; width:fit-content; }
+        #app-shell .comm-subtab{ padding:8px 22px; border-radius:10px; border:none; background:transparent; color:var(--text-secondary); font-size:0.85rem; font-weight:700; cursor:pointer; transition:all 0.18s; font-family:inherit; white-space:nowrap; }
+        #app-shell .comm-subtab:hover{ color:var(--text-primary); }
+        #app-shell .comm-subtab.active{ background:var(--surface-1); color:var(--text-primary); box-shadow:0 2px 8px rgba(0,0,0,0.3); }
+        #app-shell .comm-panel{ display:none; }
+        #app-shell .comm-panel.active{ display:block; }
+        #app-shell #class11-view, #app-shell #class12-view, #app-shell #leaderboard-view{ padding:0; }
+        #app-shell #lb-main-content{ padding:0 3.5rem 2rem; }
+        #app-shell #lb-auth-wall{ margin:2rem 3.5rem; }
         #app-shell .fr-subtabs{ display: flex; gap: 6px; margin-bottom: 1.4rem; }
 
         #app-shell .fr-subtab{ flex: 1; padding: 11px; border-radius: 13px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text-secondary); font-weight: 700; font-size: 0.82rem; cursor: pointer; font-family: inherit; transition: all 0.15s; }
@@ -2984,13 +2996,13 @@ footer {
             <circle cx="24" cy="19" r="7" fill="linear-gradient"/><circle cx="24" cy="19" r="7" fill="#6366f1"/>
             <text x="22" y="22" font-size="6" fill="white" font-family="sans-serif">A</text>
             <text x="36" y="16" font-size="5.5" fill="#f8fafc" font-family="sans-serif" font-weight="700">Arjun Mehta</text>
-            <text x="36" y="23" font-size="4.8" fill="#475569" font-family="sans-serif">arjun@gmail.com</text>
+            <text x="36" y="23" font-size="4.8" fill="#475569" font-family="sans-serif"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dfbeadb5aab19fb8b2beb6b3f1bcb0b2">[email&#160;protected]</a></text>
             <rect x="180" y="11" width="40" height="6" rx="2" fill="#1e3a5f"/><rect x="180" y="11" width="30" height="6" rx="2" fill="#60a5fa" opacity="0.8"/><text x="222" y="16" font-size="5" fill="#60a5fa" font-family="sans-serif">74% Phy</text>
             <rect x="180" y="20" width="40" height="6" rx="2" fill="#1e293b"/><rect x="180" y="20" width="23" height="6" rx="2" fill="#34d399" opacity="0.8"/><text x="222" y="25" font-size="5" fill="#34d399" font-family="sans-serif">58% Chem</text>
             <rect x="10" y="34" width="280" height="22" rx="5" fill="#131c2e"/>
             <circle cx="24" cy="45" r="7" fill="#10b981"/><text x="22" y="48" font-size="6" fill="white" font-family="sans-serif">R</text>
             <text x="36" y="42" font-size="5.5" fill="#f8fafc" font-family="sans-serif" font-weight="700">Riya Sharma</text>
-            <text x="36" y="49" font-size="4.8" fill="#475569" font-family="sans-serif">riya@gmail.com</text>
+            <text x="36" y="49" font-size="4.8" fill="#475569" font-family="sans-serif"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d6a4bfafb796b1bbb7bfbaf8b5b9bb">[email&#160;protected]</a></text>
             <rect x="180" y="37" width="40" height="6" rx="2" fill="#1e3a5f"/><rect x="180" y="37" width="36" height="6" rx="2" fill="#60a5fa" opacity="0.8"/><text x="222" y="42" font-size="5" fill="#60a5fa" font-family="sans-serif">91% Phy</text>
             <rect x="180" y="46" width="40" height="6" rx="2" fill="#1e293b"/><rect x="180" y="46" width="33" height="6" rx="2" fill="#f59e0b" opacity="0.8"/><text x="222" y="51" font-size="5" fill="#fcd34d" font-family="sans-serif">83% Math</text>
             <text x="10" y="73" font-size="5.2" fill="#475569" font-family="monospace">Click any friend → full stage breakdown + subject %</text>
@@ -3191,21 +3203,23 @@ footer {
     </div>
     <!-- Scrollable nav -->
     <div class="sidebar-scroll">
-        <div class="nav-label">Core Syllabus</div>
+        <div class="nav-label">Syllabus Tracker</div>
         <div id="sidebar-nav">
-            <div class="nav-link active" onclick="switchTab('physics', this)"><span>PHYSICS</span></div>
-            <div class="nav-link" onclick="switchTab('chemistry', this)"><span>CHEMISTRY</span></div>
-            <div class="nav-link" onclick="switchTab('mathematics', this)"><span>MATHEMATICS</span></div>
+            <div class="nav-link active" onclick="switchTab('class11', this)"><span>CLASS 11</span></div>
+            <div class="nav-link" onclick="switchTab('class12', this)"><span>CLASS 12</span></div>
+            <div class="nav-link" onclick="switchTab('leaderboard', this)"><span>🏆 LEADERBOARD</span></div>
         </div>
         <div class="nav-label">Community</div>
-        <div class="nav-link" onclick="switchTab('community', this)" id="nav-community"><span>&#128101; DOUBTS FORUM</span><span id="comm-new-dot" class="nav-new-dot" style="display:none;"></span></div>
+        <div class="nav-link" onclick="switchTab('community', this)" id="nav-community"><span>💬 PUBLIC FORUM</span><span id="comm-new-dot" class="nav-new-dot" style="display:none;"></span></div>
         <div class="nav-link" onclick="switchTab('groups', this)"><span>&#128101; STUDY GROUPS</span></div>
         <div class="nav-link" onclick="switchTab('friends', this)"><span>&#128101; FRIENDS</span></div>
         <div class="nav-label">Study Vault</div>
         <div class="nav-link" onclick="switchTab('vault', this)"><span>NOTES &amp; QUESTIONS</span></div>
         <div class="nav-link" onclick="switchTab('backlog', this)"><span>BACKLOG</span><span class="nav-ai-badge">AI</span></div>
         <div class="nav-label">Focus</div>
-        <div class="nav-link" onclick="switchTab('pomodoro', this)"><span>&#9201; FOCUS</span></div>
+        <div class="nav-link" onclick="switchTab('pomodoro', this)"><span>⏱ TIMER</span></div>
+        <div class="nav-link" onclick="switchTab('focus-stats', this)"><span>📊 STUDY STATS</span></div>
+        <div class="nav-link" onclick="switchTab('focus-lb', this)"><span>🏆 TIME LEADERBOARD</span></div>
         <div class="nav-label">Tests</div>
         <div class="nav-link" onclick="switchTab('mains', this)"><span>JEE MAINS</span></div>
         <div class="nav-link" onclick="switchTab('advanced', this)"><span>JEE ADVANCED</span></div>
@@ -3258,7 +3272,7 @@ footer {
 <main>
     <header class="header-sticky">
         <div>
-            <h1 id="view-title" style="text-transform:capitalize">Physics</h1>
+            <h1 id="view-title" style="text-transform:capitalize">Class 11</h1>
             <div class="class-toggle" id="cls-toggle-box">
                 <button class="toggle-btn active" id="btn11" onclick="setClass('11')">CLASS 11</button>
                 <button class="toggle-btn" id="btn12" onclick="setClass('12')">CLASS 12</button>
@@ -3302,7 +3316,52 @@ footer {
         </div>
     </header>
 
-    <div id="syllabus-view" class="content-body active"></div>
+    <div id="class11-view" class="content-body active">
+        <!-- Sub-tab bar for Class 11 -->
+        <div class="syl-subtabs" id="syl11-subtabs">
+            <button class="syl-subtab active" id="syl11-phy" onclick="setSylTab('11','physics',this)">⚡ Physics</button>
+            <button class="syl-subtab" id="syl11-chem" onclick="setSylTab('11','chemistry',this)">🧪 Chemistry</button>
+            <button class="syl-subtab" id="syl11-math" onclick="setSylTab('11','mathematics',this)">📐 Mathematics</button>
+        </div>
+        <div id="syllabus-view"></div>
+    </div>
+    <div id="class12-view" class="content-body">
+        <!-- Sub-tab bar for Class 12 -->
+        <div class="syl-subtabs" id="syl12-subtabs">
+            <button class="syl-subtab active" id="syl12-phy" onclick="setSylTab('12','physics',this)">⚡ Physics</button>
+            <button class="syl-subtab" id="syl12-chem" onclick="setSylTab('12','chemistry',this)">🧪 Chemistry</button>
+            <button class="syl-subtab" id="syl12-math" onclick="setSylTab('12','mathematics',this)">📐 Mathematics</button>
+        </div>
+        <div id="syllabus-view-12"></div>
+    </div>
+    <div id="leaderboard-view" class="content-body">
+        <!-- Leaderboard content moved here from friends tab -->
+        <div id="lb-auth-wall" class="comm-auth-wall" style="display:none">
+            <h3>🏆 Leaderboard</h3>
+            <p>Sign in to see rankings and compare progress with friends and peers.</p>
+            <button class="comm-login-btn" onclick="login().then(()=>lbInit())">🔑 Sign in with Google</button>
+        </div>
+        <div id="lb-main-content">
+            <div class="lb-controls">
+                <div class="lb-scope-row">
+                    <button class="lb-scope-btn active" id="lbs-friends" onclick="lbSetScope('friends',this)">👥 Friends</button>
+                    <button class="lb-scope-btn" id="lbs-all" onclick="lbSetScope('all',this)">🌐 All Users</button>
+                </div>
+                <div class="lb-cls-row">
+                    <button class="lb-cls-btn active" id="lbc-overall" onclick="lbSetCls('overall',this)">Overall</button>
+                    <button class="lb-cls-btn" id="lbc-11" onclick="lbSetCls('11',this)">Class 11</button>
+                    <button class="lb-cls-btn" id="lbc-12" onclick="lbSetCls('12',this)">Class 12</button>
+                </div>
+                <div class="lb-metric-row">
+                    <button class="lb-metric-btn active" id="lbm-combined" onclick="lbSetMetric('combined',this)">Combined</button>
+                    <button class="lb-metric-btn" id="lbm-mains" onclick="lbSetMetric('mains',this)">Mains</button>
+                    <button class="lb-metric-btn" id="lbm-adv" onclick="lbSetMetric('adv',this)">Advanced</button>
+                </div>
+            </div>
+            <div id="lb-loading" style="text-align:center;padding:40px;color:var(--text-secondary);display:none"><span class="spin">▶</span> Loading...</div>
+            <div id="lb-list"></div>
+        </div>
+    </div>
     <div id="vault-view" class="content-body">
         <div class="vault-top-bar">
             <div class="vault-tabs" id="vault-tabs"></div>
@@ -3370,15 +3429,8 @@ footer {
         <div id="advanced-tests-list"></div>
     </div>
     <div id="pomodoro-view" class="content-body">
-        <!-- Focus sub-tabs -->
-        <div class="focus-subtabs">
-            <button class="focus-subtab active" id="fst-timer" onclick="focusTab('timer',this)">⏱ Timer</button>
-            <button class="focus-subtab" id="fst-stats" onclick="focusTab('stats',this)">📊 Study Stats</button>
-            <button class="focus-subtab" id="fst-lb" onclick="focusTab('lb',this)">🏆 Time Leaderboard</button>
-        </div>
-
-        <!-- ── TAB 1: TIMER ── -->
-        <div class="focus-panel active" id="focus-timer-panel">
+        <!-- Timer content directly — no sub-tabs -->
+        <div id="focus-timer-panel">
             <div class="pom-layout">
                 <div style="display:flex;flex-direction:column;gap:1.4rem;">
                     <!-- Live session timer -->
@@ -3448,9 +3500,11 @@ footer {
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- ── TAB 2: STUDY STATS ── -->
-        <div class="focus-panel" id="focus-stats-panel">
+    <!-- ── STUDY STATS VIEW ── -->
+    <div id="focus-stats-view" class="content-body">
+        <div id="focus-stats-panel">
             <div id="stats-auth-wall" style="display:none;text-align:center;padding:3rem 1rem;">
                 <div style="font-size:2rem;margin-bottom:1rem;">📊</div>
                 <div style="font-weight:800;margin-bottom:0.5rem;">Sign in to track your study time</div>
@@ -3477,9 +3531,11 @@ footer {
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- ── TAB 3: TIME LEADERBOARD ── -->
-        <div class="focus-panel" id="focus-lb-panel">
+    <!-- ── TIME LEADERBOARD VIEW ── -->
+    <div id="focus-lb-view" class="content-body">
+        <div id="focus-lb-panel">
             <div id="tlb-auth-wall" style="display:none;text-align:center;padding:3rem 1rem;">
                 <div style="font-size:2rem;margin-bottom:1rem;">🏆</div>
                 <div style="font-weight:800;margin-bottom:0.5rem;">Sign in to see the leaderboard</div>
@@ -3498,42 +3554,95 @@ footer {
         </div>
     </div>
     <div id="community-view" class="content-body">
-        <div id="comm-auth-wall" class="comm-auth-wall" style="display:none"><h3>&#128101; Doubts Forum</h3><p>Sign in with Google to post doubts, answer questions, and help fellow JEE aspirants.</p><button class="comm-login-btn" onclick="login().then(()=>commInit())">&#128275; Sign in with Google</button></div>
-        <div id="comm-post-section" style="display:none">
-            <div class="comm-post-card">
-                <div class="comm-post-title">&#10067; Post a Doubt</div>
-                <div class="comm-input-row"><select class="comm-subject-sel" id="comm-subject"><option value="Physics">Physics</option><option value="Chemistry">Chemistry</option><option value="Mathematics">Mathematics</option><option value="General">General</option></select><select class="comm-subject-sel" id="comm-chapter"><option value="">Chapter (optional)</option></select></div>
-                <textarea class="comm-doubt-input" id="comm-doubt-text" placeholder="Describe your doubt clearly..."></textarea>
-                <div class="img-upload-row">
-                    <label class="img-upload-btn" for="comm-doubt-img">&#128247; Attach Image</label>
-                    <input type="file" id="comm-doubt-img" accept="image/*" style="display:none" onchange="commHandleDoubtImg(this)">
-                    <span id="comm-doubt-img-preview"></span>
+        <!-- Public Forum sub-tabs -->
+        <div class="comm-subtabs" style="margin-bottom:0;">
+            <button class="comm-subtab active" id="csub-doubts" onclick="switchCommTab('doubts',this)">❓ Doubts</button>
+            <button class="comm-subtab" id="csub-tips" onclick="switchCommTab('tips',this)">💡 Tips &amp; Talks</button>
+        </div>
+
+        <!-- ── DOUBTS PANEL ── -->
+        <div class="comm-panel active" id="comm-doubts-panel">
+            <div id="comm-auth-wall" class="comm-auth-wall" style="display:none"><h3>❓ Doubts</h3><p>Sign in with Google to post doubts, answer questions, and help fellow JEE aspirants.</p><button class="comm-login-btn" onclick="login().then(()=>commInit())">🔑 Sign in with Google</button></div>
+            <div id="comm-post-section" style="display:none">
+                <div class="comm-post-card">
+                    <div class="comm-post-title">❓ Post a Doubt</div>
+                    <div class="comm-input-row"><select class="comm-subject-sel" id="comm-subject"><option value="Physics">Physics</option><option value="Chemistry">Chemistry</option><option value="Mathematics">Mathematics</option><option value="General">General</option></select><select class="comm-subject-sel" id="comm-chapter"><option value="">Chapter (optional)</option></select></div>
+                    <textarea class="comm-doubt-input" id="comm-doubt-text" placeholder="Describe your doubt clearly..."></textarea>
+                    <div class="img-upload-row">
+                        <label class="img-upload-btn" for="comm-doubt-img">📷 Attach Image</label>
+                        <input type="file" id="comm-doubt-img" accept="image/*" style="display:none" onchange="commHandleDoubtImg(this)">
+                        <span id="comm-doubt-img-preview"></span>
+                    </div>
+                    <button class="comm-post-btn" id="comm-post-btn" onclick="commPostDoubt()">💡 Post Doubt</button>
+                    <div style="clear:both"></div>
                 </div>
-                <button class="comm-post-btn" id="comm-post-btn" onclick="commPostDoubt()">&#128161; Post Doubt</button>
-                <div style="clear:both"></div>
+            </div>
+            <div class="comm-layout">
+                <div>
+                    <div class="comm-filter-bar">
+                        <button class="comm-filter-btn active" onclick="commSetFilter('all',this)">All</button>
+                        <button class="comm-filter-btn" onclick="commSetFilter('unsolved',this)">🔴 Unsolved</button>
+                        <button class="comm-filter-btn" onclick="commSetFilter('solved',this)">✅ Solved</button>
+                        <button class="comm-filter-btn" onclick="commSetFilter('mine',this)">👤 My Doubts</button>
+                        <input class="comm-search-input" type="text" id="comm-search" placeholder="Search doubts..." oninput="commRender()">
+                    </div>
+                    <div class="comm-doubts-list" id="comm-doubts-list"><div class="comm-loading"><span class="spin">▶</span><br>Loading doubts...</div></div>
+                </div>
+                <div class="comm-sidebar">
+                    <div class="comm-side-card">
+                        <div class="comm-side-title">📊 Forum Stats</div>
+                        <div class="comm-stat-row"><span class="comm-stat-lbl">Total Doubts</span><span class="comm-stat-val" id="cs-total" style="color:var(--accent)">—</span></div>
+                        <div class="comm-stat-row"><span class="comm-stat-lbl">Solved</span><span class="comm-stat-val" id="cs-solved" style="color:#10b981">—</span></div>
+                        <div class="comm-stat-row"><span class="comm-stat-lbl">Unsolved</span><span class="comm-stat-val" id="cs-unsolved" style="color:#f59e0b">—</span></div>
+                        <div class="comm-stat-row"><span class="comm-stat-lbl">Total Replies</span><span class="comm-stat-val" id="cs-replies" style="color:#8b5cf6">—</span></div>
+                    </div>
+                    <div class="comm-side-card"><div class="comm-side-title">🏆 Top Helpers</div><div id="cs-top-helpers"><span style="color:var(--text-secondary);font-size:0.78rem">Loading...</span></div></div>
+                    <div class="comm-side-card" style="background:rgba(59,130,246,0.06);border-color:rgba(59,130,246,0.2)"><div class="comm-side-title" style="color:var(--accent)">💡 Tips</div><ul style="font-size:0.75rem;color:var(--text-secondary);line-height:1.8;padding-left:1rem"><li>Be specific — mention chapter + concept</li><li>Mark a reply as ✅ solved to help others</li><li>Search before posting to avoid duplicates</li><li>Help others — it reinforces your own concepts!</li></ul></div>
+                </div>
             </div>
         </div>
-        <div class="comm-layout">
-            <div>
-                <div class="comm-filter-bar">
-                    <button class="comm-filter-btn active" onclick="commSetFilter('all',this)">All</button>
-                    <button class="comm-filter-btn" onclick="commSetFilter('unsolved',this)">&#128308; Unsolved</button>
-                    <button class="comm-filter-btn" onclick="commSetFilter('solved',this)">&#9989; Solved</button>
-                    <button class="comm-filter-btn" onclick="commSetFilter('mine',this)">&#128100; My Doubts</button>
-                    <input class="comm-search-input" type="text" id="comm-search" placeholder="Search doubts..." oninput="commRender()">
+
+        <!-- ── TIPS & TALKS PANEL ── -->
+        <div class="comm-panel" id="comm-tips-panel">
+            <div id="tips-auth-wall" class="comm-auth-wall" style="display:none"><h3>💡 Tips &amp; Talks</h3><p>Sign in to share study tips, strategies and have discussions with fellow JEE aspirants.</p><button class="comm-login-btn" onclick="login().then(()=>tipsInit())">🔑 Sign in with Google</button></div>
+            <div id="tips-post-section" style="display:none">
+                <div class="comm-post-card">
+                    <div class="comm-post-title">💡 Share a Tip or Start a Discussion</div>
+                    <div class="comm-input-row">
+                        <select class="comm-subject-sel" id="tips-subject"><option value="Physics">Physics</option><option value="Chemistry">Chemistry</option><option value="Mathematics">Mathematics</option><option value="Strategy">Strategy</option><option value="General">General</option></select>
+                        <select class="comm-subject-sel" id="tips-type"><option value="Tip">💡 Tip</option><option value="Discussion">💬 Discussion</option><option value="Resource">📚 Resource</option><option value="Motivation">🔥 Motivation</option></select>
+                    </div>
+                    <textarea class="comm-doubt-input" id="tips-text" placeholder="Share a study tip, strategy, resource or start a discussion..."></textarea>
+                    <div class="img-upload-row">
+                        <label class="img-upload-btn" for="tips-img">📷 Attach Image</label>
+                        <input type="file" id="tips-img" accept="image/*" style="display:none" onchange="tipsHandleImg(this)">
+                        <span id="tips-img-preview"></span>
+                    </div>
+                    <button class="comm-post-btn" id="tips-post-btn" onclick="tipsPost()" style="background:linear-gradient(135deg,#10b981,#059669);box-shadow:0 4px 14px rgba(16,185,129,0.3);">💡 Post</button>
+                    <div style="clear:both"></div>
                 </div>
-                <div class="comm-doubts-list" id="comm-doubts-list"><div class="comm-loading"><span class="spin">&#9654;</span><br>Loading doubts...</div></div>
             </div>
-            <div class="comm-sidebar">
-                <div class="comm-side-card">
-                    <div class="comm-side-title">&#128202; Forum Stats</div>
-                    <div class="comm-stat-row"><span class="comm-stat-lbl">Total Doubts</span><span class="comm-stat-val" id="cs-total" style="color:var(--accent)">&#8212;</span></div>
-                    <div class="comm-stat-row"><span class="comm-stat-lbl">Solved</span><span class="comm-stat-val" id="cs-solved" style="color:#10b981">&#8212;</span></div>
-                    <div class="comm-stat-row"><span class="comm-stat-lbl">Unsolved</span><span class="comm-stat-val" id="cs-unsolved" style="color:#f59e0b">&#8212;</span></div>
-                    <div class="comm-stat-row"><span class="comm-stat-lbl">Total Replies</span><span class="comm-stat-val" id="cs-replies" style="color:#8b5cf6">&#8212;</span></div>
+            <div class="comm-layout">
+                <div>
+                    <div class="comm-filter-bar">
+                        <button class="comm-filter-btn active" id="tips-filter-all" onclick="tipsSetFilter('all',this)">All</button>
+                        <button class="comm-filter-btn" onclick="tipsSetFilter('Tip',this)">💡 Tips</button>
+                        <button class="comm-filter-btn" onclick="tipsSetFilter('Discussion',this)">💬 Discussions</button>
+                        <button class="comm-filter-btn" onclick="tipsSetFilter('Resource',this)">📚 Resources</button>
+                        <button class="comm-filter-btn" onclick="tipsSetFilter('mine',this)">👤 Mine</button>
+                        <input class="comm-search-input" type="text" id="tips-search" placeholder="Search tips..." oninput="tipsRender()">
+                    </div>
+                    <div class="comm-doubts-list" id="tips-list"><div class="comm-loading"><span class="spin">▶</span><br>Loading...</div></div>
                 </div>
-                <div class="comm-side-card"><div class="comm-side-title">&#127942; Top Helpers</div><div id="cs-top-helpers"><span style="color:var(--text-secondary);font-size:0.78rem">Loading...</span></div></div>
-                <div class="comm-side-card" style="background:rgba(59,130,246,0.06);border-color:rgba(59,130,246,0.2)"><div class="comm-side-title" style="color:var(--accent)">&#128161; Tips</div><ul style="font-size:0.75rem;color:var(--text-secondary);line-height:1.8;padding-left:1rem"><li>Be specific &#8212; mention chapter + concept</li><li>Mark a reply as &#9989; solved to help others</li><li>Search before posting to avoid duplicates</li><li>Help others &#8212; it reinforces your own concepts!</li></ul></div>
+                <div class="comm-sidebar">
+                    <div class="comm-side-card">
+                        <div class="comm-side-title">📊 Stats</div>
+                        <div class="comm-stat-row"><span class="comm-stat-lbl">Total Posts</span><span class="comm-stat-val" id="ts-total" style="color:var(--accent)">—</span></div>
+                        <div class="comm-stat-row"><span class="comm-stat-lbl">Tips</span><span class="comm-stat-val" id="ts-tips" style="color:#10b981">—</span></div>
+                        <div class="comm-stat-row"><span class="comm-stat-lbl">Discussions</span><span class="comm-stat-val" id="ts-disc" style="color:#f59e0b">—</span></div>
+                    </div>
+                    <div class="comm-side-card" style="background:rgba(16,185,129,0.06);border-color:rgba(16,185,129,0.2)"><div class="comm-side-title" style="color:#10b981">✨ Guidelines</div><ul style="font-size:0.75rem;color:var(--text-secondary);line-height:1.8;padding-left:1rem"><li>Share what genuinely helped you</li><li>Keep it JEE-relevant</li><li>Be respectful and encouraging</li><li>Cite sources for resources</li></ul></div>
+                </div>
             </div>
         </div>
     </div>
@@ -3643,13 +3752,10 @@ footer {
         </div>
         <div id="friends-main" style="display:none">
             <!-- Sub-tab bar -->
-            <div class="fr-subtabs">
-                <button class="fr-subtab active" id="fst-friends" onclick="switchFriendsTab('friends',this)">&#128101; Friends</button>
-                <button class="fr-subtab" id="fst-leaderboard" onclick="switchFriendsTab('leaderboard',this)">&#127942; Leaderboard</button>
-            </div>
+<!-- Leaderboard moved to Syllabus Tracker section -->
 
             <!-- FRIENDS PANEL -->
-            <div class="fr-panel active" id="fr-friends-panel">
+            <div class="fr-panel active" id="fr-friends-panel" style="display:block">
                 <div class="friends-layout">
                     <div>
                         <div class="requests-section" id="incoming-requests-section" style="display:none">
@@ -3700,26 +3806,7 @@ footer {
             </div>
 
             <!-- LEADERBOARD PANEL -->
-            <div class="fr-panel" id="fr-leaderboard-panel">
-                <div class="lb-controls">
-                    <div class="lb-scope-row">
-                        <button class="lb-scope-btn active" id="lbs-friends" onclick="lbSetScope('friends',this)">&#128101; Friends</button>
-                        <button class="lb-scope-btn" id="lbs-all" onclick="lbSetScope('all',this)">&#127760; All Users</button>
-                    </div>
-                    <div class="lb-cls-row">
-                        <button class="lb-cls-btn active" id="lbc-overall" onclick="lbSetCls('overall',this)">Overall</button>
-                        <button class="lb-cls-btn" id="lbc-11" onclick="lbSetCls('11',this)">Class 11</button>
-                        <button class="lb-cls-btn" id="lbc-12" onclick="lbSetCls('12',this)">Class 12</button>
-                    </div>
-                    <div class="lb-metric-row">
-                        <button class="lb-metric-btn active" id="lbm-combined" onclick="lbSetMetric('combined',this)">Combined</button>
-                        <button class="lb-metric-btn" id="lbm-mains" onclick="lbSetMetric('mains',this)">Mains</button>
-                        <button class="lb-metric-btn" id="lbm-adv" onclick="lbSetMetric('adv',this)">Advanced</button>
-                    </div>
-                </div>
-                <div id="lb-loading" style="text-align:center;padding:40px;color:var(--text-secondary);display:none"><span class="spin">&#9654;</span> Loading...</div>
-                <div id="lb-list"></div>
-            </div>
+<!-- lb panel moved to leaderboard-view -->
         </div>
     </div>
 
@@ -3890,7 +3977,7 @@ footer {
             <div style="font-size:0.6rem;color:var(--text-secondary);text-align:center;">Shift+Enter for new line · Images supported on vision models</div>
         </div>
     </div>
-</div>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></div>
 <script type="module" id="firebase-script">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -4021,7 +4108,7 @@ window.addEventListener('load', function() {
   var sub = window.__deepLinkSub;
   if (!tab) return;
   // pre-set subject so init() renders the right subject immediately
-  if (['physics','chemistry','mathematics'].indexOf(tab) !== -1 && typeof curTab !== 'undefined') curTab = tab;
+  if (['physics','chemistry','mathematics'].indexOf(tab) !== -1 && typeof curTab !== 'undefined') curTab = tab; if (tab === 'physics' || tab === 'chemistry' || tab === 'mathematics') tab = 'class11';
   // boot the app (landing page already hidden by early <head> script)
   launchApp();
   // switch to the right tab
@@ -4255,15 +4342,15 @@ document.querySelectorAll('.hero-cta,[data-launch]').forEach(btn => {
 
     function switchTab(tab,el) {
         document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
-        el.classList.add('active');
+        if (el) el.classList.add('active');
         // Fire GA virtual pageview so each tab shows as a separate page
         if (typeof gtag === 'function') {
             var tabTitles = {
                 physics:'App — Physics', chemistry:'App — Chemistry',
                 mathematics:'App — Mathematics', backlog:'App — Backlog & AI Planner',
-                vault:'App — Study Vault', pomodoro:'App — Pomodoro Timer',
+                vault:'App — Study Vault', pomodoro:'App — Timer', 'focus-stats':'App — Study Stats', 'focus-lb':'App — Time Leaderboard',
                 mains:'App — JEE Mains Tests', advanced:'App — JEE Advanced Tests',
-                community:'App — Doubts Forum', groups:'App — Study Groups',
+                community:'App — Public Forum', groups:'App — Study Groups',
                 friends:'App — Friends'
             };
             gtag('event', 'page_view', {
@@ -4272,15 +4359,15 @@ document.querySelectorAll('.hero-cta,[data-launch]').forEach(btn => {
                 page_path: '/JEEverse/?tab=' + tab
             });
         }
-        ['syllabus-view','vault-view','backlog-view','mains-view','advanced-view','pomodoro-view','community-view','groups-view','friends-view'].forEach(id=>{document.getElementById(id).classList.remove('active');});
-        document.getElementById('cls-toggle-box').style.display='none';
+        ['class11-view','class12-view','leaderboard-view','vault-view','backlog-view','mains-view','advanced-view','pomodoro-view','focus-stats-view','focus-lb-view','community-view','groups-view','friends-view'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('active');});
+        document.getElementById('cls-toggle-box').style.display='none'; const _sylv=document.getElementById('syllabus-view'); if(_sylv)_sylv.classList.remove('active');
         if (tab==='vault'){document.getElementById('view-title').innerText="Study Vault";document.getElementById('vault-view').classList.add('active');}
         else if (tab==='backlog'){document.getElementById('view-title').innerText="Study Backlog";document.getElementById('backlog-view').classList.add('active');renderBacklog();}
-        else if(tab==='community'){document.getElementById('view-title').innerText='Doubts Forum';document.getElementById('community-view').classList.add('active');commInit();} else if(tab==='groups'){document.getElementById('view-title').innerText='Study Groups';document.getElementById('groups-view').classList.add('active');groupsInit();} else if(tab==='friends'){document.getElementById('view-title').innerText='Friends';document.getElementById('friends-view').classList.add('active');friendsInit();}
-        else if (tab==='pomodoro'){document.getElementById('view-title').innerText='Focus';document.getElementById('pomodoro-view').classList.add('active');seqRender();pomSyncToSeq();pomRenderLog();focusStatsRender();}
+        else if(tab==='community'){document.getElementById('view-title').innerText='Public Forum';document.getElementById('community-view').classList.add('active');commInit();tipsInit();} else if(tab==='groups'){document.getElementById('view-title').innerText='Study Groups';document.getElementById('groups-view').classList.add('active');groupsInit();} else if(tab==='friends'){document.getElementById('view-title').innerText='Friends';document.getElementById('friends-view').classList.add('active');friendsInit();}
+        else if (tab==='pomodoro'){document.getElementById('view-title').innerText='Timer';document.getElementById('pomodoro-view').classList.add('active');seqRender();pomSyncToSeq();pomRenderLog();} else if(tab==='focus-stats'){document.getElementById('view-title').innerText='Study Stats';document.getElementById('focus-stats-view').classList.add('active');focusStatsRender();} else if(tab==='focus-lb'){document.getElementById('view-title').innerText='Time Leaderboard';document.getElementById('focus-lb-view').classList.add('active');tlbLoad('all');}
         else if (tab==='mains'){document.getElementById('view-title').innerText="JEE Mains";document.getElementById('mains-view').classList.add('active');renderTests();}
         else if (tab==='advanced'){document.getElementById('view-title').innerText="JEE Advanced";document.getElementById('advanced-view').classList.add('active');renderTests();}
-        else{curTab=tab;document.getElementById('view-title').innerText=tab;document.getElementById('cls-toggle-box').style.display='flex';document.getElementById('syllabus-view').classList.add('active');render();updateStats();}
+        else if(tab==='class11'){document.getElementById('view-title').innerText='Class 11';document.getElementById('class11-view').classList.add('active');setSylTab('11', curSylSubject11||'physics', document.getElementById('syl11-phy'));} else if(tab==='class12'){document.getElementById('view-title').innerText='Class 12';document.getElementById('class12-view').classList.add('active');setSylTab('12', curSylSubject12||'physics', document.getElementById('syl12-phy'));} else if(tab==='leaderboard'){document.getElementById('view-title').innerText='Leaderboard';document.getElementById('leaderboard-view').classList.add('active');lbInit();} else{curTab=tab;document.getElementById('view-title').innerText=tab;const sv=document.getElementById('syllabus-view');if(sv)sv.classList.add('active');render();updateStats();}
     }
 
     function setClass(c){curCls=c;document.getElementById('btn11').classList.toggle('active',c==='11');document.getElementById('btn12').classList.toggle('active',c==='12');render();}
@@ -4637,13 +4724,13 @@ function toggleTargetsPanel(){panelCollapsed=!panelCollapsed;document.getElement
     // ═══════════════════════════════════════════
 
     // ── Tab switcher ──
+    // focusTab is now a no-op stub — Timer/Stats/LB are proper sidebar tabs
     function focusTab(tab, btn) {
-        document.querySelectorAll('.focus-panel').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.focus-subtab').forEach(b => b.classList.remove('active'));
-        document.getElementById('focus-' + tab + '-panel').classList.add('active');
-        if (btn) btn.classList.add('active');
-        if (tab === 'stats') focusStatsRender();
-        if (tab === 'lb') tlbLoad('all');
+        // redirect to proper tab
+        var tabMap = { timer: 'pomodoro', stats: 'focus-stats', lb: 'focus-lb' };
+        var target = tabMap[tab] || tab;
+        var navEl = document.querySelector('#app-shell .nav-link[onclick*="' + target + '"]');
+        if (typeof switchTab === 'function') switchTab(target, navEl || document.createElement('div'));
     }
 
     function focusPomToggle() {
@@ -6389,6 +6476,226 @@ RULES:
     let lbScope = 'friends', lbCls = 'overall', lbMetric = 'combined';
     let lbAllUsers = null; // cache of all user profiles
 
+    // ══════════════════════════════════════════════
+    // SYLLABUS TAB SWITCHER (Class 11 / Class 12)
+    // ══════════════════════════════════════════════
+    var curSylSubject11 = 'physics', curSylSubject12 = 'physics';
+
+    function setSylTab(cls, subject, btn) {
+        if (cls === '11') {
+            curSylSubject11 = subject;
+            curTab = subject;
+            curCls = '11';
+            // Update Class 11 sub-tab buttons
+            document.querySelectorAll('#syl11-subtabs .syl-subtab').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            // Render syllabus into syllabus-view (inside class11-view)
+            const container = document.getElementById('syllabus-view');
+            if (container) { container.innerHTML = ''; _renderSyllabus(container); }
+        } else {
+            curSylSubject12 = subject;
+            curTab = subject;
+            curCls = '12';
+            document.querySelectorAll('#syl12-subtabs .syl-subtab').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            const container = document.getElementById('syllabus-view-12');
+            if (container) { container.innerHTML = ''; _renderSyllabus(container); }
+        }
+        updateStats();
+    }
+
+    // Shared render helper — renders DATA[curTab][curCls] into any container
+    function _renderSyllabus(container) {
+        const units = DATA[curTab] && DATA[curTab][curCls];
+        if (!units) return;
+        // Re-use the existing render() logic but target the correct container
+        const origContainer = document.getElementById('syllabus-view');
+        // Temporarily swap IDs then call render(), then restore
+        // Simpler: just call render() which already reads curTab/curCls and writes to syllabus-view
+        // For class12 we need it to write to syllabus-view-12
+        if (container.id === 'syllabus-view') {
+            render();
+        } else {
+            // Swap container id temporarily
+            container.id = 'syllabus-view';
+            if (origContainer && origContainer !== container) origContainer.id = '_sv_tmp';
+            render();
+            container.id = 'syllabus-view-12';
+            if (origContainer && origContainer !== container) origContainer.id = 'syllabus-view';
+        }
+    }
+
+    // ══════════════════════════════════════════════
+    // PUBLIC FORUM SUB-TAB SWITCHER
+    // ══════════════════════════════════════════════
+    function switchCommTab(tab, btn) {
+        document.querySelectorAll('#community-view .comm-subtab').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('#community-view .comm-panel').forEach(p => p.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+        if (tab === 'doubts') {
+            document.getElementById('comm-doubts-panel').classList.add('active');
+        } else {
+            document.getElementById('comm-tips-panel').classList.add('active');
+            tipsInit();
+        }
+    }
+
+    // ══════════════════════════════════════════════
+    // TIPS & TALKS
+    // ══════════════════════════════════════════════
+    let tipsPosts = [], tipsFilter = 'all', tipsUnsubscribe = null, _tipsImgData = null;
+
+    function tipsHandleImg(input) {
+        const file = input.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = e => {
+            _tipsImgData = e.target.result;
+            const prev = document.getElementById('tips-img-preview');
+            if (prev) prev.innerHTML = `<span style="font-size:0.72rem;color:#10b981;margin-left:8px;">📎 Image ready</span>`;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    async function tipsInit() {
+        const user = window.currentUser;
+        const authWall = document.getElementById('tips-auth-wall');
+        const postSec = document.getElementById('tips-post-section');
+        if (authWall) authWall.style.display = user ? 'none' : 'block';
+        if (postSec) postSec.style.display = user ? 'block' : 'none';
+        if (!user) return;
+        if (tipsUnsubscribe) return; // already listening
+        const { collection, query, orderBy, onSnapshot } = window._fsOps;
+        const q = query(collection(window._db, 'tipsTalks'), orderBy('createdAt', 'desc'));
+        tipsUnsubscribe = onSnapshot(q, snap => {
+            tipsPosts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            tipsRender();
+            // Update stats
+            const total = tipsPosts.length;
+            const tips = tipsPosts.filter(p => p.type === 'Tip').length;
+            const disc = tipsPosts.filter(p => p.type === 'Discussion').length;
+            const setEl = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
+            setEl('ts-total', total); setEl('ts-tips', tips); setEl('ts-disc', disc);
+        });
+    }
+
+    function tipsSetFilter(f, btn) {
+        tipsFilter = f;
+        document.querySelectorAll('#comm-tips-panel .comm-filter-btn').forEach(b => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+        tipsRender();
+    }
+
+    function tipsRender() {
+        const list = document.getElementById('tips-list');
+        if (!list) return;
+        const user = window.currentUser;
+        const search = (document.getElementById('tips-search')?.value || '').toLowerCase();
+        let posts = tipsPosts;
+        if (tipsFilter === 'mine') posts = posts.filter(p => p.authorId === user?.uid);
+        else if (tipsFilter !== 'all') posts = posts.filter(p => p.type === tipsFilter);
+        if (search) posts = posts.filter(p => (p.text || '').toLowerCase().includes(search) || (p.subject || '').toLowerCase().includes(search));
+        if (!posts.length) { list.innerHTML = '<div class="comm-loading">No posts yet. Be the first to share!</div>'; return; }
+        const typeColors = { Tip:'#10b981', Discussion:'#6366f1', Resource:'#f59e0b', Motivation:'#e879f9' };
+        const typeIcons  = { Tip:'💡', Discussion:'💬', Resource:'📚', Motivation:'🔥' };
+        list.innerHTML = posts.map(p => {
+            const isAuthor = user && p.authorId === user.uid;
+            const color = typeColors[p.type] || '#6366f1';
+            const icon  = typeIcons[p.type]  || '💬';
+            return `<div class="comm-doubt-card" id="tcard-${p.id}">
+                <div class="comm-doubt-header">
+                    <span class="doubt-subject-tag" style="background:${color}18;color:${color};border-color:${color}30">${icon} ${p.type || 'Post'}</span>
+                    <span class="doubt-subject-tag" style="margin-left:4px">${p.subject || 'General'}</span>
+                    ${isAuthor ? `<button onclick="tipsDelete('${p.id}')" class="comm-delete-btn" title="Delete">🗑</button>` : ''}
+                </div>
+                <div class="comm-doubt-text">${p.text || ''}</div>
+                ${p.imageUrl ? `<img src="${p.imageUrl}" style="max-width:100%;border-radius:10px;margin-top:8px;cursor:pointer;" onclick="commOpenLightbox('${p.imageUrl}')">` : ''}
+                <div class="comm-doubt-meta">
+                    <span>${p.authorName || 'Anonymous'}</span>
+                    <span>${p.createdAt?.toDate ? p.createdAt.toDate().toLocaleDateString('en-IN',{day:'numeric',month:'short'}) : ''}</span>
+                    <button class="comm-reply-toggle" onclick="tipsToggleReply('${p.id}')">💬 ${(p.replies||[]).length} replies</button>
+                </div>
+                <div id="treply-area-${p.id}" style="display:none;margin-top:10px;">
+                    ${(p.replies||[]).map((r,i) => `<div class="comm-reply"><strong>${r.authorName||'Anonymous'}:</strong> ${r.text||''}</div>`).join('')}
+                    ${user ? `<div class="comm-reply-input-row"><input class="comm-reply-input" id="treply-input-${p.id}" placeholder="Reply..." onkeydown="if(event.key==='Enter')tipsReply('${p.id}')"><button onclick="tipsReply('${p.id}')" class="comm-reply-btn">Send</button></div>` : ''}
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    function tipsToggleReply(id) {
+        const el = document.getElementById('treply-area-' + id);
+        if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+    }
+
+    async function tipsPost() {
+        const user = window.currentUser;
+        if (!user) return;
+        const text = document.getElementById('tips-text')?.value.trim();
+        if (!text) { alert('Please write something before posting.'); return; }
+        const btn = document.getElementById('tips-post-btn');
+        if (btn) { btn.disabled = true; btn.textContent = 'Posting...'; }
+        try {
+            const { collection, addDoc, serverTimestamp } = window._fsOps;
+            const payload = {
+                text, authorId: user.uid, authorName: user.displayName || 'Anonymous',
+                subject: document.getElementById('tips-subject')?.value || 'General',
+                type: document.getElementById('tips-type')?.value || 'Tip',
+                replies: [], createdAt: serverTimestamp()
+            };
+            if (_tipsImgData) {
+                payload.imageUrl = _tipsImgData;
+                _tipsImgData = null;
+                const prev = document.getElementById('tips-img-preview');
+                if (prev) prev.innerHTML = '';
+            }
+            await addDoc(collection(window._db, 'tipsTalks'), payload);
+            document.getElementById('tips-text').value = '';
+        } catch(e) { console.error(e); alert('Failed to post. Try again.'); }
+        finally { if (btn) { btn.disabled = false; btn.textContent = '💡 Post'; } }
+    }
+
+    async function tipsReply(postId) {
+        const user = window.currentUser;
+        if (!user) return;
+        const input = document.getElementById('treply-input-' + postId);
+        const text = input?.value.trim();
+        if (!text) return;
+        try {
+            const { doc, updateDoc } = window._fsOps;
+            const post = tipsPosts.find(p => p.id === postId);
+            const replies = [...(post?.replies || []), { authorId: user.uid, authorName: user.displayName || 'Anonymous', text }];
+            await updateDoc(doc(window._db, 'tipsTalks', postId), { replies });
+            if (input) input.value = '';
+        } catch(e) { console.error(e); }
+    }
+
+    async function tipsDelete(postId) {
+        const user = window.currentUser;
+        if (!user || !confirm('Delete this post?')) return;
+        try {
+            const { doc, deleteDoc } = window._fsOps;
+            await deleteDoc(doc(window._db, 'tipsTalks', postId));
+        } catch(e) { console.error(e); alert('Failed to delete.'); }
+    }
+
+    // ══════════════════════════════════════════════
+    // LEADERBOARD INIT (moved from friends tab)
+    // ══════════════════════════════════════════════
+    function lbInit() {
+        const user = window.currentUser;
+        const authWall = document.getElementById('lb-auth-wall');
+        const main = document.getElementById('lb-main-content');
+        if (!user) {
+            if (authWall) authWall.style.display = 'block';
+            if (main) main.style.display = 'none';
+        } else {
+            if (authWall) authWall.style.display = 'none';
+            if (main) main.style.display = 'block';
+            renderLeaderboard();
+        }
+    }
+
     function switchFriendsTab(tab, btn) {
         document.querySelectorAll('.fr-subtab').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -6537,6 +6844,17 @@ RULES:
     }
 
     window.switchFriendsTab = switchFriendsTab;
+    window.setSylTab = setSylTab;
+    window.switchCommTab = switchCommTab;
+    window.tipsInit = tipsInit;
+    window.tipsSetFilter = tipsSetFilter;
+    window.tipsRender = tipsRender;
+    window.tipsPost = tipsPost;
+    window.tipsReply = tipsReply;
+    window.tipsDelete = tipsDelete;
+    window.tipsToggleReply = tipsToggleReply;
+    window.tipsHandleImg = tipsHandleImg;
+    window.lbInit = lbInit;
     window.lbSetScope = lbSetScope;
     window.lbSetCls   = lbSetCls;
     window.lbSetMetric = lbSetMetric;

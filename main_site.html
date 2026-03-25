@@ -811,6 +811,19 @@
         #app-shell .tlb-name{ flex:1; font-size:0.82rem; font-weight:700; color:var(--text-primary); }
         #app-shell .tlb-time{ font-family:monospace; font-size:0.8rem; font-weight:800; color:#10b981; }
         #app-shell .tlb-you{ font-size:0.5rem; background:var(--mains); color:white; padding:2px 5px; border-radius:6px; font-weight:800; vertical-align:middle; margin-left:4px; }
+        #app-shell .tlb-group-card{ background:var(--surface-1); border:1px solid var(--border); border-radius:16px; overflow:hidden; }
+        #app-shell .tlb-group-header{ display:flex; align-items:center; gap:12px; padding:14px 18px; cursor:pointer; user-select:none; transition:background 0.15s; }
+        #app-shell .tlb-group-header:hover{ background:rgba(255,255,255,0.03); }
+        #app-shell .tlb-group-header.open{ background:rgba(99,102,241,0.07); border-bottom:1px solid var(--border); }
+        #app-shell .tlb-group-emoji{ font-size:1.4rem; }
+        #app-shell .tlb-group-info{ flex:1; }
+        #app-shell .tlb-group-name{ font-size:0.9rem; font-weight:800; color:var(--text-primary); }
+        #app-shell .tlb-group-meta{ font-size:0.68rem; color:var(--text-secondary); margin-top:2px; }
+        #app-shell .tlb-group-chevron{ font-size:0.75rem; color:var(--text-secondary); transition:transform 0.2s; }
+        #app-shell .tlb-group-header.open .tlb-group-chevron{ transform:rotate(180deg); }
+        #app-shell .tlb-group-body{ display:none; padding:12px 14px; flex-direction:column; gap:6px; }
+        #app-shell .tlb-group-body.open{ display:flex; }
+        #app-shell .tlb-group-loading{ font-size:0.75rem; color:var(--text-secondary); padding:8px 4px; }
 
         #app-shell .pom-layout{ display: grid; grid-template-columns: 1fr 420px; gap: 2rem; align-items: start; }
 
@@ -3923,6 +3936,23 @@ function toggleTargetsPanel(){panelCollapsed=!panelCollapsed;document.getElement
         tlbLoad(scope);
     }
 
+    // ── helper: render a flat ranked list of entries into a container element ──
+    function tlbRenderEntries(entries, containerEl, currentUid) {
+        const colors = ['#6366f1','#10b981','#f59e0b','#e879f9','#3b82f6','#ef4444','#06b6d4'];
+        const medals = ['\u{1F947}','\u{1F948}','\u{1F949}'];
+        containerEl.innerHTML = entries.map((e, i) => {
+            const isMe = e.uid === currentUid;
+            const rank = medals[i] || ('#' + (i+1));
+            const color = colors[i % colors.length];
+            return '<div class="tlb-row ' + (isMe ? 'me' : '') + '">' +
+                '<div class="tlb-rank">' + rank + '</div>' +
+                '<div class="tlb-av" style="background:' + color + '">' + (e.initial || '?') + '</div>' +
+                '<div class="tlb-name">' + (e.displayName || 'Anonymous') + (isMe ? '<span class="tlb-you">YOU</span>' : '') + '</div>' +
+                '<div class="tlb-time">' + fmtHM(e.totalMins || 0) + '</div>' +
+                '</div>';
+        }).join('');
+    }
+
     async function tlbLoad(scope) {
         const user = window.currentUser;
         const authWall = document.getElementById('tlb-auth-wall');
@@ -3941,85 +3971,108 @@ function toggleTargetsPanel(){panelCollapsed=!panelCollapsed;document.getElement
         try {
             const { collection, query, where, limit, getDocs, doc, getDoc, setDoc, serverTimestamp } = window._fsOps;
             const db = window._db;
-            let entries = [];
 
             if (scope === 'all') {
-                // Fetch all docs and filter client-side — treats missing privacy as 'public'
-                const q = query(collection(db, 'studyTime'), limit(200));
-                const snap = await getDocs(q);
-                snap.docs.forEach(d => {
-                    const data = d.data();
-                    const priv = data.privacy || 'public';
-                    if (priv === 'public') entries.push({...data, id: d.id});
-                });
-                entries.sort((a,b) => (b.totalMins||0) - (a.totalMins||0));
-                entries = entries.slice(0, 50);
-            } else {
-                // Groups scope — get all groups user is in, collect their member uids
-                const gq = query(collection(db, 'studyGroups'), where('memberIds', 'array-contains', user.uid));
-                const gSnap = await getDocs(gq);
-                const memberUids = new Set([user.uid]);
-                gSnap.docs.forEach(d => (d.data().memberIds || []).forEach(id => memberUids.add(id)));
-                if (memberUids.size === 1) {
-                    if (listEl) listEl.innerHTML = '<div class="pom-log-empty">Join a study group to see group rankings.</div>';
-                    return;
-                }
-                const uids = [...memberUids];
-                const batches = [];
-                for (let i = 0; i < uids.length; i += 10) batches.push(uids.slice(i, i+10));
-                for (const batch of batches) {
-                    const bq = query(collection(db, 'studyTime'), where('uid', 'in', batch));
-                    const bSnap = await getDocs(bq);
-                    bSnap.docs.forEach(d => {
-                        const data = d.data();
-                        const priv = data.privacy || 'public';
-                        if (priv !== 'private') entries.push({...data, id: d.id});
-                    });
-                }
-                entries.sort((a,b) => (b.totalMins||0) - (a.totalMins||0));
-                entries = entries.slice(0, 50);
-            }
+                // Step 1: fetch ALL users (so offline / 0h users appear too)
+                const usersSnap = await getDocs(query(collection(db, 'users'), limit(300)));
+                const allUsers = {};
+                usersSnap.docs.forEach(d => { allUsers[d.id] = d.data(); });
 
-            // Always ensure current user appears — add them with 0h if not in list
-            const meInList = entries.some(e => e.uid === user.uid);
-            if (!meInList) {
-                const userRef = doc(db, 'studyTime', user.uid);
-                const usnap = await getDoc(userRef);
-                if (!usnap.exists()) {
-                    await setDoc(userRef, {
+                // Ensure current user is in the map
+                if (!allUsers[user.uid]) {
+                    allUsers[user.uid] = {
                         uid: user.uid,
                         displayName: user.displayName || 'Anonymous',
                         initial: (user.displayName || 'A')[0].toUpperCase(),
-                        photoURL: user.photoURL || null,
-                        totalMins: 0,
-                        days: {}, weeks: {},
-                        privacy: 'public',
-                        updatedAt: serverTimestamp()
-                    });
+                        photoURL: user.photoURL || null
+                    };
                 }
-                entries.push({
-                    uid: user.uid,
-                    displayName: user.displayName || 'Anonymous',
-                    initial: (user.displayName || 'A')[0].toUpperCase(),
-                    totalMins: 0,
-                    privacy: 'public'
-                });
-                entries.sort((a,b) => (b.totalMins||0) - (a.totalMins||0));
-            }
 
-            const colors = ['#6366f1','#10b981','#f59e0b','#e879f9','#3b82f6','#ef4444','#06b6d4'];
-            const medals = ['\u{1F947}','\u{1F948}','\u{1F949}'];
-            if (listEl) listEl.innerHTML = entries.map((e, i) => {
-                const isMe = e.uid === user.uid;
-                const rank = medals[i] || ('#' + (i+1));
-                const color = colors[i % colors.length];
-                return '<div class="tlb-row ' + (isMe?'me':'') + '">' +
-                    '<div class="tlb-rank">' + rank + '</div>' +
-                    '<div class="tlb-av" style="background:' + color + '">' + (e.initial || '?') + '</div>' +
-                    '<div class="tlb-name">' + (e.displayName || 'Anonymous') + (isMe ? '<span class="tlb-you">YOU</span>' : '') + '</div>' +
-                    '<div class="tlb-time">' + fmtHM(e.totalMins || 0) + '</div>' +
+                // Step 2: fetch all study time docs
+                const timeSnap = await getDocs(query(collection(db, 'studyTime'), limit(300)));
+                const timeMap = {};
+                timeSnap.docs.forEach(d => { timeMap[d.id] = d.data(); });
+
+                // Step 3: merge — every user in allUsers gets an entry; respect privacy
+                let entries = [];
+                Object.keys(allUsers).forEach(uid => {
+                    const u = allUsers[uid];
+                    const t = timeMap[uid] || {};
+                    const priv = t.privacy || 'public';
+                    if (priv === 'private' && uid !== user.uid) return; // skip private unless it's me
+                    entries.push({
+                        uid,
+                        displayName: u.displayName || t.displayName || 'Anonymous',
+                        initial: u.initial || t.initial || (u.displayName || 'A')[0].toUpperCase(),
+                        totalMins: t.totalMins || 0,
+                        privacy: priv
+                    });
+                });
+
+                entries.sort((a,b) => (b.totalMins||0) - (a.totalMins||0));
+                entries = entries.slice(0, 100);
+
+                if (!listEl) return;
+                if (!entries.length) {
+                    listEl.innerHTML = '<div class="pom-log-empty">No users yet.</div>';
+                    return;
+                }
+                tlbRenderEntries(entries, listEl, user.uid);
+
+            } else {
+                // ── GROUPS scope: accordion per group ──
+                const gq = query(collection(db, 'studyGroups'), where('memberIds', 'array-contains', user.uid));
+                const gSnap = await getDocs(gq);
+                if (gSnap.empty) {
+                    if (listEl) listEl.innerHTML = '<div class="pom-log-empty">Join a study group to see group rankings.</div>';
+                    return;
+                }
+
+                const groups = gSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+                // Pre-fetch all studyTime docs for all members across all groups
+                const allMemberUids = new Set();
+                groups.forEach(g => (g.memberIds || []).forEach(id => allMemberUids.add(id)));
+                const uids = [...allMemberUids];
+                const timeMap = {};
+                const batches = [];
+                for (let i = 0; i < uids.length; i += 10) batches.push(uids.slice(i, i+10));
+                for (const batch of batches) {
+                    const bSnap = await getDocs(query(collection(db, 'studyTime'), where('uid', 'in', batch)));
+                    bSnap.docs.forEach(d => { timeMap[d.id] = d.data(); });
+                }
+                // Also fetch users collection for display names of members with no studyTime doc
+                const userMap = {};
+                for (const batch of batches) {
+                    const uSnap = await getDocs(query(collection(db, 'users'), where('uid', 'in', batch)));
+                    uSnap.docs.forEach(d => { userMap[d.id] = d.data(); });
+                }
+
+                if (!listEl) return;
+                listEl.innerHTML = groups.map((g, gi) => {
+                    const memberCount = (g.memberIds || []).length;
+                    return '<div class="tlb-group-card" id="tlbg-card-' + gi + '">' +
+                        '<div class="tlb-group-header" onclick="tlbToggleGroup(' + gi + ')">' +
+                            '<div class="tlb-group-emoji">' + (g.emoji || '👥') + '</div>' +
+                            '<div class="tlb-group-info">' +
+                                '<div class="tlb-group-name">' + (g.name || 'Unnamed Group') + '</div>' +
+                                '<div class="tlb-group-meta">' + memberCount + ' member' + (memberCount !== 1 ? 's' : '') + ' · ' + (g.type || 'public') + '</div>' +
+                            '</div>' +
+                            '<div class="tlb-group-chevron">▼</div>' +
+                        '</div>' +
+                        '<div class="tlb-group-body" id="tlbg-body-' + gi + '">' +
+                            '<div class="tlb-group-loading">Loading...</div>' +
+                        '</div>' +
                     '</div>';
-            }).join('');
+                }).join('');
+
+                // Store group data for accordion toggle
+                window._tlbGroups = groups;
+                window._tlbTimeMap = timeMap;
+                window._tlbUserMap = userMap;
+                window._tlbCurrentUid = user.uid;
+                window._tlbGroupLoaded = {};
+            }
         } catch(err) {
             console.warn('Leaderboard error:', err);
             const listEl = document.getElementById('tlb-list');
@@ -4033,6 +4086,42 @@ function toggleTargetsPanel(){panelCollapsed=!panelCollapsed;document.getElement
             }
         }
     }
+
+    function tlbToggleGroup(gi) {
+        const header = document.getElementById('tlbg-card-' + gi)?.querySelector('.tlb-group-header');
+        const body = document.getElementById('tlbg-body-' + gi);
+        if (!header || !body) return;
+        const isOpen = body.classList.contains('open');
+        body.classList.toggle('open', !isOpen);
+        header.classList.toggle('open', !isOpen);
+
+        // Lazy-render members on first open
+        if (!isOpen && !window._tlbGroupLoaded[gi]) {
+            window._tlbGroupLoaded[gi] = true;
+            const g = (window._tlbGroups || [])[gi];
+            const timeMap = window._tlbTimeMap || {};
+            const userMap = window._tlbUserMap || {};
+            const currentUid = window._tlbCurrentUid;
+            if (!g) return;
+
+            const memberUids = g.memberIds || [];
+            let entries = memberUids.map(uid => {
+                const t = timeMap[uid] || {};
+                const u = userMap[uid] || {};
+                const priv = t.privacy || 'public';
+                return {
+                    uid,
+                    displayName: u.displayName || t.displayName || 'Anonymous',
+                    initial: u.initial || t.initial || (u.displayName || 'A')[0].toUpperCase(),
+                    totalMins: t.totalMins || 0,
+                    privacy: priv
+                };
+            });
+            entries.sort((a, b) => (b.totalMins || 0) - (a.totalMins || 0));
+            tlbRenderEntries(entries, body, currentUid);
+        }
+    }
+    window.tlbToggleGroup = tlbToggleGroup;
 
     // Init privacy setting from localStorage
     (function() {

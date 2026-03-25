@@ -1995,13 +1995,13 @@
             </div>
         </div>
         <!-- Community Dropdown -->
-        <div class="nav-section-header" onclick="toggleNavSection('community-section', this)">
+        <div class="nav-section-header" onclick="toggleNavSection('community-section', this)" id="nav-community-section">
             <span>Community</span>
-            <span class="nav-section-chevron">▼</span>
+            <span style="display:flex;align-items:center;gap:6px;"><span id="comm-section-dot" class="nav-new-dot" style="display:none;"></span><span class="nav-section-chevron">▼</span></span>
         </div>
         <div class="nav-section-body" id="community-section">
             <div class="nav-link" onclick="switchTab('community', this)" id="nav-community"><span>💬 PUBLIC FORUM</span><span id="comm-new-dot" class="nav-new-dot" style="display:none;"></span></div>
-            <div class="nav-link" onclick="switchTab('groups', this)"><span>&#128101; STUDY GROUPS</span></div>
+            <div class="nav-link" onclick="switchTab('groups', this)" id="nav-groups"><span>&#128101; STUDY GROUPS</span><span id="groups-new-dot" class="nav-new-dot" style="display:none;"></span></div>
             <div class="nav-link" onclick="switchTab('friends', this)"><span>&#128101; FRIENDS</span></div>
         </div>
 
@@ -2370,8 +2370,8 @@
     <div id="community-view" class="content-body">
         <!-- Public Forum sub-tabs -->
         <div class="comm-subtabs" style="margin-bottom:0;">
-            <button class="comm-subtab active" id="csub-doubts" onclick="switchCommTab('doubts',this)">❓ Doubts</button>
-            <button class="comm-subtab" id="csub-tips" onclick="switchCommTab('tips',this)">💡 Tips &amp; Talks</button>
+            <button class="comm-subtab active" id="csub-doubts" onclick="switchCommTab('doubts',this)">❓ Doubts<span id="doubts-tab-dot" class="nav-new-dot" style="display:none;margin-left:6px;"></span></button>
+            <button class="comm-subtab" id="csub-tips" onclick="switchCommTab('tips',this)">💡 Tips &amp; Talks<span id="tips-tab-dot" class="nav-new-dot" style="display:none;margin-left:6px;"></span></button>
         </div>
 
         <!-- ── DOUBTS PANEL ── -->
@@ -3320,7 +3320,13 @@ window.addEventListener('load', function() {
         if (tab==='vault'){document.getElementById('view-title').innerText="Study Vault";document.getElementById('vault-view').classList.add('active');}
         else if(tab==='profile'){document.getElementById('view-title').innerText='Home';document.getElementById('profile-view').classList.add('active');renderProfile();}
         else if (tab==='backlog'){document.getElementById('view-title').innerText="Study Backlog";document.getElementById('backlog-view').classList.add('active');renderBacklog();}
-        else if(tab==='community'){document.getElementById('view-title').innerText='Public Forum';document.getElementById('community-view').classList.add('active');commInit();tipsInit();} else if(tab==='groups'){document.getElementById('view-title').innerText='Study Groups';document.getElementById('groups-view').classList.add('active');groupsInit();} else if(tab==='friends'){document.getElementById('view-title').innerText='Friends';document.getElementById('friends-view').classList.add('active');friendsInit();}
+        else if(tab==='community'){document.getElementById('view-title').innerText='Public Forum';document.getElementById('community-view').classList.add('active');commInit();tipsInit();
+            // Clear dots for whichever sub-tab is currently active
+            if(window._commUnread){const activeTab=document.querySelector('#community-view .comm-subtab.active');const isDoubts=!activeTab||activeTab.id==='csub-doubts';if(isDoubts)window._commUnread.doubts=false;else window._commUnread.tips=false;if(window._commDotRefresh)window._commDotRefresh();}
+        } else if(tab==='groups'){document.getElementById('view-title').innerText='Study Groups';document.getElementById('groups-view').classList.add('active');groupsInit();
+            // Clear groups dot
+            if(window._commUnread){window._commUnread.groups=false;if(window._commDotRefresh)window._commDotRefresh();}
+        } else if(tab==='friends'){document.getElementById('view-title').innerText='Friends';document.getElementById('friends-view').classList.add('active');friendsInit();}
         else if (tab==='pomodoro'){document.getElementById('view-title').innerText='Timer';document.getElementById('pomodoro-view').classList.add('active');seqRender();pomSyncToSeq();pomRenderLog();} else if(tab==='focus-stats'){document.getElementById('view-title').innerText='Study Stats';document.getElementById('focus-stats-view').classList.add('active');focusStatsRender();} else if(tab==='focus-lb'){document.getElementById('view-title').innerText='Time Leaderboard';document.getElementById('focus-lb-view').classList.add('active');tlbLoad('all');}
         else if (tab==='mains'){document.getElementById('view-title').innerText="JEE Mains";document.getElementById('mains-view').classList.add('active');renderTests();}
         else if (tab==='advanced'){document.getElementById('view-title').innerText="JEE Advanced";document.getElementById('advanced-view').classList.add('active');renderTests();}
@@ -5432,11 +5438,15 @@ RULES:
                     orderBy('createdAt', 'desc'),
                     limit(10)
                 );
+                let _seenMsgIds = new Set();
                 const unsub = onSnapshot(mq, mSnap => {
+                    let hasNew = false;
                     mSnap.docs.forEach(mDoc => {
                         const m = mDoc.data();
-                        // Only notify for messages from others
                         if (m.uid === user.uid) return;
+                        if (_seenMsgIds.has(mDoc.id)) return;
+                        _seenMsgIds.add(mDoc.id);
+                        hasNew = true;
                         const notifId = 'msg_' + mDoc.id;
                         notifAddItem({
                             id: notifId,
@@ -5448,6 +5458,10 @@ RULES:
                             action: 'groups'
                         });
                     });
+                    if (hasNew) {
+                        if (window._commUnread) window._commUnread.groups = true;
+                        if (window._commDotRefresh) window._commDotRefresh();
+                    }
                 });
                 notifUnsubs.push(unsub);
             });
@@ -5476,32 +5490,67 @@ RULES:
             notifRender();
         }));
 
-        // 4. New community doubts (green dot + notification for everyone)
+        // ── Centralised dot helper ──
+        // Tracks which sources have unread activity
+        window._commUnread = window._commUnread || { doubts: false, tips: false, groups: false };
+
+        function commDotRefresh() {
+            const any = window._commUnread.doubts || window._commUnread.tips || window._commUnread.groups;
+            const secDot = document.getElementById('comm-section-dot');
+            if (secDot) secDot.style.display = any ? 'inline-block' : 'none';
+            const doubtDot = document.getElementById('doubts-tab-dot');
+            if (doubtDot) doubtDot.style.display = window._commUnread.doubts ? 'inline-block' : 'none';
+            const forumDot = document.getElementById('comm-new-dot');
+            if (forumDot) forumDot.style.display = (window._commUnread.doubts || window._commUnread.tips) ? 'inline-block' : 'none';
+            const tipsDot = document.getElementById('tips-tab-dot');
+            if (tipsDot) tipsDot.style.display = window._commUnread.tips ? 'inline-block' : 'none';
+            const groupsDot = document.getElementById('groups-new-dot');
+            if (groupsDot) groupsDot.style.display = window._commUnread.groups ? 'inline-block' : 'none';
+        }
+        window._commDotRefresh = commDotRefresh;
+
+        // 4. New doubts
         const q3 = query(collection(db, 'doubts'), orderBy('createdAt', 'desc'), limit(1));
+        let _lastDoubtId = null;
         notifUnsubs.push(onSnapshot(q3, snap => {
             if (!snap.docs.length) return;
             const latest = snap.docs[0];
             const d = latest.data();
-            // Only show if someone else posted
             if (d.authorId === user.uid) return;
+            // Only trigger on genuinely new docs
+            if (_lastDoubtId === latest.id) return;
+            _lastDoubtId = latest.id;
+            window._commUnread.doubts = true;
+            commDotRefresh();
             const notifId = 'doubt_' + latest.id;
-            const dot = document.getElementById('comm-new-dot');
-
-            // Show green dot on Doubts Forum nav
-            if (dot) dot.style.display = 'flex';
-
-            // Hide dot when user navigates to community
-            const origSwitch = window.switchTab;
-            window.switchTab = function(tab, el) {
-                if (tab === 'community' && dot) dot.style.display = 'none';
-                origSwitch(tab, el);
-            };
-
             notifAddItem({
                 id: notifId,
                 icon: '❓',
                 iconBg: 'rgba(245,158,11,0.15)',
                 title: 'New Doubt Posted',
+                body: (d.subject ? '[' + d.subject + '] ' : '') + (d.text || '').slice(0, 70),
+                ts: d.createdAt,
+                action: 'community'
+            });
+        }));
+
+        // 5. New tips/talks
+        const q4 = query(collection(db, 'tipsTalks'), orderBy('createdAt', 'desc'), limit(1));
+        let _lastTipId = null;
+        notifUnsubs.push(onSnapshot(q4, snap => {
+            if (!snap.docs.length) return;
+            const latest = snap.docs[0];
+            const d = latest.data();
+            if (d.authorId === user.uid) return;
+            if (_lastTipId === latest.id) return;
+            _lastTipId = latest.id;
+            window._commUnread.tips = true;
+            commDotRefresh();
+            notifAddItem({
+                id: 'tip_' + latest.id,
+                icon: '💡',
+                iconBg: 'rgba(99,102,241,0.15)',
+                title: 'New Tip / Talk',
                 body: (d.subject ? '[' + d.subject + '] ' : '') + (d.text || '').slice(0, 70),
                 ts: d.createdAt,
                 action: 'community'
@@ -5666,9 +5715,13 @@ RULES:
         if (btn) btn.classList.add('active');
         if (tab === 'doubts') {
             document.getElementById('comm-doubts-panel').classList.add('active');
+            // Clear doubts dot
+            if (window._commUnread) { window._commUnread.doubts = false; if (window._commDotRefresh) window._commDotRefresh(); }
         } else {
             document.getElementById('comm-tips-panel').classList.add('active');
             tipsInit();
+            // Clear tips dot
+            if (window._commUnread) { window._commUnread.tips = false; if (window._commDotRefresh) window._commDotRefresh(); }
         }
     }
 

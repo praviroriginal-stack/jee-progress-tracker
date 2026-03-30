@@ -544,9 +544,114 @@ body::before {
   font-size: 0.72rem; color: var(--text-3); margin-bottom: 1rem;
 }
 .reset-notice .rn-icon { font-size: 0.9rem; }
+
+/* ══ LIGHT MODE ══ */
+html.light {
+  --bg: #f8fafc;
+  --surface-0: #ffffff;
+  --surface-1: #f1f5f9;
+  --surface-2: #e9eef5;
+  --surface-3: #dde5ef;
+  --border: rgba(0,0,0,0.08);
+  --border-2: rgba(0,0,0,0.14);
+  --accent: #4f46e5;
+  --accent-2: #2563eb;
+  --accent-glow: rgba(79,70,229,0.2);
+  --green: #059669;
+  --amber: #d97706;
+  --pink: #c026d3;
+  --red: #dc2626;
+  --text: #0f172a;
+  --text-2: #475569;
+  --text-3: #94a3b8;
+}
+html.light body { background: var(--bg); color: var(--text); }
+html.light body::before { opacity: 0.12; }
+html.light ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); }
+html.light .top-nav { background: rgba(248,250,252,0.92); border-color: var(--border); }
+html.light .nav-tab { color: var(--text-3); }
+html.light .nav-tab:hover { background: rgba(0,0,0,0.04); color: var(--text-2); }
+html.light .nav-tab.active { color: var(--text); background: rgba(79,70,229,0.08); border-color: rgba(79,70,229,0.28); }
+html.light .nav-back { border-color: var(--border); color: var(--text-3); }
+html.light .nav-back:hover { color: var(--text-2); border-color: var(--border-2); }
+html.light .cal-toolbar { background: var(--surface-0); border-color: var(--border); }
+html.light .cal-nav-btn { border-color: var(--border); color: var(--text-2); }
+html.light .cal-nav-btn:hover { border-color: var(--border-2); color: var(--text); }
+html.light .cal-today-btn { border-color: var(--border); color: var(--text-2); }
+html.light .cal-today-btn:hover { border-color: var(--border-2); color: var(--text); }
+html.light .view-toggle { background: var(--surface-2); border-color: var(--border); }
+html.light .view-btn { color: var(--text-3); }
+html.light .month-header-row { background: var(--surface-0); border-color: var(--border); }
+html.light .month-day-label { color: var(--text-3); }
+html.light .month-cell { border-color: var(--border); }
+html.light .month-cell:hover { background: rgba(0,0,0,0.02); }
+html.light .week-header { background: var(--surface-0); border-color: var(--border); }
+html.light .week-header-spacer { border-color: var(--border); }
+html.light .week-day-col-header { border-color: var(--border); }
+html.light .week-hour-label { color: var(--text-3); border-color: var(--border); }
+html.light .week-grid-col { border-color: var(--border); }
+html.light .week-hour-cell { border-color: rgba(0,0,0,0.04); }
+html.light .tt-toolbar { background: var(--surface-0); border-color: var(--border); }
+html.light .tt-day-header { background: var(--surface-1); border-color: var(--border); color: var(--text-2); }
+html.light .tt-hour-label { color: var(--text-3); border-color: var(--border); }
+html.light .tt-cell { border-color: rgba(0,0,0,0.04); }
+html.light .tt-cell:hover { background: rgba(79,70,229,0.04); }
+html.light .modal-backdrop { background: rgba(0,0,0,0.45); }
+html.light .modal-box { background: #ffffff; border-color: rgba(0,0,0,0.1); color: var(--text); }
+html.light .modal-box input,
+html.light .modal-box textarea { background: #f8fafc; border-color: rgba(0,0,0,0.12); color: var(--text); }
+html.light .modal-time-display { background: rgba(0,0,0,0.03); border-color: var(--border); color: var(--text-2); }
+html.light .btn-secondary { border-color: var(--border); color: var(--text-2); }
+html.light .btn-secondary:hover { border-color: var(--border-2); background: rgba(0,0,0,0.03); }
+html.light .detail-panel { background: #ffffff; border-color: rgba(0,0,0,0.1); }
+html.light .detail-panel-header { border-color: var(--border); }
+html.light .reset-notice { background: rgba(79,70,229,0.06); border-color: rgba(79,70,229,0.18); }
+
+/* Theme toggle button */
+#theme-toggle {
+  position: fixed;
+  top: 9px;
+  right: 14px;
+  z-index: 9999;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.07);
+  color: #94a3b8;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+#theme-toggle:hover { transform: scale(1.1); background: rgba(255,255,255,0.12); }
+html.light #theme-toggle {
+  background: rgba(0,0,0,0.05);
+  border-color: rgba(0,0,0,0.12);
+  color: #334155;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+html.light #theme-toggle:hover { background: rgba(0,0,0,0.09); }
 </style>
 </head>
 <body>
+<button id="theme-toggle" title="Toggle light/dark mode" aria-label="Toggle light/dark mode">🌙</button>
+<script>
+(function(){
+  var btn = document.getElementById('theme-toggle');
+  var saved = localStorage.getItem('jeeverse-theme');
+  if (saved === 'light') { document.documentElement.classList.add('light'); btn.textContent = '☀️'; }
+  btn.addEventListener('click', function(){
+    var isLight = document.documentElement.classList.toggle('light');
+    btn.textContent = isLight ? '☀️' : '🌙';
+    localStorage.setItem('jeeverse-theme', isLight ? 'light' : 'dark');
+  });
+})();
+</script>
 
 <!-- ── TOP NAV ── -->
 <nav class="top-nav">

@@ -1823,10 +1823,10 @@ document.querySelectorAll('.feat-grid,.big-grid').forEach(grid => {
   setTimeout(hideArrows, 8000);
 })();
 function launchApp() {
-  window.location.href = 'app.html';
+  window.location.href = 'main_site.html';
 }
 // ── DEEP-LINK: runs after all scripts load, reads __deepLinkTab set in <head> ──
-window.launchAndGo = function() { window.location.href = 'app.html'; };
+window.launchAndGo = function() { window.location.href = 'main_site.html'; };
 
 document.querySelectorAll('.hero-cta,[data-launch]').forEach(btn => {
   btn.removeAttribute('href');

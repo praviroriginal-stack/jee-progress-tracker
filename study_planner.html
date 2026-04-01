@@ -781,7 +781,7 @@ html.light #theme-toggle:hover { background: rgba(0,0,0,0.09); }
    SHARED PAGE INNER WRAPPER
 ══════════════════════════════════════════ */
 .syl-page-inner {
-  max-width: 1100px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem;
+  max-width: min(1700px, 97vw); margin: 0 auto; padding: 1.5rem 1.5rem 4rem;
 }
 
 /* ══════════════════════════════════════════
@@ -822,7 +822,9 @@ html.light #theme-toggle:hover { background: rgba(0,0,0,0.09); }
 .syl-unit-progress-bar { height:6px; background:rgba(255,255,255,0.05); border-radius:10px; overflow:hidden; display:flex; }
 .syl-unit-progress-seg { height:100%; transition:width 0.5s; }
 .syl-unit-ch-count { font-family:'DM Mono',monospace; font-size:0.58rem; color:var(--text-3); font-weight:600; margin-top:4px; text-align:right; }
-.syl-chapter-item { display:grid; grid-template-columns:1fr 1.3fr; align-items:start; gap:1.4rem; padding:18px 0; border-bottom:1px solid rgba(255,255,255,0.05); position:relative; }
+.syl-chapter-item { display:grid; grid-template-columns:1fr 1.6fr; align-items:start; gap:1.4rem; padding:18px 0; border-bottom:1px solid rgba(255,255,255,0.05); position:relative; }
+@media (min-width:1300px) { .syl-chapter-item { grid-template-columns: 1fr 2fr; } }
+@media (min-width:1600px) { .syl-chapter-item { grid-template-columns: 1fr 2.6fr; } }
 .syl-chapter-item:last-child { border:none; }
 .syl-chapter-item.heat-fresh { border-left:3px solid #10b981; padding-left:12px; }
 .syl-chapter-item.heat-warm  { border-left:3px solid #f59e0b; padding-left:12px; }
@@ -879,6 +881,76 @@ html.light #theme-toggle:hover { background: rgba(0,0,0,0.09); }
 .syl-hm-dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:3px; }
 .syl-tip-banner { display:flex; align-items:center; gap:10px; padding:10px 16px; margin-bottom:1.2rem; background:rgba(59,130,246,0.06); border:1px solid rgba(59,130,246,0.18); border-radius:12px; font-size:0.72rem; color:var(--text-3); font-weight:600; cursor:pointer; }
 .syl-tip-banner kbd { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:5px; padding:1px 6px; font-size:0.68rem; font-family:'DM Mono',monospace; color:var(--text); }
+
+/* ══════════════════════════════════════════
+   CALENDAR TAB
+══════════════════════════════════════════ */
+.cal-header { display:flex; align-items:center; gap:12px; margin-bottom:1.6rem; flex-wrap:wrap; }
+.cal-title { font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:800; letter-spacing:-0.02em; }
+.cal-view-toggle { display:flex; gap:4px; background:var(--surface-2); border:1px solid var(--border); border-radius:10px; padding:3px; margin-left:auto; }
+.cal-view-btn { padding:5px 18px; border-radius:7px; border:none; background:transparent; color:var(--text-3); font-family:'DM Sans',sans-serif; font-size:0.8rem; font-weight:700; cursor:pointer; transition:all 0.15s; }
+.cal-view-btn.active { background:var(--accent); color:white; box-shadow:0 2px 8px var(--accent-glow); }
+.cal-nav-row { display:flex; align-items:center; gap:10px; margin-bottom:1.4rem; }
+.cal-nav-btn { width:34px; height:34px; border-radius:9px; background:var(--surface-2); border:1px solid var(--border); color:var(--text-2); font-size:1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.14s; }
+.cal-nav-btn:hover { background:var(--surface-3); color:var(--text); }
+.cal-period-label { font-family:'Syne',sans-serif; font-size:1rem; font-weight:800; color:var(--text); flex:1; text-align:center; }
+.cal-today-btn { padding:5px 14px; border-radius:8px; background:var(--surface-2); border:1px solid var(--border); color:var(--text-2); font-size:0.75rem; font-weight:700; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.14s; }
+.cal-today-btn:hover { background:var(--accent); color:white; border-color:var(--accent); }
+.cal-card { background:var(--surface-1); border:1px solid var(--border); border-radius:20px; padding:1.6rem; margin-bottom:1.2rem; }
+.cal-card-header { display:flex; align-items:center; gap:10px; margin-bottom:1.2rem; }
+.cal-card-label { font-family:'DM Mono',monospace; font-size:0.62rem; font-weight:800; text-transform:uppercase; letter-spacing:0.12em; color:var(--text-3); }
+.cal-card-date { font-size:0.78rem; font-weight:700; color:var(--text-2); margin-left:auto; }
+.cal-section-title { font-size:0.78rem; font-weight:800; color:var(--text-2); margin-bottom:8px; display:flex; align-items:center; gap:7px; }
+.cal-textarea { width:100%; min-height:90px; background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:12px; padding:12px 14px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:0.82rem; line-height:1.6; resize:vertical; outline:none; transition:border-color 0.2s; box-sizing:border-box; }
+.cal-textarea:focus { border-color:var(--accent); }
+.cal-goals-list { display:flex; flex-direction:column; gap:6px; margin-bottom:8px; }
+.cal-goal-item { display:flex; align-items:center; gap:9px; padding:7px 10px; background:rgba(0,0,0,0.15); border-radius:10px; border:1px solid rgba(255,255,255,0.04); transition:background 0.1s; }
+.cal-goal-item:hover { background:rgba(0,0,0,0.25); }
+.cal-goal-cb { width:16px; height:16px; cursor:pointer; accent-color:var(--accent); flex-shrink:0; }
+.cal-goal-text { flex:1; font-size:0.8rem; color:var(--text-2); cursor:pointer; }
+.cal-goal-text.done { text-decoration:line-through; opacity:0.45; }
+.cal-goal-del { background:none; border:none; color:var(--text-3); font-size:0.9rem; cursor:pointer; padding:0 3px; opacity:0.5; transition:opacity 0.15s; }
+.cal-goal-del:hover { opacity:1; color:#ef4444; }
+.cal-add-goal { display:flex; gap:8px; }
+.cal-add-goal-input { flex:1; background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:9px; padding:8px 12px; color:var(--text); font-size:0.8rem; font-family:'DM Sans',sans-serif; outline:none; transition:border-color 0.2s; }
+.cal-add-goal-input:focus { border-color:var(--accent); }
+.cal-add-goal-btn { padding:8px 14px; border-radius:9px; background:var(--accent); color:white; border:none; font-size:0.8rem; font-weight:700; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.15s; white-space:nowrap; }
+.cal-add-goal-btn:hover { filter:brightness(1.15); }
+.cal-two-col { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+@media (max-width:800px) { .cal-two-col { grid-template-columns:1fr; } }
+.cal-week-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1.4rem; margin-bottom:1.4rem; }
+@media (max-width:1000px) { .cal-week-grid { grid-template-columns:repeat(2,1fr); } }
+@media (max-width:640px) { .cal-week-grid { grid-template-columns:1fr; } }
+.cal-week-card { background:var(--surface-1); border:1px solid var(--border); border-radius:18px; padding:1.6rem; cursor:pointer; transition:border-color 0.2s,box-shadow 0.2s; }
+.cal-week-card:hover { border-color:rgba(var(--accent-rgb),0.4); box-shadow:0 4px 18px rgba(0,0,0,0.25); }
+.cal-week-card.active-week { border-color:var(--accent); box-shadow:0 0 0 2px rgba(var(--accent-rgb),0.15); }
+.cal-week-card-label { font-family:'DM Mono',monospace; font-size:0.65rem; font-weight:800; text-transform:uppercase; letter-spacing:0.1em; color:var(--text-3); margin-bottom:6px; }
+.cal-week-card-dates { font-size:0.92rem; font-weight:700; color:var(--text-2); margin-bottom:8px; }
+.cal-week-card-preview { font-size:0.8rem; color:var(--text-3); line-height:1.5; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+.cal-week-card-goals-chip { display:inline-flex; align-items:center; gap:4px; font-size:0.65rem; font-weight:700; padding:3px 10px; border-radius:20px; background:rgba(var(--accent-rgb),0.12); color:var(--accent); margin-top:8px; }
+/* Week view — day log 2-row layout */
+.cal-day-log-grid { display:grid; grid-template-columns:repeat(7,1fr); border-top:1px solid var(--border); border-left:1px solid var(--border); }
+.cal-day-name-cell { padding:8px 10px 6px; border-right:1px solid var(--border); border-bottom:1px solid var(--border); background:rgba(255,255,255,0.02); }
+.cal-day-ta-cell { padding:8px 10px 10px; border-right:1px solid var(--border); border-bottom:1px solid var(--border); }
+.cal-day-name-cell:last-child, .cal-day-ta-cell:nth-child(14) { border-right:none; }
+@media (max-width:1100px) { .cal-day-log-grid { grid-template-columns:1fr; } .cal-day-name-cell,.cal-day-ta-cell { border-right:none; } }
+.cal-save-btn { padding:8px 18px; border-radius:10px; background:var(--accent); color:white; border:none; font-size:0.8rem; font-weight:700; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.15s; }
+.cal-save-btn:hover { filter:brightness(1.15); }
+.cal-saved-tag { font-size:0.7rem; color:#10b981; font-weight:700; display:none; }
+.cal-month-mode-toggle { display:flex; gap:4px; background:var(--surface-2); border:1px solid var(--border); border-radius:10px; padding:3px; }
+.cal-month-mode-btn { padding:5px 14px; border-radius:7px; border:none; background:transparent; color:var(--text-3); font-family:'DM Sans',sans-serif; font-size:0.77rem; font-weight:700; cursor:pointer; transition:all 0.15s; }
+.cal-month-mode-btn.active { background:var(--accent); color:white; box-shadow:0 2px 8px var(--accent-glow); }
+.cal-12-months-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.2rem; grid-auto-rows:1fr; }
+@media (max-width:1200px) { .cal-12-months-grid { grid-template-columns:repeat(3,1fr); } }
+@media (max-width:700px)  { .cal-12-months-grid { grid-template-columns:repeat(2,1fr); } }
+@media (max-width:440px)  { .cal-12-months-grid { grid-template-columns:1fr; } }
+.cal-12m-card { background:var(--surface-1); border:1px solid var(--border); border-radius:18px; padding:1.6rem; cursor:pointer; transition:border-color 0.2s,box-shadow 0.2s; display:flex; flex-direction:column; min-height:160px; }
+.cal-12m-card:hover { border-color:rgba(99,102,241,0.4); box-shadow:0 4px 20px rgba(0,0,0,0.3); }
+.cal-12m-card.current-month { border-color:var(--accent); box-shadow:0 0 0 2px rgba(var(--accent-rgb),0.15); }
+.cal-12m-card-month { font-family:'Syne',sans-serif; font-size:1.15rem; font-weight:800; color:var(--text); margin-bottom:3px; }
+.cal-12m-card-year { font-family:'DM Mono',monospace; font-size:0.65rem; color:var(--text-3); margin-bottom:10px; }
+.cal-12m-card-preview { font-size:0.8rem; color:var(--text-3); line-height:1.55; flex:1; display:-webkit-box; -webkit-line-clamp:5; -webkit-box-orient:vertical; overflow:hidden; }
+.cal-12m-card-goals { display:inline-flex; align-items:center; gap:3px; font-size:0.65rem; font-weight:700; padding:3px 9px; border-radius:20px; background:rgba(99,102,241,0.1); color:var(--accent); margin-top:10px; }
 
 /* ══════════════════════════════════════════
    BACKLOG & AI COVERAGE
@@ -968,6 +1040,9 @@ html.light #theme-toggle:hover { background: rgba(0,0,0,0.09); }
     </button>
     <button class="nav-tab" id="tab-backlog" onclick="switchPage('backlog')">
       <span>📋</span> Backlog <span class="nav-ai-badge" style="font-size:0.48rem;padding:1px 5px;">AI</span>
+    </button>
+    <button class="nav-tab" id="tab-calendar" onclick="switchPage('calendar')">
+      <span>📅</span> Calendar
     </button>
   </div>
   <button class="auth-btn" id="auth-btn" onclick="handleAuthClick()">Sign in with Google</button>
@@ -1114,6 +1189,47 @@ html.light #theme-toggle:hover { background: rgba(0,0,0,0.09); }
         </div>
       </div>
       <div id="ai-plan-output"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
+     PAGE 4: CALENDAR
+════════════════════════════════════════ -->
+<div id="page-calendar" class="page" style="overflow-y:auto;">
+  <div class="syl-page-inner">
+    <div class="cal-header">
+      <span class="cal-title">📅 Study Calendar</span>
+      <div class="cal-view-toggle">
+        <button class="cal-view-btn active" id="cvbtn-week" onclick="calSetView('week')">Week</button>
+        <button class="cal-view-btn" id="cvbtn-month" onclick="calSetView('month')">Month</button>
+      </div>
+    </div>
+
+    <!-- Week view -->
+    <div id="cal-view-week">
+      <div class="cal-nav-row">
+        <button class="cal-nav-btn" onclick="calWeekNav(-1)">&#8249;</button>
+        <span class="cal-period-label" id="cal-week-label"></span>
+        <button class="cal-nav-btn" onclick="calWeekNav(1)">&#8250;</button>
+        <button class="cal-today-btn" onclick="calGoToday()">Today</button>
+      </div>
+      <div id="cal-week-content"></div>
+    </div>
+
+    <!-- Month view -->
+    <div id="cal-view-month" style="display:none;">
+      <div class="cal-nav-row" id="cal-month-nav-row">
+        <button class="cal-nav-btn" onclick="calMonthNav(-1)">&#8249;</button>
+        <span class="cal-period-label" id="cal-month-label"></span>
+        <button class="cal-nav-btn" onclick="calMonthNav(1)">&#8250;</button>
+        <button class="cal-today-btn" onclick="calGoTodayMonth()">This Month</button>
+        <div class="cal-month-mode-toggle" style="margin-left:auto;">
+          <button class="cal-month-mode-btn active" id="mmbtn-single" onclick="calSetMonthMode('single')">Selected Month</button>
+          <button class="cal-month-mode-btn" id="mmbtn-twelve" onclick="calSetMonthMode('twelve')">Last 12 Months</button>
+        </div>
+      </div>
+      <div id="cal-month-content"></div>
     </div>
   </div>
 </div>
@@ -1361,6 +1477,7 @@ function switchPage(p) {
   if (p === 'timetable') { renderTimetableToolbar(); renderTimetable(); }
   if (p === 'syllabus')  { sylRender(); }
   if (p === 'backlog')   { renderBacklog(); }
+  if (p === 'calendar')  { calRender(); }
 }
 
 /* ══════════════════════════════════════════
@@ -2105,6 +2222,12 @@ async function loadFromCloud(user) {
     } else if (p.weekData && p.weekData.weekKey !== getWeekKey()) {
       weekData = {};
     }
+    // Load calendar journal data
+    if (p.calJournal) {
+      Object.entries(p.calJournal).forEach(([key, val]) => {
+        try { localStorage.setItem(key, JSON.stringify(val)); } catch(e) {}
+      });
+    }
     saveWeekData(weekData);
     renderCal();
     const activePage = document.querySelector('.page.active');
@@ -2118,10 +2241,19 @@ async function saveToCloud() {
   if (!_fbUser || !_fbDb || !window._fbSet || !window._fbRef) return;
   setSyncDot('saving');
   try {
+    // Collect all cal_week_ and cal_month_ journal keys from localStorage
+    const calJournal = {};
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && (k.startsWith('cal_week_') || k.startsWith('cal_month_'))) {
+        try { calJournal[k] = JSON.parse(localStorage.getItem(k)); } catch(e2) {}
+      }
+    }
     await window._fbSet(window._fbRef(_fbDb, 'users/' + _fbUser.uid + '/planner'), {
       ttSlots,
       calEvents,
-      weekData: { weekKey: getWeekKey(), entries: weekData }
+      weekData: { weekKey: getWeekKey(), entries: weekData },
+      calJournal,
     });
     setSyncDot('synced');
   } catch(e) { console.warn('Cloud save error:', e); setSyncDot('error'); }
@@ -2132,6 +2264,88 @@ function scheduleSave() {
   clearTimeout(_syncTimeout);
   _syncTimeout = setTimeout(saveToCloud, 1200);
 }
+
+/* ══════════════════════════════════════════
+   JEEHUB CHAPTER IDS (for Notes links)
+   URL format: https://www.jeehub.in/notes/<id>
+══════════════════════════════════════════ */
+const JEEHUB_IDS = {
+  // ── PHYSICS — Class 11 ────────────────
+  'units-and-measurements':                        '66a07063aa6d6068f1f4d87a',
+  'motion-in-a-straight-line':                     '66a07063aa6d6068f1f4d87f', // Kinematics
+  'laws-of-motion':                                '66a07063aa6d6068f1f4d885',
+  'work-power-and-energy':                         '66a07063aa6d6068f1f4d88e',
+  'gravitation':                                   '66a07063aa6d6068f1f4d87d',
+  'properties-of-solids':                          '66a07063aa6d6068f1f4d876', // Elasticity
+  'properties-of-matter':                          '66a07063aa6d6068f1f4d87b', // Fluid Mechanics
+  'thermal-properties-of-matter':                  '66a07063aa6d6068f1f4d88a',
+  'thermodynamics':                                '66a07063aa6d6068f1f4d88b',
+  'kinetic-theory-of-gases':                       '66a07063aa6d6068f1f4d880',
+  'oscillations':                                  '66a07063aa6d6068f1f4d889', // SHM
+  'waves':                                         '66a07063aa6d6068f1f4d88d',
+  // ── PHYSICS — Class 12 ────────────────
+  'electrostatics':                                '66a07063aa6d6068f1f4d877',
+  'electrostatic-potential-and-capacitance':       '66a07063aa6d6068f1f4d873', // Capacitors
+  'current-electricity':                           '66a07063aa6d6068f1f4d875',
+  'magnetic-effect-of-current':                    '66a07063aa6d6068f1f4d884',
+  'magnetism-and-matter':                          '66a07063aa6d6068f1f4d881',
+  'electromagnetic-induction':                     '66a07063aa6d6068f1f4d879',
+  'alternating-current':                           '66a07063aa6d6068f1f4d872',
+  'electromagnetic-waves':                         '66a07063aa6d6068f1f4d878',
+  'ray-optics':                                    '66a07063aa6d6068f1f4d887',
+  'wave-optics':                                   '66a07063aa6d6068f1f4d88c',
+  'dual-nature-of-radiation-and-matter':           '66a07063aa6d6068f1f4d883', // Modern Physics
+  'atoms':                                         '66a07063aa6d6068f1f4d883',
+  'nuclei':                                        '66a07063aa6d6068f1f4d883',
+  'semiconductor':                                 '66a07063aa6d6068f1f4d888', // Semiconductors + Comm
+  'communication-systems':                         '66a07063aa6d6068f1f4d888',
+  // ── CHEMISTRY — Inorganic ─────────────
+  'chemical-bonding-and-molecular-structure':      '66a07063aa6d6068f1f4d83d',
+  'coordination-compounds':                        '66a07063aa6d6068f1f4d83e',
+  'd-and-f-block-elements':                        '66a07063aa6d6068f1f4d83f',
+  'p-block-elements-11':                           '66a07063aa6d6068f1f4d840', // Groups 13 & 14
+  'p-block-elements-12':                           '66a07063aa6d6068f1f4d842', // Groups 15–18
+  'metallurgy':                                    '66a07063aa6d6068f1f4d846',
+  'classification-of-elements-and-periodicity-in-properties': '66a07063aa6d6068f1f4d847',
+  // ── CHEMISTRY — Organic ───────────────
+  'alcohols-phenols-and-ethers':                   '66a07063aa6d6068f1f4d85f',
+  'aldehydes-ketones-and-carboxylic-acids':        '66a07063aa6d6068f1f4d860',
+  'amines':                                        '66a07063aa6d6068f1f4d861',
+  'biomolecules':                                  '66a07063aa6d6068f1f4d864',
+  'basics-of-organic-chemistry':                   '66a07063aa6d6068f1f4d865', // GOC / IUPAC
+  'haloalkanes-and-haloarenes':                    '66a07063aa6d6068f1f4d868',
+  'hydrocarbons':                                  '66a07063aa6d6068f1f4d869',
+  // ── CHEMISTRY — Physical ──────────────
+  'structure-of-atom':                             '66a07063aa6d6068f1f4d86b',
+  'chemical-kinetics':                             '66a07063aa6d6068f1f4d86c',
+  'electrochemistry':                              '66a07063aa6d6068f1f4d86d',
+  'states-of-matter':                              '66a07063aa6d6068f1f4d86e', // Gaseous State
+  'some-basic-concepts-of-chemistry':              '66a07063aa6d6068f1f4d86f', // Mole Concept
+  'redox-reactions':                               '66a07063aa6d6068f1f4d870',
+  'solutions':                                     '66a07063aa6d6068f1f4d871',
+  // ── MATHEMATICS — Class 11 ────────────
+  'complex-numbers':                               '66a07063aa6d6068f1f4d84e',
+  'quadratic-equation-and-inequalities':           '66a07063aa6d6068f1f4d85a',
+  'permutations-and-combinations':                 '66a07063aa6d6068f1f4d858',
+  'binomial-theorem':                              '66a07063aa6d6068f1f4d84c',
+  'sequences-and-series':                          '66a07063aa6d6068f1f4d85b',
+  'circle':                                        '66a07063aa6d6068f1f4d84d',
+  'conic-sections':                                '66a07063aa6d6068f1f4d851', // Ellipse (covers conics)
+  'trigonometric-functions':                       '66a07063aa6d6068f1f4d85d',
+  'inverse-trigonometry':                          '66a07063aa6d6068f1f4d85d', // same Trigonometry notes
+  'statistics':                                    '66a07063aa6d6068f1f4d85c',
+  'mathematical-reasoning':                        '66a07063aa6d6068f1f4d855',
+  // ── MATHEMATICS — Class 12 ────────────
+  'limits-continuity-and-differentiability':       '66a07063aa6d6068f1f4d854', // Limits
+  'applications-of-derivatives':                   '66a07063aa6d6068f1f4d84a',
+  'indefinite-integration':                        '66a07063aa6d6068f1f4d853',
+  'definite-integration':                          '66a07063aa6d6068f1f4d84f',
+  'vector-algebra':                                '66a07063aa6d6068f1f4d85e',
+  '3d-geometry':                                   '66a07063aa6d6068f1f4d849',
+  'matrices':                                      '66a07063aa6d6068f1f4d856',
+  'determinants':                                  '66a07063aa6d6068f1f4d850',
+  'probability':                                   '66a07063aa6d6068f1f4d859',
+};
 
 /* ══════════════════════════════════════════
    JEE SYLLABUS DATA + PROGRESS STORE
@@ -3049,6 +3263,17 @@ function sylRender() {
           onclick="sylSetStage('${id}','${s.replace(/'/g,"\\'")}',event)"
           title="${s} · Shift+click to select all up to this stage">${s}</button>`;
       }).join('');
+      const customStageList = store[id]?.customStages || [];
+      const customStageBtns = customStageList.map(cs => {
+        const isActive = (store[id]?.stages || []).includes(cs);
+        const csSafe = cs.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+        return `<button class="syl-stage-btn${isActive ? ' active' : ''}" data-s="${cs}" data-custom="1"
+          onclick="sylSetCustomStageDone('${id}','${csSafe}')"
+          title="${cs} (custom — right-click to delete)" oncontextmenu="event.preventDefault();sylRemoveCustomStage('${id}','${csSafe}')"
+          style="border-style:dashed;">${cs} <span onclick="event.stopPropagation();sylRemoveCustomStage('${id}','${csSafe}')" style="margin-left:2px;opacity:0.45;font-size:0.62em;vertical-align:middle;">✕</span></button>`;
+      }).join('');
+      const addStageBtn = `<button class="syl-stage-btn" onclick="sylAddCustomStage('${id}')" title="Add a custom tracker item (no points)"
+        style="border-style:dashed;border-color:rgba(255,255,255,0.13);color:var(--text-3);">＋ Add</button>`;
 
       const subsHtml = subs.length ? (() => {
         const rows = subs.map(t => {
@@ -3078,6 +3303,10 @@ function sylRender() {
       const pyqUrl   = `https://questions.examside.com/past-years/jee/jee-main/${sylCurTab === 'mathematics' ? 'maths' : sylCurTab}/${ch.s}`;
       const frmUrl   = 'https://chatgpt.com/?q=' + encodeURIComponent('JEE 2027 formula sheet for ' + ch.n + ' in ' + subjectName + '. List every important formula with variable definitions, units, and note which appear most in JEE Mains & Advanced.');
       const qstUrl   = 'https://chatgpt.com/?q=' + encodeURIComponent('10 most important JEE-level questions from ' + ch.n + ' in ' + subjectName + ', covering all major subtopics.');
+      const jhId     = JEEHUB_IDS[ch.s];
+      const notesBtn = jhId
+        ? `<a href="https://www.jeehub.in/notes/${jhId}" target="_blank" class="syl-action-btn" style="background:rgba(16,185,129,0.12);border-color:rgba(16,185,129,0.35);color:#34d399;">📖 Notes</a>`
+        : '';
 
       return `<div class="syl-chapter-item ${heat}">
         <div>
@@ -3088,9 +3317,10 @@ function sylRender() {
           </div>
         </div>
         <div>
-          <div class="syl-stage-box">${stageBtns}</div>
+          <div class="syl-stage-box">${stageBtns}${customStageBtns}${addStageBtn}</div>
           <div class="syl-action-row">
             <a href="${pyqUrl}" target="_blank" class="syl-action-btn">PYQs</a>
+            ${notesBtn}
             <a href="${frmUrl}" target="_blank" class="syl-action-btn" style="background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.35);color:#f59e0b;">📝 Formulae</a>
             <a href="${qstUrl}" target="_blank" class="syl-action-btn" style="background:rgba(99,102,241,0.12);border-color:rgba(99,102,241,0.35);color:#818cf8;">❓ Questions</a>
           </div>
@@ -3311,6 +3541,424 @@ function sylUpdatePageStats() {
     sylSetTab('11', 'physics', document.getElementById('syl11-phy'));
   }, 50);
 })();
+
+/* ══════════════════════════════════════════
+   SYLLABUS TRACKER — CUSTOM STAGES
+══════════════════════════════════════════ */
+function sylAddCustomStage(id) {
+  const name = (prompt('Name for this custom tracker item (e.g. "Watched lecture", "Made notes"):') || '').trim();
+  if (!name) return;
+  if (!store[id]) store[id] = {};
+  const list = store[id].customStages || [];
+  if (!list.includes(name)) { list.push(name); store[id].customStages = list; }
+  sylSave(); sylRender();
+}
+
+function sylSetCustomStageDone(id, name) {
+  if (!store[id]) store[id] = {};
+  const stages = new Set(store[id].stages || []);
+  if (stages.has(name)) stages.delete(name); else stages.add(name);
+  store[id].stages = [...stages];
+  sylSave(); sylRender();
+}
+
+function sylRemoveCustomStage(id, name) {
+  if (!store[id]) return;
+  store[id].customStages = (store[id].customStages || []).filter(s => s !== name);
+  const stages = new Set(store[id].stages || []);
+  stages.delete(name);
+  store[id].stages = [...stages];
+  sylSave(); sylRender();
+}
+
+/* ══════════════════════════════════════════
+   CALENDAR — WEEK/MONTH JOURNAL & GOALS
+══════════════════════════════════════════ */
+var calCurrentView = 'week';
+var calWeekOffset  = 0; // weeks from today's week
+var calMonthOffset = 0; // months from today's month
+var calMonthMode   = 'single'; // 'single' | 'twelve'
+
+function calSetMonthMode(mode) {
+  calMonthMode = mode;
+  document.getElementById('mmbtn-single').classList.toggle('active', mode === 'single');
+  document.getElementById('mmbtn-twelve').classList.toggle('active', mode === 'twelve');
+  // Show/hide navigation row for twelve mode
+  const navRow = document.getElementById('cal-month-nav-row');
+  if (navRow) {
+    navRow.querySelectorAll('.cal-nav-btn').forEach(b => b.style.display = mode === 'twelve' ? 'none' : '');
+    const todayBtn = navRow.querySelector('.cal-today-btn');
+    if (todayBtn) todayBtn.style.display = mode === 'twelve' ? 'none' : '';
+  }
+  calRenderMonth();
+}
+
+function calWeekKey(offset) {
+  const d = new Date();
+  d.setDate(d.getDate() - d.getDay() + offset * 7);
+  const y = d.getFullYear();
+  const w = getISOWeek(d);
+  return `cal_week_${y}_${String(w).padStart(2,'0')}`;
+}
+
+function calMonthKey(offset) {
+  const d = new Date();
+  d.setDate(1);
+  d.setMonth(d.getMonth() + offset);
+  return `cal_month_${d.getFullYear()}_${String(d.getMonth()+1).padStart(2,'0')}`;
+}
+
+function getISOWeek(d) {
+  const date = new Date(d);
+  date.setHours(0,0,0,0);
+  date.setDate(date.getDate() + 3 - (date.getDay()+6)%7);
+  const week1 = new Date(date.getFullYear(),0,4);
+  return 1 + Math.round(((date-week1)/86400000 - 3 + (week1.getDay()+6)%7)/7);
+}
+
+function calLoad(key) {
+  try { return JSON.parse(localStorage.getItem(key)) || {}; } catch(e) { return {}; }
+}
+
+function calSave(key, data) {
+  localStorage.setItem(key, JSON.stringify(data));
+  scheduleSave();
+}
+
+function calSetView(v) {
+  calCurrentView = v;
+  document.getElementById('cvbtn-week').classList.toggle('active', v==='week');
+  document.getElementById('cvbtn-month').classList.toggle('active', v==='month');
+  document.getElementById('cal-view-week').style.display  = v==='week'  ? '' : 'none';
+  document.getElementById('cal-view-month').style.display = v==='month' ? '' : 'none';
+  calRender();
+}
+
+function calWeekNav(dir) { calWeekOffset += dir; calRenderWeek(); }
+function calMonthNav(dir) { calMonthOffset += dir; calRenderMonth(); }
+function calGoToday()      { calWeekOffset = 0; calRenderWeek(); }
+function calGoTodayMonth() { calMonthOffset = 0; calRenderMonth(); }
+
+function calRender() {
+  if (calCurrentView === 'week') calRenderWeek();
+  else calRenderMonth();
+}
+
+function calFmtWeekLabel(offset) {
+  const mon = new Date();
+  mon.setDate(mon.getDate() - mon.getDay() + 1 + offset*7);
+  const sun = new Date(mon); sun.setDate(sun.getDate()+6);
+  const opts = { day:'numeric', month:'short' };
+  const y = sun.getFullYear();
+  if (mon.getMonth() === sun.getMonth())
+    return `${mon.toLocaleDateString('en',{day:'numeric'})}–${sun.toLocaleDateString('en',opts)}, ${y}`;
+  return `${mon.toLocaleDateString('en',opts)} – ${sun.toLocaleDateString('en',opts)}, ${y}`;
+}
+
+function calRenderWeek() {
+  const lbl = document.getElementById('cal-week-label');
+  const cnt = document.getElementById('cal-week-content');
+  if (!lbl || !cnt) return;
+  const isThisWeek = calWeekOffset === 0;
+  lbl.textContent = isThisWeek ? 'This Week  (' + calFmtWeekLabel(0) + ')' : calFmtWeekLabel(calWeekOffset);
+
+  const key  = calWeekKey(calWeekOffset);
+  const data = calLoad(key);
+
+  // Day-by-day study log for the week
+  const dayNames = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  const monDate = new Date();
+  monDate.setDate(monDate.getDate() - monDate.getDay() + 1 + calWeekOffset*7);
+
+  const todayStr = new Date().toISOString().slice(0,10);
+
+  // Pre-compute day data for both rows
+  const dayMeta = dayNames.map((dn, i) => {
+    const d = new Date(monDate); d.setDate(d.getDate()+i);
+    const ds = d.toISOString().slice(0,10);
+    return { dn, d, ds, isToday: ds===todayStr, past: d < new Date(todayStr), dayData: data.days?.[ds]||{} };
+  });
+
+  // Row 1: day name headers
+  const nameRow = dayMeta.map(({ dn, d, isToday }) =>
+    `<div class="cal-day-name-cell">
+      <div style="font-size:0.75rem;font-weight:800;color:${isToday?'var(--accent)':'var(--text-2)'};">${dn}${isToday?' <span style="font-size:0.52rem;background:var(--accent);color:white;border-radius:20px;padding:1px 6px;">Today</span>':''}</div>
+      <div style="font-size:0.6rem;color:var(--text-3);margin-top:2px;">${d.toLocaleDateString('en',{day:'numeric',month:'short'})}</div>
+    </div>`
+  ).join('');
+
+  // Row 2: textarea entries
+  const taRow = dayMeta.map(({ ds, past, dayData }) =>
+    `<div class="cal-day-ta-cell">
+      <textarea class="cal-textarea" style="min-height:80px;font-size:0.78rem;width:100%;box-sizing:border-box;" placeholder="${past?'What did you study?':'Plans'}"
+        oninput="calSaveDayNote('${key}','${ds}',this.value)">${escHtml(dayData.note||'')}</textarea>
+    </div>`
+  ).join('');
+
+  const dayRows = `<div class="cal-day-log-grid">${nameRow}${taRow}</div>`;
+
+  // Weekly summary and goals
+  const summaryVal = (data.summary||'').replace(/"/g,'&quot;');
+  const goals = data.goals || [];
+  const goalsHtml = goals.map((g,gi) => `
+    <div class="cal-goal-item" id="wcg-${key}-${gi}">
+      <input type="checkbox" class="cal-goal-cb" ${g.done?'checked':''} onchange="calWeekGoalToggle('${key}',${gi},this.checked)">
+      <span class="cal-goal-text${g.done?' done':''}" onclick="this.previousElementSibling.click()">${escHtml(g.text)}</span>
+      <button class="cal-goal-del" onclick="calWeekGoalDel('${key}',${gi})" title="Remove">✕</button>
+    </div>`).join('');
+
+  cnt.innerHTML = `
+    <div class="cal-card" style="margin-bottom:1.2rem;">
+      <div class="cal-card-header">
+        <span style="font-size:1.1rem;">📝</span>
+        <span class="cal-section-title" style="margin-bottom:0;">Daily Log</span>
+        <span class="cal-card-date">${calFmtWeekLabel(calWeekOffset)}</span>
+      </div>
+      <div style="padding:0 4px;">${dayRows}</div>
+    </div>
+    <div class="cal-two-col">
+      <div class="cal-card">
+        <div class="cal-card-header">
+          <span style="font-size:1.1rem;">📋</span>
+          <span class="cal-section-title" style="margin-bottom:0;">Week Summary</span>
+        </div>
+        <div class="cal-section-title" style="font-size:0.72rem;color:var(--text-3);margin-bottom:6px;">What did you accomplish this week?</div>
+        <textarea class="cal-textarea" id="cal-wsummary-${key}" placeholder="Chapters covered, topics studied, breakthroughs, struggles..."
+          oninput="calSaveWeekSummary('${key}',this.value)">${escHtml(data.summary||'')}</textarea>
+      </div>
+      <div class="cal-card">
+        <div class="cal-card-header">
+          <span style="font-size:1.1rem;">🎯</span>
+          <span class="cal-section-title" style="margin-bottom:0;">Week Goals</span>
+          <span style="margin-left:auto;font-size:0.65rem;color:var(--text-3);">${goals.filter(g=>g.done).length}/${goals.length} done</span>
+        </div>
+        <div class="cal-goals-list" id="wgl-${key}">${goalsHtml}</div>
+        <div class="cal-add-goal">
+          <input class="cal-add-goal-input" id="wgi-${key}" placeholder="Add a goal for this week..." onkeydown="if(event.key==='Enter')calWeekGoalAdd('${key}')">
+          <button class="cal-add-goal-btn" onclick="calWeekGoalAdd('${key}')">＋ Add</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function calSaveDayNote(key, ds, val) {
+  const data = calLoad(key);
+  if (!data.days) data.days = {};
+  if (!data.days[ds]) data.days[ds] = {};
+  data.days[ds].note = val;
+  calSave(key, data);
+}
+
+function calSaveWeekSummary(key, val) {
+  const data = calLoad(key);
+  data.summary = val;
+  calSave(key, data);
+}
+
+function calWeekGoalAdd(key) {
+  const inp = document.getElementById('wgi-'+key);
+  if (!inp) return;
+  const text = inp.value.trim();
+  if (!text) return;
+  const data = calLoad(key);
+  if (!data.goals) data.goals = [];
+  data.goals.push({ text, done:false });
+  calSave(key, data);
+  inp.value = '';
+  calRenderWeek();
+}
+
+function calWeekGoalToggle(key, idx, done) {
+  const data = calLoad(key);
+  if (data.goals?.[idx]) { data.goals[idx].done = done; calSave(key, data); }
+  calRenderWeek();
+}
+
+function calWeekGoalDel(key, idx) {
+  const data = calLoad(key);
+  if (data.goals) { data.goals.splice(idx,1); calSave(key, data); }
+  calRenderWeek();
+}
+
+// ── Month view ──
+function calRenderMonth() {
+  const lbl = document.getElementById('cal-month-label');
+  const cnt = document.getElementById('cal-month-content');
+  if (!lbl || !cnt) return;
+
+  if (calMonthMode === 'twelve') {
+    lbl.textContent = 'Last 12 Months';
+    calRenderTwelveMonths(cnt);
+    return;
+  }
+
+  const refDate = new Date();
+  refDate.setDate(1);
+  refDate.setMonth(refDate.getMonth() + calMonthOffset);
+  const year  = refDate.getFullYear();
+  const month = refDate.getMonth(); // 0-indexed
+
+  const monthName = refDate.toLocaleDateString('en', { month:'long', year:'numeric' });
+  lbl.textContent = monthName;
+
+  const mKey  = calMonthKey(calMonthOffset);
+  const mData = calLoad(mKey);
+  const mGoals = mData.goals || [];
+
+  // Build all weeks in this month
+  const firstDay = new Date(year, month, 1);
+  const lastDay  = new Date(year, month+1, 0);
+
+  // Start from Monday of the week containing firstDay
+  const start = new Date(firstDay);
+  start.setDate(start.getDate() - (start.getDay()+6)%7);
+
+  const weeks = [];
+  let cur = new Date(start);
+  while (cur <= lastDay || weeks.length === 0) {
+    const wStart = new Date(cur);
+    const wEnd   = new Date(cur); wEnd.setDate(wEnd.getDate()+6);
+    weeks.push({ wStart, wEnd });
+    cur.setDate(cur.getDate()+7);
+    if (cur > lastDay && weeks.length >= 4) break;
+  }
+
+  const weekCardsHtml = weeks.map((w, wi) => {
+    // compute calWeekOffset for this week relative to today
+    const todayMon = new Date(); todayMon.setDate(todayMon.getDate() - (todayMon.getDay()+6)%7); todayMon.setHours(0,0,0,0);
+    const wMon = new Date(w.wStart); wMon.setHours(0,0,0,0);
+    const wOffset = Math.round((wMon - todayMon) / 604800000);
+    const wKey = calWeekKey(wOffset);
+    const wData = calLoad(wKey);
+    const wGoals = wData.goals || [];
+    const wDone  = wGoals.filter(g=>g.done).length;
+    const preview = wData.summary ? wData.summary.slice(0,80) + (wData.summary.length>80?'…':'') : (wGoals.length ? wGoals.slice(0,2).map(g=>g.text).join(' · ') : 'No entries yet');
+    const fmtDate = d => d.toLocaleDateString('en',{day:'numeric',month:'short'});
+    return `<div class="cal-week-card" onclick="calJumpToWeek(${wOffset})">
+      <div class="cal-week-card-label">Week ${wi+1}</div>
+      <div class="cal-week-card-dates">${fmtDate(w.wStart)} – ${fmtDate(w.wEnd)}</div>
+      <div class="cal-week-card-preview">${escHtml(preview)}</div>
+      ${wGoals.length ? `<div class="cal-week-card-goals-chip">🎯 ${wDone}/${wGoals.length} goals</div>` : ''}
+    </div>`;
+  }).join('');
+
+  const goalsHtml = mGoals.map((g,gi) => `
+    <div class="cal-goal-item">
+      <input type="checkbox" class="cal-goal-cb" ${g.done?'checked':''} onchange="calMonthGoalToggle('${mKey}',${gi},this.checked)">
+      <span class="cal-goal-text${g.done?' done':''}" onclick="this.previousElementSibling.click()">${escHtml(g.text)}</span>
+      <button class="cal-goal-del" onclick="calMonthGoalDel('${mKey}',${gi})" title="Remove">✕</button>
+    </div>`).join('');
+
+  cnt.innerHTML = `
+    <div class="cal-card" style="margin-bottom:1.2rem;">
+      <div class="cal-card-header">
+        <span style="font-size:1.1rem;">📆</span>
+        <span class="cal-section-title" style="margin-bottom:0;">Weeks in ${monthName}</span>
+        <span style="margin-left:auto;font-size:0.7rem;color:var(--text-3);">Click any week to edit it</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(${weeks.length},1fr);gap:1.2rem;margin-bottom:0.2rem;">${weekCardsHtml}</div>
+    </div>
+    <div class="cal-two-col">
+      <div class="cal-card">
+        <div class="cal-card-header">
+          <span style="font-size:1.1rem;">📝</span>
+          <span class="cal-section-title" style="margin-bottom:0;">Month Notes</span>
+        </div>
+        <div class="cal-section-title" style="font-size:0.72rem;color:var(--text-3);margin-bottom:6px;">Overall notes, reflections, or highlights for this month</div>
+        <textarea class="cal-textarea" style="min-height:120px;" placeholder="e.g. Finished Thermodynamics, started Organic Chemistry, gave 3 mock tests..."
+          oninput="calSaveMonthNotes('${mKey}',this.value)">${escHtml(mData.notes||'')}</textarea>
+      </div>
+      <div class="cal-card">
+        <div class="cal-card-header">
+          <span style="font-size:1.1rem;">🏆</span>
+          <span class="cal-section-title" style="margin-bottom:0;">Month Goals</span>
+          <span style="margin-left:auto;font-size:0.65rem;color:var(--text-3);">${mGoals.filter(g=>g.done).length}/${mGoals.length} done</span>
+        </div>
+        <div class="cal-goals-list" id="mgl-${mKey}">${goalsHtml}</div>
+        <div class="cal-add-goal">
+          <input class="cal-add-goal-input" id="mgi-${mKey}" placeholder="Add a monthly goal..." onkeydown="if(event.key==='Enter')calMonthGoalAdd('${mKey}')">
+          <button class="cal-add-goal-btn" onclick="calMonthGoalAdd('${mKey}')">＋ Add</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+function calJumpToWeek(offset) {
+  calWeekOffset = offset;
+  calSetView('week');
+}
+
+function calRenderTwelveMonths(cnt) {
+  const today = new Date();
+  const todayY = today.getFullYear();
+  const todayM = today.getMonth();
+
+  // Build array of last 12 months (newest first)
+  const months = [];
+  for (let i = 0; i < 12; i++) {
+    let m = todayM - i;
+    let y = todayY;
+    while (m < 0) { m += 12; y--; }
+    months.push({ year: y, month: m });
+  }
+
+  const cardsHtml = months.map(({ year, month }) => {
+    const mKey = calMonthKey(((year - todayY) * 12) + (month - todayM));
+    const mData = calLoad(mKey);
+    const mGoals = mData.goals || [];
+    const doneCnt = mGoals.filter(g => g.done).length;
+    const preview = mData.notes
+      ? mData.notes.slice(0, 80) + (mData.notes.length > 80 ? '…' : '')
+      : (mGoals.length ? mGoals.slice(0, 2).map(g => g.text).join(' · ') : 'No entries yet');
+    const mName = new Date(year, month, 1).toLocaleDateString('en', { month: 'long' });
+    const isCurrentMonth = year === todayY && month === todayM;
+    const offset = ((year - todayY) * 12) + (month - todayM);
+    return `<div class="cal-12m-card${isCurrentMonth ? ' current-month' : ''}" onclick="calJumpToMonth(${offset})">
+      <div class="cal-12m-card-month">${mName}</div>
+      <div class="cal-12m-card-year">${year}</div>
+      <div class="cal-12m-card-preview">${escHtml(preview)}</div>
+      ${mGoals.length ? `<div class="cal-12m-card-goals">🎯 ${doneCnt}/${mGoals.length} goals</div>` : ''}
+    </div>`;
+  }).join('');
+
+  cnt.innerHTML = `<div class="cal-12-months-grid" style="min-height:calc(100vh - 200px);align-content:stretch;">${cardsHtml}</div>`;
+}
+
+function calJumpToMonth(offset) {
+  calMonthOffset = offset;
+  calSetMonthMode('single');
+}
+
+function calSaveMonthNotes(key, val) {
+  const data = calLoad(key);
+  data.notes = val;
+  calSave(key, data);
+}
+
+function calMonthGoalAdd(key) {
+  const inp = document.getElementById('mgi-'+key);
+  if (!inp) return;
+  const text = inp.value.trim();
+  if (!text) return;
+  const data = calLoad(key);
+  if (!data.goals) data.goals = [];
+  data.goals.push({ text, done:false });
+  calSave(key, data);
+  inp.value = '';
+  calRenderMonth();
+}
+
+function calMonthGoalToggle(key, idx, done) {
+  const data = calLoad(key);
+  if (data.goals?.[idx]) { data.goals[idx].done = done; calSave(key, data); }
+  calRenderMonth();
+}
+
+function calMonthGoalDel(key, idx) {
+  const data = calLoad(key);
+  if (data.goals) { data.goals.splice(idx,1); calSave(key, data); }
+  calRenderMonth();
+}
 
 </script>
 

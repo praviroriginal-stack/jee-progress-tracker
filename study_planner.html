@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Study Planner — JEEverse</title>
+<title> Study Planner — JEEverse</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📚</text></svg>">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
 /* ══════════════════════════════════════════
@@ -796,6 +797,55 @@ html.light #theme-toggle:hover { background: rgba(0,0,0,0.09); }
 .syl-page-inner {
   max-width: min(1700px, 97vw); margin: 0 auto; padding: 1.5rem 1.5rem 4rem;
 }
+#page-syllabus { flex-direction: row !important; overflow: hidden !important; }
+.syl-left-panel {
+  width: 250px; flex-shrink: 0;
+  overflow-y: auto; overflow-x: hidden;
+  border-right: 1px solid var(--border);
+  background: var(--surface-0);
+  padding: 1.2rem 1rem;
+  display: flex; flex-direction: column; gap: 1rem;
+}
+.syl-right-scroll { flex: 1; overflow-y: auto; min-width: 0; }
+.syl-psb-grid { display:grid; grid-template-columns:1fr; gap:14px; }
+.syl-heat-legend { display:flex; flex-direction:column; gap:6px; padding:10px 12px; border-radius:12px; background:var(--surface-2); border:1px solid var(--border); font-size:0.68rem; font-weight:700; color:var(--text-3); }
+.syl-heat-legend-title { font-weight:800; color:var(--text); font-size:0.7rem; margin-bottom:2px; }
+
+/* Mobile stats button + bottom sheet */
+.syl-stats-fab {
+  display: none;
+  position: fixed; bottom: 80px; right: 16px; z-index: 800;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: white; border: none; border-radius: 50px;
+  padding: 10px 18px; font-size: 0.78rem; font-weight: 800;
+  font-family: 'DM Sans', sans-serif; cursor: pointer;
+  box-shadow: 0 4px 18px var(--accent-glow); gap: 6px;
+  align-items: center;
+}
+.syl-stats-sheet-backdrop {
+  display: none; position: fixed; inset: 0; z-index: 900;
+  background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
+}
+.syl-stats-sheet-backdrop.open { display: block; }
+.syl-stats-sheet {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 901;
+  background: var(--surface-1); border-top: 1px solid var(--border-2);
+  border-radius: 20px 20px 0 0;
+  padding: 0 1.2rem 2rem;
+  transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.32,0.72,0,1);
+  max-height: 80vh; overflow-y: auto;
+}
+.syl-stats-sheet.open { transform: translateY(0); }
+.syl-stats-sheet-handle {
+  width: 40px; height: 4px; border-radius: 2px;
+  background: rgba(255,255,255,0.15); margin: 12px auto 16px;
+}
+
+@media (max-width:640px) {
+  .syl-chapter-item { grid-template-columns:1fr; gap:0.8rem; }
+  .syl-left-panel { display: none; }
+  .syl-stats-fab { display: flex; }
+}
 
 /* ══════════════════════════════════════════
    NAV AI BADGE
@@ -880,17 +930,15 @@ html.light #theme-toggle:hover { background: rgba(0,0,0,0.09); }
 .syl-st-btn.st-f { background:rgba(245,158,11,0.12); border-color:rgba(245,158,11,0.25); }
 .syl-st-btn.st-f:hover { background:rgba(245,158,11,0.25); }
 #syl-page-stats-bar { background:var(--surface-1); border:1px solid var(--border); border-radius:18px; padding:16px 22px; margin-top:2rem; }
-.syl-psb-grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.syl-psb-bar-wrap { height:6px; background:rgba(255,255,255,0.06); border-radius:10px; overflow:hidden; }
 .syl-psb-section-title { font-family:'DM Mono',monospace; font-size:0.58rem; font-weight:800; text-transform:uppercase; letter-spacing:0.12em; margin-bottom:6px; }
 .syl-psb-pts-row { display:flex; align-items:baseline; gap:5px; margin-bottom:5px; }
 .syl-psb-pts-val { font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800; line-height:1; }
 .syl-psb-pts-max { font-size:0.75rem; font-weight:600; color:var(--text-3); }
 .syl-psb-pct { font-family:'DM Mono',monospace; font-size:0.75rem; font-weight:800; margin-left:auto; }
-.syl-psb-bar-wrap { height:6px; background:rgba(255,255,255,0.06); border-radius:10px; overflow:hidden; }
 .syl-psb-bar-fill { height:100%; border-radius:10px; transition:width 0.5s; }
 .syl-psb-weights-row { display:flex; flex-wrap:wrap; gap:4px; margin-top:8px; }
 .syl-psb-weight-chip { font-size:0.58rem; font-weight:700; padding:2px 7px; border-radius:20px; white-space:nowrap; }
-.syl-heat-legend { display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-top:1rem; padding:10px 16px; border-radius:12px; background:var(--surface-2); border:1px solid var(--border); font-size:0.7rem; font-weight:700; color:var(--text-3); }
 .syl-hm-dot { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:3px; }
 .syl-tip-banner { display:flex; align-items:center; gap:10px; padding:10px 16px; margin-bottom:1.2rem; background:rgba(59,130,246,0.06); border:1px solid rgba(59,130,246,0.18); border-radius:12px; font-size:0.72rem; color:var(--text-3); font-weight:600; cursor:pointer; }
 .syl-tip-banner kbd { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:5px; padding:1px 6px; font-size:0.68rem; font-family:'DM Mono',monospace; color:var(--text); }
@@ -1133,7 +1181,12 @@ html.light .cal-goal-cb:checked { box-shadow:0 2px 8px rgba(79,70,229,0.3); }
 <!-- ════════════════════════════════════════
      PAGE 2: SYLLABUS TRACKER
 ════════════════════════════════════════ -->
-<div id="page-syllabus" class="page" style="overflow-y:auto;">
+<div id="page-syllabus" class="page">
+  <!-- Desktop left sidebar -->
+  <div class="syl-left-panel" id="syl-left-panel"></div>
+
+  <!-- Main scrollable content -->
+  <div class="syl-right-scroll">
   <div class="syl-page-inner">
     <div class="syl-header-bar">
       <span class="syl-header-title">📚 JEE Syllabus Tracker</span>
@@ -1159,10 +1212,18 @@ html.light .cal-goal-cb:checked { box-shadow:0 2px 8px rgba(79,70,229,0.3); }
       <div id="syl-view-12"></div>
     </div>
   </div>
-</div>
+  </div><!-- .syl-right-scroll -->
+</div><!-- #page-syllabus -->
 
-<!-- ════════════════════════════════════════
-     PAGE 3: BACKLOG & AI COVERAGE
+<!-- Mobile stats FAB -->
+<button class="syl-stats-fab" id="syl-stats-fab" onclick="sylStatsSheetOpen()">📊 Stats</button>
+
+<!-- Mobile stats bottom sheet -->
+<div class="syl-stats-sheet-backdrop" id="syl-stats-backdrop" onclick="sylStatsSheetClose()"></div>
+<div class="syl-stats-sheet" id="syl-stats-sheet">
+  <div class="syl-stats-sheet-handle"></div>
+  <div id="syl-stats-sheet-body"></div>
+</div>
 ════════════════════════════════════════ -->
 <div id="page-backlog" class="page" style="overflow-y:auto;">
   <div class="syl-page-inner">
@@ -1534,6 +1595,18 @@ function switchPage(p) {
   if (p === 'syllabus')  { sylRender(); }
   if (p === 'backlog')   { renderBacklog(); }
   if (p === 'calendar')  { calRender(); }
+  // Hide stats FAB when not on syllabus tab
+  const fab = document.getElementById('syl-stats-fab');
+  if (fab) fab.style.display = (p === 'syllabus') ? '' : 'none';
+}
+
+function sylStatsSheetOpen() {
+  document.getElementById('syl-stats-backdrop').classList.add('open');
+  document.getElementById('syl-stats-sheet').classList.add('open');
+}
+function sylStatsSheetClose() {
+  document.getElementById('syl-stats-backdrop').classList.remove('open');
+  document.getElementById('syl-stats-sheet').classList.remove('open');
 }
 
 /* ══════════════════════════════════════════
@@ -3496,19 +3569,13 @@ function sylRender() {
     container.appendChild(card);
   }
 
-  // Bottom stats / heat-legend bar
-  let bottomBar = container.querySelector('.syl-bottom-stats');
-  if (!bottomBar) {
-    bottomBar = document.createElement('div');
-    bottomBar.className = 'syl-bottom-stats';
-    bottomBar.style.cssText = 'background:var(--surface-1);border:1px solid var(--border);border-radius:18px;padding:16px 22px;margin-top:2rem;';
-  }
+  // Build stats HTML (shared between desktop sidebar and mobile sheet)
   const subLabel = sylCurTab.charAt(0).toUpperCase() + sylCurTab.slice(1);
-  bottomBar.innerHTML = `
-    <div style="font-size:0.62rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-3);margin-bottom:14px;">📊 ${subLabel} · Class ${sylCurCls} · Progress Breakdown</div>
+  const statsHTML = `
+    <div style="font-size:0.6rem;font-weight:800;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-3);margin-bottom:10px;">📊 ${subLabel} · Cl.${sylCurCls}</div>
     <div class="syl-psb-grid">
       <div>
-        <div class="syl-psb-section-title" style="color:#6366f1">📝 Mains · ${subLabel} Cl.${sylCurCls}</div>
+        <div class="syl-psb-section-title" style="color:#6366f1">📝 Mains</div>
         <div class="syl-psb-pts-row">
           <span class="syl-psb-pts-val" id="syl-psb-mains-pts" style="color:#6366f1">0</span>
           <span class="syl-psb-pts-max">/ <span id="syl-psb-mains-max">—</span> pts</span>
@@ -3523,7 +3590,7 @@ function sylRender() {
         </div>
       </div>
       <div>
-        <div class="syl-psb-section-title" style="color:#f59e0b">🏆 Advanced · ${subLabel} Cl.${sylCurCls}</div>
+        <div class="syl-psb-section-title" style="color:#f59e0b">🏆 Advanced</div>
         <div class="syl-psb-pts-row">
           <span class="syl-psb-pts-val" id="syl-psb-adv-pts" style="color:#f59e0b">0</span>
           <span class="syl-psb-pts-max">/ <span id="syl-psb-adv-max">—</span> pts</span>
@@ -3540,14 +3607,25 @@ function sylRender() {
       </div>
     </div>
     <div class="syl-heat-legend">
-      <span style="font-weight:800;color:var(--text);margin-right:4px">🔥 Revision Heat:</span>
+      <div class="syl-heat-legend-title">🔥 Revision Heat</div>
       <span><span class="syl-hm-dot" style="background:#10b981"></span>Revised today</span>
-      <span><span class="syl-hm-dot" style="background:#f59e0b"></span>1–7 days ago</span>
-      <span><span class="syl-hm-dot" style="background:#ef4444"></span>8–21 days (cold)</span>
-      <span><span class="syl-hm-dot" style="background:#334155"></span>Never / >21 days</span>
-      <span style="margin-left:auto;font-size:0.65rem;color:var(--text-3)">Click heat badge to mark revised</span>
+      <span><span class="syl-hm-dot" style="background:#f59e0b"></span>1–21 days ago</span>
+      <span><span class="syl-hm-dot" style="background:#ef4444"></span>22–63 days (cold)</span>
+      <span><span class="syl-hm-dot" style="background:#334155"></span>Never / &gt;63 days</span>
     </div>`;
-  container.appendChild(bottomBar);
+
+  // Desktop sidebar
+  const leftPanel = document.getElementById('syl-left-panel');
+  if (leftPanel) leftPanel.innerHTML = statsHTML;
+
+  // Mobile sheet body (pre-populate so it's ready when opened)
+  const sheetBody = document.getElementById('syl-stats-sheet-body');
+  if (sheetBody) sheetBody.innerHTML = statsHTML;
+
+  // Show/hide FAB only on syllabus page
+  const fab = document.getElementById('syl-stats-fab');
+  if (fab) fab.style.display = '';
+
   sylUpdatePageStats();
 }
 
@@ -3637,7 +3715,7 @@ function sylGetHeatClass(id) {
   const d = sylDaysSince(id);
   if (d === null) return 'heat-never';
   if (d === 0)   return 'heat-fresh';
-  if (d <= 7)    return 'heat-warm';
+  if (d <= 21)   return 'heat-warm';
   return 'heat-cold';
 }
 
@@ -3646,7 +3724,7 @@ function sylGetRevLabel(id) {
   if (d === null) return '🔥 Never revised — click!';
   if (d === 0)   return '✅ Revised today';
   if (d === 1)   return '☀️ 1 day ago';
-  if (d <= 7)    return `☀️ ${d} days ago`;
+  if (d <= 21)   return `☀️ ${d} days ago`;
   return `❄️ ${d} days ago — revise now!`;
 }
 

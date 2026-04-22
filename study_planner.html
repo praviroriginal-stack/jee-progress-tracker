@@ -1077,6 +1077,63 @@ html.light .cal-goal-cb:checked { box-shadow:0 2px 8px rgba(79,70,229,0.3); }
 .cal-drag-hint { display:flex; align-items:center; gap:5px; font-size:0.67rem; color:var(--text-3); margin-bottom:8px; padding:5px 8px; background:rgba(99,102,241,0.05); border:1px dashed rgba(99,102,241,0.2); border-radius:8px; }
 .cal-goal-day-chips { display:flex; gap:3px; flex-shrink:0; margin-left:auto; margin-right:4px; }
 .cal-goal-day-chip { font-family:'DM Mono',monospace; font-size:0.55rem; font-weight:700; letter-spacing:0.04em; padding:2px 5px; border-radius:5px; background:rgba(99,102,241,0.18); color:var(--accent); border:1px solid rgba(99,102,241,0.3); line-height:1.4; }
+/* ── Goal clipboard (copy / paste) ── */
+.cal-goal-copy {
+  background:none; border:none; color:var(--text-3);
+  font-size:0.72rem; cursor:pointer; padding:2px 4px; flex-shrink:0;
+  opacity:0; transition:opacity 0.15s, color 0.15s, background 0.15s;
+  font-family:'DM Mono',monospace; font-weight:700; line-height:1;
+  border-radius:4px;
+}
+.cal-goal-item:hover .cal-goal-copy { opacity:0.55; }
+.cal-goal-copy:hover { opacity:1 !important; color:var(--accent); background:rgba(99,102,241,0.1); }
+.cal-goal-copy.in-clip {
+  opacity:1 !important; color:white !important;
+  background:var(--accent) !important;
+  box-shadow:0 2px 6px var(--accent-glow);
+}
+.cal-paste-btn {
+  display:none; align-items:center; justify-content:center; gap:6px;
+  width:100%; margin-top:7px;
+  padding:6px 12px; border-radius:9px;
+  border:1.5px dashed rgba(99,102,241,0.38);
+  background:rgba(99,102,241,0.05); color:var(--accent);
+  font-size:0.74rem; font-weight:700; cursor:pointer;
+  font-family:'DM Sans',sans-serif; transition:all 0.15s;
+}
+.cal-paste-btn:hover { background:rgba(99,102,241,0.14); border-color:var(--accent); }
+.cal-paste-btn.visible { display:flex; }
+.cal-clipboard-banner {
+  display:none; align-items:center; gap:8px;
+  padding:7px 12px; border-radius:10px; margin-bottom:10px;
+  background:rgba(99,102,241,0.08); border:1px solid rgba(99,102,241,0.25);
+  font-size:0.74rem; color:var(--accent); font-weight:600;
+}
+.cal-clipboard-banner.visible { display:flex; }
+.cal-clipboard-count {
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:20px; height:20px; border-radius:20px;
+  background:var(--accent); color:white;
+  font-size:0.65rem; font-weight:800; padding:0 5px; flex-shrink:0;
+}
+.cal-clipboard-items {
+  flex:1; font-size:0.7rem; color:var(--text-2);
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.cal-clipboard-clear { background:none; border:none; color:var(--text-3); font-size:0.8rem; cursor:pointer; padding:0 2px; flex-shrink:0; }
+.cal-clipboard-clear:hover { color:var(--red); }
+.cal-copy-toast {
+  position:fixed; bottom:28px; left:50%;
+  transform:translateX(-50%) translateY(16px);
+  background:#1a2235; color:#f1f5f9;
+  padding:10px 22px; border-radius:100px;
+  font-size:0.8rem; font-weight:600; z-index:9000;
+  box-shadow:0 8px 28px rgba(0,0,0,0.45);
+  opacity:0; transition:opacity 0.22s, transform 0.22s;
+  white-space:nowrap; pointer-events:none;
+  border:1px solid rgba(99,102,241,0.3);
+}
+.cal-copy-toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 
 /* ══════════════════════════════════════════
    BACKLOG & AI COVERAGE
@@ -4473,6 +4530,7 @@ function calRenderWeek() {
       <div class="cal-goal-item">
         <input type="checkbox" class="cal-goal-cb" ${g.done?'checked':''} onchange="calDayGoalToggle('${key}','${ds}',${gi},this.checked)">
         <span class="cal-goal-text${g.done?' done':''}" onclick="this.previousElementSibling.click()">${escHtml(g.text)}</span>
+        <button class="cal-goal-copy${_goalClipboard.includes(g.text)?' in-clip':''}" onclick="calGoalToggleClip(this.dataset.t)" data-t="${escHtml(g.text)}" title="${_goalClipboard.includes(g.text)?'Remove from selection':'Add to clipboard'}">⎘</button>
         <button class="cal-goal-del" onclick="calDayGoalDel('${key}','${ds}',${gi})" title="Remove">✕</button>
       </div>`).join('');
 
@@ -4491,6 +4549,7 @@ function calRenderWeek() {
           ${dayGoals.length
             ? `<div class="cal-day-goals-list">${dayGoalsHtml}</div><div class="cal-day-goals-drop-hint">＋ Drop more goals here</div>`
             : `<div class="cal-day-goals-empty">🎯 Drop goals here</div>`}
+          <button class="cal-paste-btn" data-dest="to ${ds}" onclick="calDayGoalPaste('${key}','${ds}')">📋 Paste goals here</button>
         </div>
       </div>
     </div>`;
@@ -4520,6 +4579,7 @@ function calRenderWeek() {
       <input type="checkbox" class="cal-goal-cb" ${g.done?'checked':''} onchange="calWeekGoalToggle('${key}',${gi},this.checked)">
       <span class="cal-goal-text${g.done?' done':''}" onclick="this.previousElementSibling.click()">${escHtml(g.text)}</span>
       ${assignedDays.length ? `<span class="cal-goal-day-chips">${dayChipsHtml}</span>` : ''}
+      <button class="cal-goal-copy${_goalClipboard.includes(g.text)?' in-clip':''}" onclick="calGoalToggleClip(this.dataset.t)" data-t="${escHtml(g.text)}" title="${_goalClipboard.includes(g.text)?'Remove from selection':'Add to clipboard'}">⎘</button>
       <button class="cal-goal-del" onclick="calWeekGoalDel('${key}',${gi})" title="Remove">✕</button>
     </div>`;
   }).join('');
@@ -4550,13 +4610,21 @@ function calRenderWeek() {
           <span style="margin-left:auto;font-size:0.65rem;color:var(--text-3);">${goals.filter(g=>g.done).length}/${goals.length} done</span>
         </div>
         ${goals.length ? `<div class="cal-drag-hint"><span>⠿</span> Drag any goal into a day column above to assign it</div>` : ''}
+        <div class="cal-clipboard-banner">
+          <span class="cal-clipboard-count"></span>
+          <span class="cal-clipboard-items"></span>
+          <button class="cal-clipboard-clear" onclick="calGoalClearClipboard()" title="Clear clipboard">✕</button>
+        </div>
         <div class="cal-goals-list" id="wgl-${key}">${goalsHtml}</div>
         <div class="cal-add-goal">
           <input class="cal-add-goal-input" id="wgi-${key}" placeholder="Add a goal for this week..." onkeydown="if(event.key==='Enter')calWeekGoalAdd('${key}')">
           <button class="cal-add-goal-btn" onclick="calWeekGoalAdd('${key}')">＋ Add</button>
         </div>
+        <button class="cal-paste-btn" data-dest="to this week" onclick="calWeekGoalPaste('${key}')">📋 Paste goals to this week</button>
       </div>
     </div>`;
+  // Restore clipboard UI state after re-render
+  requestAnimationFrame(_calUpdateClipboardUI);
 }
 
 function calSaveDayNote(key, ds, val) {
@@ -4605,6 +4673,137 @@ function calWeekGoalDel(key, idx) {
   const data = calLoad(key);
   if (data.goals) { data.goals.splice(idx,1); calSave(key, data); }
   calRenderWeek();
+}
+
+// ── Goal clipboard (copy / paste) — supports multiple goals ──
+var _goalClipboard = []; // array of goal text strings
+
+function calGoalToggleClip(text) {
+  const idx = _goalClipboard.indexOf(text);
+  if (idx === -1) {
+    _goalClipboard.push(text);
+    _calShowToast('⎘ Added — ' + _goalClipboard.length + ' goal' + (_goalClipboard.length > 1 ? 's' : '') + ' in clipboard');
+  } else {
+    _goalClipboard.splice(idx, 1);
+    if (_goalClipboard.length === 0) {
+      _calShowToast('Removed from clipboard');
+    } else {
+      _calShowToast(_goalClipboard.length + ' goal' + (_goalClipboard.length > 1 ? 's' : '') + ' in clipboard');
+    }
+  }
+  _calUpdateClipboardUI();
+  // Re-render to update button states without full re-render cost
+  document.querySelectorAll('.cal-goal-copy').forEach(btn => {
+    const t = btn.dataset.t;
+    btn.classList.toggle('in-clip', _goalClipboard.includes(t));
+    btn.title = _goalClipboard.includes(t) ? 'Remove from selection' : 'Add to clipboard';
+  });
+}
+
+function calGoalClearClipboard() {
+  _goalClipboard = [];
+  _calUpdateClipboardUI();
+  document.querySelectorAll('.cal-goal-copy').forEach(btn => {
+    btn.classList.remove('in-clip');
+    btn.title = 'Add to clipboard';
+  });
+}
+
+function _calShowToast(msg) {
+  let t = document.getElementById('cal-copy-toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'cal-copy-toast';
+    t.className = 'cal-copy-toast';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+function _calUpdateClipboardUI() {
+  const hasClip = _goalClipboard.length > 0;
+  const count = _goalClipboard.length;
+  const preview = _goalClipboard.length <= 2
+    ? _goalClipboard.join(', ')
+    : _goalClipboard.slice(0, 2).join(', ') + ' +' + (_goalClipboard.length - 2) + ' more';
+
+  // Paste buttons — update text with count
+  document.querySelectorAll('.cal-paste-btn').forEach(btn => {
+    btn.classList.toggle('visible', hasClip);
+    const label = btn.textContent.replace(/\(\d+\)\s*/, '').trim();
+    if (hasClip) {
+      // preserve destination label, prepend count
+      const dest = btn.textContent.replace(/^📋\s*Paste.*?goals?\s*(to\s*)?/, '').trim() || btn.getAttribute('data-dest') || '';
+      if (!btn.getAttribute('data-dest')) btn.setAttribute('data-dest', dest);
+      btn.textContent = `📋 Paste ${count} goal${count > 1 ? 's' : ''} ${btn.getAttribute('data-dest')}`;
+    }
+  });
+
+  // Clipboard banners
+  document.querySelectorAll('.cal-clipboard-banner').forEach(el => {
+    el.classList.toggle('visible', hasClip);
+    const cntEl = el.querySelector('.cal-clipboard-count');
+    const itmEl = el.querySelector('.cal-clipboard-items');
+    if (cntEl) cntEl.textContent = count;
+    if (itmEl) itmEl.textContent = preview;
+  });
+}
+
+function calWeekGoalPaste(key) {
+  if (!_goalClipboard.length) return;
+  const data = calLoad(key);
+  if (!data.goals) data.goals = [];
+  let added = 0;
+  _goalClipboard.forEach(text => {
+    if (!data.goals.some(g => g.text === text)) {
+      data.goals.push({ text, done: false });
+      added++;
+    }
+  });
+  if (added === 0) { _calShowToast('⚠️ All goals already exist in this week'); return; }
+  calSave(key, data);
+  calRenderWeek();
+  _calShowToast('✓ Pasted ' + added + ' goal' + (added > 1 ? 's' : '') + ' to week');
+}
+
+function calDayGoalPaste(key, ds) {
+  if (!_goalClipboard.length) return;
+  const data = calLoad(key);
+  if (!data.days) data.days = {};
+  if (!data.days[ds]) data.days[ds] = {};
+  if (!data.days[ds].goals) data.days[ds].goals = [];
+  let added = 0;
+  _goalClipboard.forEach(text => {
+    if (!data.days[ds].goals.some(g => g.text === text)) {
+      data.days[ds].goals.push({ text, done: false });
+      added++;
+    }
+  });
+  if (added === 0) { _calShowToast('⚠️ All goals already on this day'); return; }
+  calSave(key, data);
+  calRenderWeek();
+  const label = new Date(ds).toLocaleDateString('en',{weekday:'short',month:'short',day:'numeric'});
+  _calShowToast('✓ Pasted ' + added + ' goal' + (added > 1 ? 's' : '') + ' to ' + label);
+}
+
+function calMonthGoalPaste(key) {
+  if (!_goalClipboard.length) return;
+  const data = calLoad(key);
+  if (!data.goals) data.goals = [];
+  let added = 0;
+  _goalClipboard.forEach(text => {
+    if (!data.goals.some(g => g.text === text)) {
+      data.goals.push({ text, done: false });
+      added++;
+    }
+  });
+  if (added === 0) { _calShowToast('⚠️ All goals already exist in this month'); return; }
+  calSave(key, data);
+  calRenderMonth();
+  _calShowToast('✓ Pasted ' + added + ' goal' + (added > 1 ? 's' : '') + ' to month');
 }
 
 // ── Drag-and-drop: week goals → day columns ──
@@ -4777,6 +4976,7 @@ function calRenderMonth() {
     <div class="cal-goal-item">
       <input type="checkbox" class="cal-goal-cb" ${g.done?'checked':''} onchange="calMonthGoalToggle('${mKey}',${gi},this.checked)">
       <span class="cal-goal-text${g.done?' done':''}" onclick="this.previousElementSibling.click()">${escHtml(g.text)}</span>
+      <button class="cal-goal-copy${_goalClipboard.includes(g.text)?' in-clip':''}" onclick="calGoalToggleClip(this.dataset.t)" data-t="${escHtml(g.text)}" title="${_goalClipboard.includes(g.text)?'Remove from selection':'Add to clipboard'}">⎘</button>
       <button class="cal-goal-del" onclick="calMonthGoalDel('${mKey}',${gi})" title="Remove">✕</button>
     </div>`).join('');
 
@@ -4806,12 +5006,19 @@ function calRenderMonth() {
           <span style="margin-left:auto;font-size:0.65rem;color:var(--text-3);">${mGoals.filter(g=>g.done).length}/${mGoals.length} done</span>
         </div>
         <div class="cal-goals-list" id="mgl-${mKey}">${goalsHtml}</div>
+        <div class="cal-clipboard-banner">
+          <span class="cal-clipboard-count"></span>
+          <span class="cal-clipboard-items"></span>
+          <button class="cal-clipboard-clear" onclick="calGoalClearClipboard()" title="Clear clipboard">✕</button>
+        </div>
         <div class="cal-add-goal">
           <input class="cal-add-goal-input" id="mgi-${mKey}" placeholder="Add a monthly goal..." onkeydown="if(event.key==='Enter')calMonthGoalAdd('${mKey}')">
           <button class="cal-add-goal-btn" onclick="calMonthGoalAdd('${mKey}')">＋ Add</button>
         </div>
+        <button class="cal-paste-btn" data-dest="to this month" onclick="calMonthGoalPaste('${mKey}')">📋 Paste goals to this month</button>
       </div>
     </div>`;
+  requestAnimationFrame(_calUpdateClipboardUI);
 }
 
 function calJumpToWeek(offset) {

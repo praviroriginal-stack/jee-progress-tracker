@@ -1017,10 +1017,10 @@ html.light .cal-goal-cb:checked { box-shadow:0 2px 8px rgba(79,70,229,0.3); }
 .cal-week-card-goals-chip { display:inline-flex; align-items:center; gap:4px; font-size:0.65rem; font-weight:700; padding:3px 10px; border-radius:20px; background:rgba(var(--accent-rgb),0.12); color:var(--accent); margin-top:8px; }
 /* Week view — day log 2-row layout */
 .cal-day-log-grid { display:grid; grid-template-columns:repeat(7,1fr); border-top:1px solid var(--border); border-left:1px solid var(--border); }
-.cal-day-name-cell { padding:8px 10px 6px; border-right:1px solid var(--border); border-bottom:1px solid var(--border); background:rgba(255,255,255,0.02); }
-.cal-day-ta-cell { padding:8px 10px 10px; border-right:1px solid var(--border); border-bottom:1px solid var(--border); }
-.cal-day-name-cell:last-child, .cal-day-ta-cell:nth-child(14) { border-right:none; }
-@media (max-width:1100px) { .cal-day-log-grid { grid-template-columns:1fr; } .cal-day-name-cell,.cal-day-ta-cell { border-right:none; } }
+.cal-day-col { display:flex; flex-direction:column; border-right:1px solid var(--border); }
+.cal-day-name-cell { padding:8px 10px 6px; border-bottom:1px solid var(--border); background:rgba(255,255,255,0.02); }
+.cal-day-ta-cell { padding:8px 10px 10px; border-bottom:1px solid var(--border); flex:1; }
+@media (max-width:1100px) { .cal-day-log-grid { grid-template-columns:1fr; } .cal-day-col { border-right:none; } }
 .cal-save-btn { padding:8px 18px; border-radius:10px; background:var(--accent); color:white; border:none; font-size:0.8rem; font-weight:700; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.15s; }
 .cal-save-btn:hover { filter:brightness(1.15); }
 .cal-saved-tag { font-size:0.7rem; color:#10b981; font-weight:700; display:none; }
@@ -1115,8 +1115,158 @@ html.light .cal-goal-cb:checked { box-shadow:0 2px 8px rgba(79,70,229,0.3); }
   .syl-psb-grid { grid-template-columns:1fr; gap:12px; }
 }
 
+/* ══════════════════════════════════════════
+   DAILY QUESTIONS PAGE
+══════════════════════════════════════════ */
+.dq-root {
+  max-width: 780px; margin: 0 auto; padding: 1.8rem 1.5rem 3rem;
+}
+.dq-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1.8rem; flex-wrap: wrap; gap: 12px;
+}
+.dq-brand { display: flex; align-items: center; gap: 12px; }
+.dq-brand-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 14px rgba(16,185,129,0.4);
+  color: white;
+}
+.dq-brand-title {
+  font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800;
+  letter-spacing: -0.03em; color: var(--text);
+}
+.dq-day-nav {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--surface-2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 4px 8px;
+}
+.dq-day-btn {
+  width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+  border-radius: 8px; border: none; background: transparent; color: var(--text-2);
+  cursor: pointer; font-size: 1.2rem; transition: all 0.14s;
+}
+.dq-day-btn:hover { background: rgba(255,255,255,0.08); color: var(--text); }
+.dq-day-label {
+  font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 800;
+  min-width: 120px; text-align: center; letter-spacing: -0.01em;
+}
+
+/* STATS ROW */
+.dq-stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.dq-stat-card {
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 20px; padding: 1.3rem 1.5rem;
+  display: flex; align-items: center; gap: 16px;
+}
+.dq-streak-card { border-color: rgba(245,158,11,0.25); }
+.dq-target-card { border-color: rgba(99,102,241,0.25); justify-content: space-between; }
+.dq-streak-icon {
+  font-size: 2rem; width: 52px; height: 52px; border-radius: 14px;
+  background: rgba(245,158,11,0.15); display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.dq-stat-label {
+  font-family: 'DM Mono', monospace; font-size: 0.6rem; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3);
+  margin-bottom: 4px;
+}
+.dq-stat-val { font-family: 'Syne', sans-serif; font-size: 1.9rem; font-weight: 800; letter-spacing: -0.03em; }
+.dq-stat-unit { font-size: 0.9rem; font-weight: 600; color: var(--text-2); }
+.dq-target-progress-bar {
+  height: 4px; background: rgba(255,255,255,0.06); border-radius: 4px;
+  margin-top: 8px; overflow: hidden; width: 120px;
+}
+.dq-target-progress-fill {
+  height: 100%; border-radius: 4px; background: linear-gradient(90deg, #6366f1, #3b82f6);
+  transition: width 0.4s ease; width: 0%;
+}
+.dq-target-icon {
+  width: 48px; height: 48px; border-radius: 14px; flex-shrink: 0;
+  background: rgba(99,102,241,0.15); display: flex; align-items: center; justify-content: center;
+  color: #818cf8; cursor: pointer; transition: all 0.15s;
+}
+.dq-target-icon:hover { background: rgba(99,102,241,0.28); }
+
+/* SUBJECTS CARD */
+.dq-subjects-card {
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 20px; padding: 1.4rem 1.6rem;
+  margin-bottom: 14px;
+}
+.dq-subjects-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  margin-bottom: 1.4rem;
+}
+.dq-subject-col { display: flex; flex-direction: column; gap: 8px; }
+.dq-subject-label {
+  font-family: 'DM Mono', monospace; font-size: 0.6rem; font-weight: 500;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-3);
+}
+.dq-subject-input {
+  width: 100%; padding: 16px 12px; border-radius: 12px;
+  border: 1px solid var(--border); background: var(--surface-2);
+  color: var(--text); font-family: 'Syne', sans-serif; font-size: 1.5rem;
+  font-weight: 800; text-align: center; outline: none; transition: border-color 0.15s;
+  -moz-appearance: textfield;
+}
+.dq-subject-input::-webkit-outer-spin-button,
+.dq-subject-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.dq-subject-input:focus { border-color: rgba(99,102,241,0.5); background: rgba(99,102,241,0.06); }
+.dq-total-row {
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 1px solid var(--border); padding-top: 1.2rem;
+}
+.dq-total-label {
+  font-family: 'DM Mono', monospace; font-size: 0.62rem; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3);
+  margin-bottom: 4px;
+}
+.dq-total-val {
+  font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; letter-spacing: -0.03em;
+}
+.dq-total-of { font-size: 1.1rem; color: var(--text-3); font-weight: 600; }
+.dq-save-btn {
+  padding: 14px 30px; border-radius: 14px; border: 2px solid var(--text);
+  background: transparent; color: var(--text); font-family: 'Syne', sans-serif;
+  font-size: 0.9rem; font-weight: 800; cursor: pointer; transition: all 0.16s;
+  letter-spacing: -0.01em;
+}
+.dq-save-btn:hover { background: var(--text); color: var(--bg); }
+
+/* TREND */
+.dq-trend-section, .dq-heatmap-section {
+  background: var(--surface-1); border: 1px solid var(--border);
+  border-radius: 20px; padding: 1.6rem; margin-bottom: 14px;
+}
+.dq-trend-title {
+  font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800;
+  letter-spacing: -0.02em; margin-bottom: 1.4rem;
+}
+.dq-chart-wrap { position: relative; height: 180px; }
+
+/* HEATMAP */
+.dq-heatmap {
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px;
+}
+.dq-heatmap-cell {
+  aspect-ratio: 1; border-radius: 6px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.04);
+  cursor: default; transition: transform 0.1s;
+  position: relative;
+}
+.dq-heatmap-cell:hover { transform: scale(1.1); z-index: 2; }
+.dq-heatmap-cell[title] { cursor: pointer; }
+
+@media (max-width:600px) {
+  .dq-stats-row { grid-template-columns: 1fr; }
+  .dq-subjects-grid { grid-template-columns: 1fr; }
+  .dq-brand-title { font-size: 1.3rem; }
+}
+
 </style>
-</head>
+
 <body>
 <button id="theme-toggle" title="Toggle light/dark mode" aria-label="Toggle light/dark mode">🌙</button>
 <script>
@@ -1147,6 +1297,9 @@ html.light .cal-goal-cb:checked { box-shadow:0 2px 8px rgba(79,70,229,0.3); }
     </button>
     <button class="nav-tab" id="tab-calendar" onclick="switchPage('calendar')">
       <span>📅</span> Calendar
+    </button>
+    <button class="nav-tab" id="tab-dq" onclick="switchPage('dq')">
+      <span>☑️</span> Daily Questions
     </button>
   </div>
   <button class="auth-btn" id="auth-btn" onclick="handleAuthClick()">Sign in with Google</button>
@@ -1351,7 +1504,106 @@ html.light .cal-goal-cb:checked { box-shadow:0 2px 8px rgba(79,70,229,0.3); }
   </div>
 </div>
 
+<!-- ════════════════════════════════════════
+     PAGE 5: DAILY QUESTIONS
+════════════════════════════════════════ -->
+<div id="page-dq" class="page" style="overflow-y:auto;">
+  <div class="dq-root">
+
+    <!-- HEADER ROW -->
+    <div class="dq-header">
+      <div class="dq-brand">
+        <div class="dq-brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/><rect x="3" y="3" width="18" height="18" rx="3"/></svg>
+        </div>
+        <span class="dq-brand-title">Daily Questions</span>
+      </div>
+      <div class="dq-day-nav">
+        <button class="dq-day-btn" onclick="dqNavDay(-1)">&#8249;</button>
+        <span class="dq-day-label" id="dq-day-label">Today</span>
+        <button class="dq-day-btn" onclick="dqNavDay(1)">&#8250;</button>
+      </div>
+    </div>
+
+    <!-- TOP STATS ROW -->
+    <div class="dq-stats-row">
+      <div class="dq-stat-card dq-streak-card">
+        <div class="dq-streak-icon">🔥</div>
+        <div>
+          <div class="dq-stat-label">STREAK</div>
+          <div class="dq-stat-val"><span id="dq-streak-val">0</span> <span class="dq-stat-unit">Days</span></div>
+        </div>
+      </div>
+      <div class="dq-stat-card dq-target-card">
+        <div>
+          <div class="dq-stat-label">DAILY TARGET</div>
+          <div class="dq-stat-val"><span id="dq-target-val">0</span> <span class="dq-stat-unit">Qs</span></div>
+          <div class="dq-target-progress-bar"><div class="dq-target-progress-fill" id="dq-target-fill"></div></div>
+        </div>
+        <div class="dq-target-icon" onclick="dqOpenTargetModal()">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUBJECT INPUT CARDS -->
+    <div class="dq-subjects-card">
+      <div class="dq-subjects-grid">
+        <div class="dq-subject-col">
+          <div class="dq-subject-label">PHYSICS</div>
+          <input class="dq-subject-input" id="dq-inp-physics" type="number" min="0" placeholder="0" oninput="dqUpdateTotal()">
+        </div>
+        <div class="dq-subject-col">
+          <div class="dq-subject-label">CHEMISTRY</div>
+          <input class="dq-subject-input" id="dq-inp-chemistry" type="number" min="0" placeholder="0" oninput="dqUpdateTotal()">
+        </div>
+        <div class="dq-subject-col">
+          <div class="dq-subject-label">MATHS</div>
+          <input class="dq-subject-input" id="dq-inp-maths" type="number" min="0" placeholder="0" oninput="dqUpdateTotal()">
+        </div>
+      </div>
+      <div class="dq-total-row">
+        <div>
+          <div class="dq-total-label">TOTAL SOLVED</div>
+          <div class="dq-total-val"><span id="dq-total-val">0</span><span class="dq-total-of" id="dq-total-of">/0</span></div>
+        </div>
+        <button class="dq-save-btn" onclick="dqSaveDay()">Save Update</button>
+      </div>
+    </div>
+
+    <!-- 7 DAY TREND -->
+    <div class="dq-trend-section">
+      <div class="dq-trend-title">Last 7 Days Trend</div>
+      <div class="dq-chart-wrap">
+        <canvas id="dq-chart" height="180"></canvas>
+      </div>
+    </div>
+
+    <!-- MONTHLY HEATMAP -->
+    <div class="dq-heatmap-section">
+      <div class="dq-trend-title" style="margin-bottom:1rem;">Monthly Activity</div>
+      <div class="dq-heatmap" id="dq-heatmap"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- DQ Target Modal -->
+<div id="dq-target-modal" style="display:none;position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);align-items:center;justify-content:center;">
+  <div style="background:#0d1828;border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:28px;width:min(380px,92vw);box-shadow:0 24px 60px rgba(0,0,0,0.5);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+      <div style="font-size:1rem;font-weight:800;">🎯 Set Daily Target</div>
+      <button onclick="dqCloseTargetModal()" style="background:transparent;border:1px solid rgba(255,255,255,0.1);color:#94a3b8;width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:0.9rem;">✕</button>
+    </div>
+    <div style="font-size:0.78rem;color:#94a3b8;margin-bottom:14px;">How many questions do you want to solve per day?</div>
+    <input id="dq-target-input" type="number" min="1" max="999" placeholder="e.g. 90"
+      style="width:100%;padding:14px 16px;background:#111827;border:1px solid rgba(99,102,241,0.4);border-radius:12px;color:#f1f5f9;font-size:1.3rem;font-weight:800;font-family:inherit;outline:none;text-align:center;margin-bottom:18px;">
+    <button onclick="dqSaveTarget()" style="width:100%;padding:12px;background:linear-gradient(135deg,#6366f1,#3b82f6);color:white;border:none;border-radius:12px;font-weight:800;font-size:0.9rem;cursor:pointer;font-family:inherit;">Save Target</button>
+  </div>
+</div>
+
 <!-- AI Settings Modal -->
+
 <div id="ai-settings-modal" style="display:none;position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);align-items:center;justify-content:center;">
   <div style="background:#0d1828;border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:28px;width:min(480px,92vw);box-shadow:0 24px 60px rgba(0,0,0,0.5);">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
@@ -1595,6 +1847,7 @@ function switchPage(p) {
   if (p === 'syllabus')  { sylRender(); }
   if (p === 'backlog')   { renderBacklog(); }
   if (p === 'calendar')  { calRender(); }
+  if (p === 'dq')        { dqRender(); }
   // Hide stats FAB when not on syllabus tab
   const fab = document.getElementById('syl-stats-fab');
   if (fab) fab.style.display = (p === 'syllabus') ? '' : 'none';
@@ -3778,6 +4031,248 @@ function sylUpdatePageStats() {
 })();
 
 /* ══════════════════════════════════════════
+   DAILY QUESTIONS — STATE & HELPERS
+══════════════════════════════════════════ */
+let dqOffset = 0; // days from today (0=today, -1=yesterday, ...)
+
+function dqDateKey(offset) {
+  const d = new Date();
+  d.setDate(d.getDate() + offset);
+  return 'dq_' + d.getFullYear() + '_' + String(d.getMonth()+1).padStart(2,'0') + '_' + String(d.getDate()).padStart(2,'0');
+}
+
+function dqLoadDay(key) {
+  try { return JSON.parse(localStorage.getItem(key)) || {}; } catch { return {}; }
+}
+
+function dqSaveToStorage(key, data) {
+  localStorage.setItem(key, JSON.stringify(data));
+  if (window._fbUser && window._fbDb) scheduleSave();
+}
+
+function dqGetTarget() {
+  return parseInt(localStorage.getItem('dq_daily_target') || '0', 10);
+}
+
+function dqNavDay(dir) {
+  dqOffset += dir;
+  if (dqOffset > 0) dqOffset = 0; // can't go to future
+  dqRender();
+}
+
+function dqUpdateTotal() {
+  const p = parseInt(document.getElementById('dq-inp-physics').value) || 0;
+  const c = parseInt(document.getElementById('dq-inp-chemistry').value) || 0;
+  const m = parseInt(document.getElementById('dq-inp-maths').value) || 0;
+  const total = p + c + m;
+  const target = dqGetTarget();
+  document.getElementById('dq-total-val').textContent = total;
+  document.getElementById('dq-total-of').textContent = target ? '/' + target : '';
+  const fill = target ? Math.min(100, Math.round((total / target) * 100)) : 0;
+  document.getElementById('dq-target-fill').style.width = fill + '%';
+}
+
+function dqSaveDay() {
+  const p = parseInt(document.getElementById('dq-inp-physics').value) || 0;
+  const c = parseInt(document.getElementById('dq-inp-chemistry').value) || 0;
+  const m = parseInt(document.getElementById('dq-inp-maths').value) || 0;
+  const key = dqDateKey(dqOffset);
+  dqSaveToStorage(key, { physics: p, chemistry: c, maths: m, total: p+c+m });
+  dqRenderStreak();
+  dqRenderChart();
+  dqRenderHeatmap();
+  // Flash save button
+  const btn = document.querySelector('.dq-save-btn');
+  if (btn) { btn.textContent = '✓ Saved!'; btn.style.background = 'var(--text)'; btn.style.color = 'var(--bg)'; setTimeout(() => { btn.textContent = 'Save Update'; btn.style.background = ''; btn.style.color = ''; }, 1200); }
+}
+
+function dqCalcStreak() {
+  let streak = 0;
+  let i = 0;
+  const target = dqGetTarget();
+  while (true) {
+    const key = dqDateKey(-i);
+    const data = dqLoadDay(key);
+    const total = data.total || 0;
+    if (total > 0 && (!target || total >= target)) { streak++; i++; }
+    else if (i === 0) { i++; } // today may not be filled yet — check yesterday
+    else break;
+  }
+  return streak;
+}
+
+function dqRenderStreak() {
+  const el = document.getElementById('dq-streak-val');
+  if (el) el.textContent = dqCalcStreak();
+}
+
+function dqRenderDayLabel() {
+  const el = document.getElementById('dq-day-label');
+  if (!el) return;
+  if (dqOffset === 0) { el.textContent = 'Today'; return; }
+  if (dqOffset === -1) { el.textContent = 'Yesterday'; return; }
+  const d = new Date(); d.setDate(d.getDate() + dqOffset);
+  el.textContent = d.toLocaleDateString('en', { weekday:'short', month:'short', day:'numeric' });
+}
+
+function dqRender() {
+  dqRenderDayLabel();
+  const key = dqDateKey(dqOffset);
+  const data = dqLoadDay(key);
+  const p = data.physics || 0, c = data.chemistry || 0, m = data.maths || 0;
+  document.getElementById('dq-inp-physics').value   = p || '';
+  document.getElementById('dq-inp-chemistry').value = c || '';
+  document.getElementById('dq-inp-maths').value     = m || '';
+  // Target display
+  const target = dqGetTarget();
+  document.getElementById('dq-target-val').textContent = target || 0;
+  dqUpdateTotal();
+  dqRenderStreak();
+  dqRenderChart();
+  dqRenderHeatmap();
+}
+
+/* ── Chart (canvas bar chart, no dependency) ── */
+function dqRenderChart() {
+  const canvas = document.getElementById('dq-chart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+
+  // Gather last 7 days (oldest first)
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const key = dqDateKey(-i);
+    const data = dqLoadDay(key);
+    days.push({
+      label: d.toLocaleDateString('en', { weekday:'short' }),
+      total: data.total || 0,
+      isToday: i === 0
+    });
+  }
+
+  const target = dqGetTarget();
+  const maxVal = Math.max(target || 0, ...days.map(d => d.total), 10);
+
+  // Size canvas
+  const rect = canvas.parentElement.getBoundingClientRect();
+  const W = rect.width || 600, H = 180;
+  canvas.width  = W * dpr; canvas.height = H * dpr;
+  canvas.style.width  = W + 'px'; canvas.style.height = H + 'px';
+  ctx.scale(dpr, dpr);
+
+  const padL = 42, padR = 16, padT = 16, padB = 36;
+  const chartW = W - padL - padR, chartH = H - padT - padB;
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Grid lines + y-labels
+  const steps = 4;
+  ctx.font = '10px DM Mono, monospace'; ctx.fillStyle = '#475569'; ctx.textAlign = 'right';
+  for (let i = 0; i <= steps; i++) {
+    const y = padT + chartH - (i / steps) * chartH;
+    const val = Math.round((i / steps) * maxVal);
+    ctx.beginPath(); ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1;
+    ctx.moveTo(padL, y); ctx.lineTo(padL + chartW, y); ctx.stroke();
+    ctx.fillText(val, padL - 6, y + 3);
+  }
+
+  // Target line
+  if (target > 0) {
+    const ty = padT + chartH - (target / maxVal) * chartH;
+    ctx.beginPath(); ctx.setLineDash([5, 4]); ctx.strokeStyle = 'rgba(99,102,241,0.5)'; ctx.lineWidth = 1.5;
+    ctx.moveTo(padL, ty); ctx.lineTo(padL + chartW, ty); ctx.stroke(); ctx.setLineDash([]);
+  }
+
+  // Bars
+  const barW = Math.min(48, (chartW / days.length) * 0.55);
+  const gap = chartW / days.length;
+  days.forEach((day, i) => {
+    const x = padL + gap * i + (gap - barW) / 2;
+    const barH = day.total > 0 ? Math.max(4, (day.total / maxVal) * chartH) : 0;
+    const y = padT + chartH - barH;
+
+    // Bar fill
+    const grad = ctx.createLinearGradient(0, y, 0, padT + chartH);
+    const isHit = target > 0 && day.total >= target;
+    if (isHit) { grad.addColorStop(0, '#10b981'); grad.addColorStop(1, '#059669'); }
+    else        { grad.addColorStop(0, '#6366f1'); grad.addColorStop(1, '#3b82f6'); }
+    ctx.beginPath(); ctx.fillStyle = grad;
+    const r = Math.min(6, barW / 2);
+    ctx.roundRect(x, y, barW, barH, [r, r, 0, 0]);
+    ctx.fill();
+
+    // Day label
+    ctx.fillStyle = day.isToday ? '#f1f5f9' : '#475569';
+    ctx.font = day.isToday ? 'bold 10px DM Sans, sans-serif' : '10px DM Sans, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(day.label, x + barW / 2, H - 8);
+
+    // Value label on bar
+    if (day.total > 0) {
+      ctx.fillStyle = '#f1f5f9'; ctx.font = 'bold 11px Syne, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText(day.total, x + barW / 2, y - 5);
+    }
+  });
+}
+
+/* ── Heatmap (last 28 days) ── */
+function dqRenderHeatmap() {
+  const container = document.getElementById('dq-heatmap');
+  if (!container) return;
+  container.innerHTML = '';
+  const target = dqGetTarget();
+  for (let i = 27; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const key = dqDateKey(-i);
+    const data = dqLoadDay(key);
+    const total = data.total || 0;
+    const cell = document.createElement('div');
+    cell.className = 'dq-heatmap-cell';
+    const label = d.toLocaleDateString('en', { weekday:'short', month:'short', day:'numeric' });
+    cell.title = label + ': ' + total + ' Qs';
+    if (total > 0) {
+      const intensity = target > 0 ? Math.min(1, total / target) : Math.min(1, total / 100);
+      const alpha = 0.15 + intensity * 0.7;
+      const color = (target > 0 && total >= target) ? `rgba(16,185,129,${alpha})` : `rgba(99,102,241,${alpha})`;
+      cell.style.background = color;
+      cell.style.borderColor = color;
+    }
+    container.appendChild(cell);
+  }
+}
+
+/* ── Target modal ── */
+function dqOpenTargetModal() {
+  const m = document.getElementById('dq-target-modal');
+  const inp = document.getElementById('dq-target-input');
+  inp.value = dqGetTarget() || '';
+  m.style.display = 'flex';
+  setTimeout(() => inp.focus(), 60);
+}
+
+function dqCloseTargetModal() {
+  document.getElementById('dq-target-modal').style.display = 'none';
+}
+
+function dqSaveTarget() {
+  const val = parseInt(document.getElementById('dq-target-input').value) || 0;
+  localStorage.setItem('dq_daily_target', val);
+  dqCloseTargetModal();
+  dqRender();
+}
+
+document.getElementById('dq-target-modal').addEventListener('click', function(e) {
+  if (e.target === this) dqCloseTargetModal();
+});
+
+// Re-render chart on resize
+window.addEventListener('resize', function() {
+  if (document.getElementById('page-dq').classList.contains('active')) dqRenderChart();
+});
+
+/* ══════════════════════════════════════════
    SYLLABUS TRACKER — CUSTOM STAGES
 ══════════════════════════════════════════ */
 function sylAddCustomStage(id) {
@@ -3830,7 +4325,8 @@ function calSetMonthMode(mode) {
 
 function calWeekKey(offset) {
   const d = new Date();
-  d.setDate(d.getDate() - d.getDay() + offset * 7);
+  // Anchor to Monday (ISO week start) — same as calRenderWeek's monDate calculation
+  d.setDate(d.getDate() - (d.getDay() + 6) % 7 + offset * 7);
   const y = d.getFullYear();
   const w = getISOWeek(d);
   return `cal_week_${y}_${String(w).padStart(2,'0')}`;
@@ -3914,16 +4410,8 @@ function calRenderWeek() {
     return { dn, d, ds, isToday: ds===todayStr, past: d < new Date(todayStr), dayData: data.days?.[ds]||{} };
   });
 
-  // Row 1: day name headers
-  const nameRow = dayMeta.map(({ dn, d, isToday }) =>
-    `<div class="cal-day-name-cell">
-      <div style="font-size:0.75rem;font-weight:800;color:${isToday?'var(--accent)':'var(--text-2)'};">${dn}${isToday?' <span style="font-size:0.52rem;background:var(--accent);color:white;border-radius:20px;padding:1px 6px;">Today</span>':''}</div>
-      <div style="font-size:0.6rem;color:var(--text-3);margin-top:2px;">${d.toLocaleDateString('en',{day:'numeric',month:'short'})}</div>
-    </div>`
-  ).join('');
-
-  // Row 2: textarea + day goals (with drop zone)
-  const taRow = dayMeta.map(({ ds, past, dayData }) => {
+  // Each day: header + textarea + goals grouped together as one column
+  const dayCols = dayMeta.map(({ dn, d, isToday, ds, past, dayData }) => {
     const dayGoals = dayData.goals || [];
     const dayGoalsHtml = dayGoals.map((g, gi) => `
       <div class="cal-goal-item">
@@ -3932,21 +4420,27 @@ function calRenderWeek() {
         <button class="cal-goal-del" onclick="calDayGoalDel('${key}','${ds}',${gi})" title="Remove">✕</button>
       </div>`).join('');
 
-    return `<div class="cal-day-ta-cell">
-      <textarea class="cal-textarea" style="min-height:70px;font-size:0.78rem;width:100%;box-sizing:border-box;" placeholder="${past?'What did you study?':'Plans'}"
-        oninput="calSaveDayNote('${key}','${ds}',this.value)">${escHtml(dayData.note||'')}</textarea>
-      <div class="cal-day-goals-zone" id="dgz-${ds}"
-        ondragover="event.preventDefault();document.getElementById('dgz-${ds}').classList.add('drag-over')"
-        ondragleave="document.getElementById('dgz-${ds}').classList.remove('drag-over')"
-        ondrop="calGoalDrop(event,'${key}','${ds}')">
-        ${dayGoals.length
-          ? `<div class="cal-day-goals-list">${dayGoalsHtml}</div><div class="cal-day-goals-drop-hint">＋ Drop more goals here</div>`
-          : `<div class="cal-day-goals-empty">🎯 Drop goals here</div>`}
+    return `<div class="cal-day-col">
+      <div class="cal-day-name-cell">
+        <div style="font-size:0.75rem;font-weight:800;color:${isToday?'var(--accent)':'var(--text-2)'};">${dn}${isToday?' <span style="font-size:0.52rem;background:var(--accent);color:white;border-radius:20px;padding:1px 6px;">Today</span>':''}</div>
+        <div style="font-size:0.6rem;color:var(--text-3);margin-top:2px;">${d.toLocaleDateString('en',{day:'numeric',month:'short'})}</div>
+      </div>
+      <div class="cal-day-ta-cell">
+        <textarea class="cal-textarea" style="min-height:70px;font-size:0.78rem;width:100%;box-sizing:border-box;" placeholder="${past?'What did you study?':'Plans'}"
+          oninput="calSaveDayNote('${key}','${ds}',this.value)">${escHtml(dayData.note||'')}</textarea>
+        <div class="cal-day-goals-zone" id="dgz-${ds}"
+          ondragover="event.preventDefault();document.getElementById('dgz-${ds}').classList.add('drag-over')"
+          ondragleave="document.getElementById('dgz-${ds}').classList.remove('drag-over')"
+          ondrop="calGoalDrop(event,'${key}','${ds}')">
+          ${dayGoals.length
+            ? `<div class="cal-day-goals-list">${dayGoalsHtml}</div><div class="cal-day-goals-drop-hint">＋ Drop more goals here</div>`
+            : `<div class="cal-day-goals-empty">🎯 Drop goals here</div>`}
+        </div>
       </div>
     </div>`;
   }).join('');
 
-  const dayRows = `<div class="cal-day-log-grid">${nameRow}${taRow}</div>`;
+  const dayRows = `<div class="cal-day-log-grid">${dayCols}</div>`;
 
   // Weekly goals with drag handles + day assignment chips
   const goals = data.goals || [];
@@ -4038,7 +4532,16 @@ function calWeekGoalAdd(key) {
 
 function calWeekGoalToggle(key, idx, done) {
   const data = calLoad(key);
-  if (data.goals?.[idx]) { data.goals[idx].done = done; calSave(key, data); }
+  if (!data.goals?.[idx]) return;
+  const text = data.goals[idx].text;
+  data.goals[idx].done = done;
+  // Sync to all matching day goals
+  if (data.days) {
+    Object.values(data.days).forEach(dayData => {
+      (dayData.goals || []).forEach(g => { if (g.text === text) g.done = done; });
+    });
+  }
+  calSave(key, data);
   calRenderWeek();
 }
 
@@ -4058,6 +4561,7 @@ function calGoalDragStart(e, key, gi) {
   e.currentTarget.classList.add('dragging');
   // Highlight all drop zones so it's obvious where to drop
   document.querySelectorAll('.cal-day-goals-zone').forEach(z => z.classList.add('drop-ready'));
+  _calDragScrollStart();
 }
 
 function calGoalDragEnd(e) {
@@ -4065,13 +4569,48 @@ function calGoalDragEnd(e) {
   document.querySelectorAll('.cal-day-goals-zone').forEach(z => {
     z.classList.remove('drop-ready', 'drag-over');
   });
+  _calDragScrollStop();
 }
+
+// ── Auto-scroll during drag ──
+var _calDragScrollRAF = null;
+var _calDragClientY  = 0;
+
+function _calDragScrollTick() {
+  const scroller = document.getElementById('page-calendar');
+  if (!scroller) return;
+  const rect  = scroller.getBoundingClientRect();
+  const zone  = 80; // px from edge to start scrolling
+  const max   = 18; // max px per frame
+  const y     = _calDragClientY;
+  const distTop    = y - rect.top;
+  const distBottom = rect.bottom - y;
+  let speed = 0;
+  if (distTop < zone)    speed = -max * (1 - distTop / zone);
+  else if (distBottom < zone) speed =  max * (1 - distBottom / zone);
+  if (speed !== 0) scroller.scrollTop += speed;
+  _calDragScrollRAF = requestAnimationFrame(_calDragScrollTick);
+}
+
+function _calDragScrollStart() {
+  if (_calDragScrollRAF) return;
+  _calDragScrollRAF = requestAnimationFrame(_calDragScrollTick);
+}
+
+function _calDragScrollStop() {
+  if (_calDragScrollRAF) { cancelAnimationFrame(_calDragScrollRAF); _calDragScrollRAF = null; }
+}
+
+document.addEventListener('dragover', function(e) {
+  _calDragClientY = e.clientY;
+});
 
 function calGoalDrop(e, key, ds) {
   e.preventDefault();
   const zone = document.getElementById('dgz-' + ds);
   if (zone) { zone.classList.remove('drag-over', 'drop-ready'); }
   document.querySelectorAll('.cal-day-goals-zone').forEach(z => z.classList.remove('drop-ready', 'drag-over'));
+  _calDragScrollStop();
 
   let goalData;
   try { goalData = JSON.parse(e.dataTransfer.getData('text/plain')); } catch(err) { return; }
@@ -4093,10 +4632,17 @@ function calGoalDrop(e, key, ds) {
 // ── Day-level goal CRUD ──
 function calDayGoalToggle(key, ds, gi, done) {
   const data = calLoad(key);
-  if (data.days?.[ds]?.goals?.[gi] !== undefined) {
-    data.days[ds].goals[gi].done = done;
-    calSave(key, data);
-  }
+  if (data.days?.[ds]?.goals?.[gi] === undefined) return;
+  const text = data.days[ds].goals[gi].text;
+  data.days[ds].goals[gi].done = done;
+  // Sync to the matching week-level goal
+  (data.goals || []).forEach(g => { if (g.text === text) g.done = done; });
+  // Sync to the same goal in all other days too
+  Object.entries(data.days).forEach(([dayKey, dayData]) => {
+    if (dayKey === ds) return;
+    (dayData.goals || []).forEach(g => { if (g.text === text) g.done = done; });
+  });
+  calSave(key, data);
   calRenderWeek();
 }
 

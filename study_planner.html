@@ -1597,6 +1597,7 @@ html.light .dq-heatmap-cell-num { color: rgba(0,0,0,0.72); }
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
           <label for="backlog-filter-select" style="font-size:0.72rem;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-3);">Show backlog for</label>
           <select id="backlog-filter-select" onchange="renderBacklog()" style="background:var(--surface-2);border:1px solid var(--border);color:var(--text);padding:10px 16px;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:0.85rem;font-weight:700;outline:none;cursor:pointer;appearance:none;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%2210%22 viewBox=%220 0 10 10%22><path d=%22M1 3l4 4 4-4%22 stroke=%22%2394a3b8%22 stroke-width=%221.5%22 fill=%22none%22/></svg>');background-repeat:no-repeat;background-position:right 12px center;padding-right:34px;transition:border-color 0.15s;">
+            <option value="All" selected>🗂️ All Chapters Overview</option>
             <option value="Theory">📖 Theory Backlog</option>
             <option value="Examples">💡 Examples Backlog</option>
             <option value="Exercise">✏️ Exercise Backlog</option>
@@ -3267,6 +3268,8 @@ function renderBacklog() {
         chapters.forEach(ch => {
           const id    = `${sub}-${ch.s}`;
           const stage = store[id]?.stage || 'Pending';
+          // For Theory filter show every chapter; for all others only show theory-done chapters
+          if (filterVal !== 'Theory' && stage === 'Pending') return;
           if (!isBehind(stage, filterVal)) return;
           totalBehind++;
           if (sub === 'physics')    phyBehind++;
@@ -3279,6 +3282,110 @@ function renderBacklog() {
       });
     });
   });
+
+  // ── ALL OVERVIEW MODE ──────────────────────────────────────────────────
+  if (filterVal === 'All') {
+    // Build per-chapter backlog badge data — only theory-done chapters
+    const allGroups = {};
+    let totalChaps = 0, phyChaps = 0, chemChaps = 0, mathChaps = 0;
+    let fullyDone = 0;
+
+    Object.keys(DATA).forEach(sub => {
+      ['11','12'].filter(c => backlogClassFilter === 'both' || c === backlogClassFilter).forEach(cls => {
+        Object.entries(DATA[sub][cls]).forEach(([unit, chapters]) => {
+          chapters.forEach(ch => {
+            const id    = `${sub}-${ch.s}`;
+            const stage = store[id]?.stage || 'Pending';
+            if (stage === 'Pending') return; // theory not done — skip
+
+            totalChaps++;
+            if (sub === 'physics')     phyChaps++;
+            if (sub === 'chemistry')   chemChaps++;
+            if (sub === 'mathematics') mathChaps++;
+            if (stage === 'Advance PYQ') fullyDone++;
+
+            // Determine pending sections
+            const si = stageOrder.indexOf(stage);
+            const egExPending = si < stageOrder.indexOf('Exercise'); // Examples or Exercise not done
+            const exPending   = stage === 'Examples'; // only Exercise pending (Examples done)
+            const mainsPending   = si < stageOrder.indexOf('Mains PYQ');
+            const advancePending = si < stageOrder.indexOf('Advance PYQ');
+
+            const badges = [];
+            if (egExPending) badges.push({ label: stage === 'Theory' ? 'Eg + Ex' : 'Exercise', color:'#6366f1' });
+            else if (exPending) badges.push({ label:'Exercise', color:'#6366f1' });
+            if (mainsPending)   badges.push({ label:'Mains PYQ',   color:'#f59e0b' });
+            if (advancePending) badges.push({ label:'Advance PYQ', color:'#3b82f6' });
+
+            const gKey = `${sub}__${cls}__${unit}`;
+            if (!allGroups[gKey]) allGroups[gKey] = { sub, cls, unit, items: [] };
+            allGroups[gKey].items.push({ ch, stage, badges });
+          });
+        });
+      });
+    });
+
+    if (chipsEl) {
+      chipsEl.innerHTML = [
+        { label:'Theory Done',    val:totalChaps,  color:'#94a3b8' },
+        { label:'✅ Complete',    val:fullyDone,   color:'#10b981' },
+        { label:'⚡ Physics',     val:phyChaps,    color:'#60a5fa' },
+        { label:'🧪 Chemistry',   val:chemChaps,   color:'#34d399' },
+        { label:'📐 Maths',       val:mathChaps,   color:'#f59e0b' }
+      ].map(c => `<div style="background:var(--surface-1);border:1px solid var(--border);border-radius:14px;padding:14px 18px;text-align:center;">
+        <div style="font-size:0.62rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-2);font-weight:800;margin-bottom:5px;">${c.label}</div>
+        <div style="font-size:1.8rem;font-weight:800;color:${c.color}">${c.val}</div>
+      </div>`).join('');
+    }
+
+    if (totalChaps === 0) {
+      list.innerHTML = `<div style="text-align:center;padding:60px 20px;color:var(--text-2)">
+        <div style="font-size:2.5rem;margin-bottom:12px">📚</div>
+        <div style="font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px">No chapters with theory done yet.</div>
+        <div style="font-size:0.82rem">Mark theory complete in the Syllabus tab to see chapters here.</div>
+      </div>`;
+      return;
+    }
+
+    const sortedAllKeys = Object.keys(allGroups).sort((a, b) => {
+      const [subA, clsA] = a.split('__'); const [subB, clsB] = b.split('__');
+      const ord = ['physics','chemistry','mathematics'];
+      if (subA !== subB) return ord.indexOf(subA) - ord.indexOf(subB);
+      return clsA.localeCompare(clsB);
+    });
+
+    let html = '', lastSubCls = '';
+    sortedAllKeys.forEach(key => {
+      const grp = allGroups[key];
+      if (!grp.items.length) return;
+      const subClsKey = `${grp.sub}__${grp.cls}`;
+      if (subClsKey !== lastSubCls) {
+        lastSubCls = subClsKey;
+        html += `<div style="display:flex;align-items:center;gap:10px;padding:14px 20px 10px;background:rgba(255,255,255,0.025);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:2;backdrop-filter:blur(8px);">
+          <span style="font-size:1rem">${subIcon[grp.sub]}</span>
+          <span style="font-size:0.78rem;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;color:${subColor[grp.sub]}">${grp.sub} · Class ${grp.cls}</span>
+        </div>`;
+      }
+      html += `<div style="padding:6px 20px 2px;font-size:0.65rem;font-weight:800;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-2);margin-top:8px;">${grp.unit}</div>`;
+
+      grp.items.forEach(({ ch, stage, badges }) => {
+        const isComplete = stage === 'Advance PYQ';
+        const badgesHtml = isComplete
+          ? `<span style="font-size:0.62rem;font-weight:800;padding:3px 10px;border-radius:20px;background:rgba(16,185,129,0.14);color:#10b981;border:1px solid rgba(16,185,129,0.3);white-space:nowrap;flex-shrink:0;">✓ Complete</span>`
+          : badges.map(b => `<span style="font-size:0.62rem;font-weight:800;padding:3px 9px;border-radius:20px;background:${b.color}22;color:${b.color};border:1px solid ${b.color}44;white-space:nowrap;">${b.label}</span>`).join('');
+
+        html += `<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 20px;border-bottom:1px solid rgba(255,255,255,0.04);transition:background 0.15s;"
+          onmouseenter="this.style.background='rgba(255,255,255,0.03)'"
+          onmouseleave="this.style.background='transparent'">
+          <span style="font-size:0.88rem;font-weight:600;color:var(--text);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${ch.n}</span>
+          <div style="display:flex;align-items:center;gap:6px;flex-shrink:0;flex-wrap:wrap;justify-content:flex-end;">${badgesHtml}</div>
+        </div>`;
+      });
+    });
+    list.innerHTML = html;
+    return;
+  }
+  // ── END ALL OVERVIEW ────────────────────────────────────────────────────
 
   const filterLabel = { Theory:'Theory', Examples:'Examples', Exercise:'Exercise', 'Mains PYQ':'Mains PYQ', 'Advance PYQ':'Advance PYQ', Mastery:'Mastery' }[filterVal];
 
